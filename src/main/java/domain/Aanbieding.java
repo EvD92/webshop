@@ -6,4 +6,4 @@ public class Aanbieding {
 	private String totDatum;
 	private Product product;
 
-}
+}//
