@@ -1,0 +1,15 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+	version="1.0">
+
+	<persistence-unit name="tocba">
+		<properties> 
+			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@//ondora02.hu.nl:8521/cursus02.hu.nl" />
+			<property name="javax.persistence.jdbc.user" value="tocba_2017_2d_team5" />
+			<property name="javax.persistence.jdbc.password" value="tocba_2017_2d_team5" />
+		</properties>
+	</persistence-unit>
+</persistence>

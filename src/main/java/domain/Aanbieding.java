@@ -1,6 +1,13 @@
 package domain;
 
+import org.hibernate.annotations.*;
+
+@Entity
+@Table(name = "AANBIEDING")
 public class Aanbieding {
+	
+	@Id
+	@Column(name = "ID")
 	private int iD;
 	private String vanDatum;
 	private String totDatum;
