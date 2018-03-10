@@ -4,7 +4,7 @@
  http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
 	version="1.0">
 
-	<persistence-unit name="tocba">
+	<persistence-unit name="webshop">
 		<properties> 
 			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@//ondora02.hu.nl:8521/cursus02.hu.nl" />
