@@ -2,10 +2,12 @@ package domain;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -31,12 +33,11 @@ public class Account {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Bestelling> bestelling;
 	
-	@OneToOne
-	@PrimaryKeyJoinColumn
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "account") 
 	private Adres adres;
 	
 	@OneToOne
-	@PrimaryKeyJoinColumn
+	@JoinColumn(name="klant_id")
 	private Klant klant;
 	
 	public String getOpenDatum() {

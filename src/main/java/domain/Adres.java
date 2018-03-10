@@ -2,10 +2,9 @@ package domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -23,15 +22,15 @@ public class Adres {
 	private int straatNummer;
 	
 	@OneToOne
-	@PrimaryKeyJoinColumn
+	@JoinColumn(name="klant_id")
 	private Klant klant;
 	
 	@OneToOne
-	@PrimaryKeyJoinColumn
+	@JoinColumn(name="account_id")
 	private Account account;
 	
 	@OneToOne
-	@PrimaryKeyJoinColumn
+	@JoinColumn(name="bestelling_id")
 	private Bestelling bestelling;
 	
 	public int getiD() {

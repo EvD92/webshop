@@ -10,8 +10,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "KLANT")
 public class Klant {
-	
 	@Id
+	@Column(name = "KLANT_ID")
+	private int iD;
+	
 	@Column(name = "NAAM")
 	private String naam;
 	
@@ -57,6 +59,12 @@ public class Klant {
 	}
 	public void setAdres(Adres adres) {
 		this.adres = adres;
+	}
+	public int getiD() {
+		return iD;
+	}
+	public void setiD(int iD) {
+		this.iD = iD;
 	}
 
 }

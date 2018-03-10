@@ -24,15 +24,14 @@ public class Bestelling {
 	@Column(name = "AFLEVERADRES")
 	private String afleverAdres;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ACCOUNT_ID")
 	private Account account;
 	
-	@OneToOne
-	@PrimaryKeyJoinColumn
+	@OneToOne(fetch = FetchType.LAZY, mappedBy="adres")
 	private Adres adres;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "BESTELLINGSREGEL_ID")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "bestelling")
 	private Set<Bestellingsregel> bestellingsRegel;
 	
 	public int getiD() {
