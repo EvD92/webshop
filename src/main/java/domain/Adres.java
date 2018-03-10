@@ -21,13 +21,13 @@ public class Adres {
 	@Column(name = "STRAATNUMMER")
 	private int straatNummer;
 	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "ADRES_ID")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "adres")
 	private Klant klant;
 	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "ADRES_ID")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "adres")
 	private Account account;
 	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "ADRES_ID")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "adres")
 	private Bestelling bestelling;
 	
 	public int getiD() {

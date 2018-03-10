@@ -28,7 +28,7 @@ public class Account {
 	@Column(name = "IS_ACTIEF")
 	private boolean isActief;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "BESTELLING_ID")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private Set<Bestelling> bestelling;
 	
 	@OneToOne
