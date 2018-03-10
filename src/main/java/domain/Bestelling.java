@@ -28,7 +28,7 @@ public class Bestelling {
 	@JoinColumn(name = "ACCOUNT_ID")
 	private Account account;
 	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy="adres")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy="bestelling")
 	private Adres adres;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "bestelling")
