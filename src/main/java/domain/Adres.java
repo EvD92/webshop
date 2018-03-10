@@ -2,7 +2,9 @@ package domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,11 +21,13 @@ public class Adres {
 	@Column(name = "STRAATNUMMER")
 	private int straatNummer;
 	
-	//@OneToOne()
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "ADRES_ID")
 	private Klant klant;
 	
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "ADRES_ID")
 	private Account account;
 	
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "ADRES_ID")
 	private Bestelling bestelling;
 	
 	public int getiD() {

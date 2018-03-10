@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -29,10 +31,12 @@ public class Account {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "BESTELLING_ID")
 	private Set<Bestelling> bestelling;
 	
-	@Column(name = "ADRES")
+	@OneToOne
+	@PrimaryKeyJoinColumn
 	private Adres adres;
 	
-	@Column(name = "KLANT")
+	@OneToOne
+	@PrimaryKeyJoinColumn
 	private Klant klant;
 	
 	public String getOpenDatum() {

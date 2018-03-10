@@ -4,7 +4,13 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -14,6 +20,20 @@ public class Bestelling {
 	@Id
 	@Column(name = "BESTELLING_ID")
 	private int iD;
+
+	@Column(name = "AFLEVERADRES")
+	private String afleverAdres;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "ACCOUNT_ID")
+	private Account account;
+	
+	@OneToOne
+	@PrimaryKeyJoinColumn
+	private Adres adres;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "BESTELLINGSREGEL_ID")
+	private Set<Bestellingsregel> bestellingsRegel;
 	
 	public int getiD() {
 		return iD;
@@ -45,9 +65,6 @@ public class Bestelling {
 	public void setBestellingsRegel(Set<Bestellingsregel> bestellingsRegel) {
 		this.bestellingsRegel = bestellingsRegel;
 	}
-	private String afleverAdres;
-	private Account account;
-	private Adres adres;
-	private Set<Bestellingsregel> bestellingsRegel;
+	
 
 }
