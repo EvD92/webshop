@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -23,11 +25,18 @@ public class Product {
 	@Column(name ="PRODUCT_ID")
 	private int iD;
 	
+	@Column(name="OMSCHRIJVING")
+	private String omschrijving;
+	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
 	private Set<Bestellingsregel> bestellingsregel;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
 	private Set<Aanbieding> aanbieding;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "CATEGORIE_ID")
+	private Categorie categorie;
 	
 	public String getNaam() {
 		return naam;
