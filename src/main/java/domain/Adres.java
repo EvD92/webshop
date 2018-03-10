@@ -1,12 +1,31 @@
 package domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ADRES")
 public class Adres {
+	
+	@Id
+	@Column(name = "ADRES_ID")
 	private int iD;
+	
+	@Column(name = "STRAAT")
 	private String Straat;
+	
+	@Column(name = "STRAATNUMMER")
 	private int straatNummer;
+	
+	//@OneToOne()
 	private Klant klant;
+	
 	private Account account;
+	
 	private Bestelling bestelling;
+	
 	public int getiD() {
 		return iD;
 	}

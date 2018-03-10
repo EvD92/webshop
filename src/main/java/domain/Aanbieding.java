@@ -1,17 +1,31 @@
 package domain;
 
-import org.hibernate.annotations.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "AANBIEDING")
 public class Aanbieding {
 	
 	@Id
-	@Column(name = "ID")
+	@Column(name = "AANBIEDING_ID")
 	private int iD;
+	
+	@Column(name = "VAN_DATUM")
 	private String vanDatum;
+	
+	@Column(name = "TOT_DATUM")
 	private String totDatum;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "PRODUCT_ID")
 	private Product product;
+	
 	public int getiD() {
 		return iD;
 	}
