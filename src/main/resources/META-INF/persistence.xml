@@ -10,6 +10,7 @@
 			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@//ondora02.hu.nl:8521/cursus02.hu.nl" />
 			<property name="javax.persistence.jdbc.user" value="tocba_2017_2d_team5" />
 			<property name="javax.persistence.jdbc.password" value="tocba_2017_2d_team5" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 		</properties>
 	</persistence-unit>
 </persistence>

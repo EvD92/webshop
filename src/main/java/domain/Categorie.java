@@ -6,6 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -22,7 +25,10 @@ public class Categorie {
 	@Column(name="OMSCHRIJVING")
 	private String omschrijving;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "categorie")
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "CAT_PROD",
+        joinColumns = @JoinColumn(name = "CATEGORIE_ID"),
+        inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
 	private Set<Product> product;
 	
 	public int getId() {
