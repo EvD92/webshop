@@ -68,5 +68,17 @@ public class Product {
 	public void setAanbieding(Set<Aanbieding> aanbieding) {
 		this.aanbieding = aanbieding;
 	}
+	public String getOmschrijving() {
+		return omschrijving;
+	}
+	public void setOmschrijving(String omschrijving) {
+		this.omschrijving = omschrijving;
+	}
+	public Categorie getCategorie() {
+		return categorie;
+	}
+	public void setCategorie(Categorie categorie) {
+		this.categorie = categorie;
+	}
 
 }
