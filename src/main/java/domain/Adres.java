@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -21,13 +22,16 @@ public class Adres {
 	@Column(name = "STRAATNUMMER")
 	private int straatNummer;
 	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "adres")
+	@OneToOne
+	@PrimaryKeyJoinColumn
 	private Klant klant;
 	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "adres")
+	@OneToOne
+	@PrimaryKeyJoinColumn
 	private Account account;
 	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "adres")
+	@OneToOne
+	@PrimaryKeyJoinColumn
 	private Bestelling bestelling;
 	
 	public int getiD() {
