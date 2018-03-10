@@ -3,10 +3,14 @@ package domain;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "CATEGORIE")
 public class Categorie {
 	@Id
 	@Column(name="CATEGORIE_ID")
