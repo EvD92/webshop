@@ -2,12 +2,33 @@ package domain;
 
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "PRODUCT")
 public class Product {
+	
+	@Column(name = "NAAM")
 	private String naam;
+	
+	@Column(name = "PRIJS")
 	private double prijs;
+	
+	@Id
+	@Column(name ="PRODUCT_ID")
 	private int iD;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
 	private Set<Bestellingsregel> bestellingsregel;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
 	private Set<Aanbieding> aanbieding;
+	
 	public String getNaam() {
 		return naam;
 	}

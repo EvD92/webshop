@@ -1,8 +1,32 @@
 package domain;
 
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 public class Bestellingsregel {
+	
+	@Id
+	@Column(name = "BESTELLINGSREGEL_ID")
 	private int iD;
+	
+	@Column(name = "AANTAL")
 	private int aantal;
+	
+	@Column(name = "PRIJS")
+	private double prijs;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "BESTELLING_ID")
+	private Bestelling bestelling;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "PRODUCT_ID_ID")
+	private Product product;
+	
+	
 	public int getiD() {
 		return iD;
 	}
@@ -33,8 +57,5 @@ public class Bestellingsregel {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	private double prijs;
-	private Bestelling bestelling;
-	private Product product;
 
 }
