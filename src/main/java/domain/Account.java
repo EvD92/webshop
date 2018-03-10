@@ -2,14 +2,39 @@ package domain;
 
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ACCOUNT")
 public class Account {
+	
+	@Column(name = "OPEN_DATUM")
 	private String openDatum;
+	
+	@Column(name = "FACTUURADRES")
 	private String factuurAdres;
+	
+	@Id
+	@Column(name = "ACCOUNT_ID")
 	private int iD;
+	
+	@Column(name = "IS_ACTIEF")
 	private boolean isActief;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "BESTELLING_ID")
 	private Set<Bestelling> bestelling;
+	
+	@Column(name = "ADRES")
 	private Adres adres;
+	
+	@Column(name = "KLANT")
 	private Klant klant;
+	
 	public String getOpenDatum() {
 		return openDatum;
 	}

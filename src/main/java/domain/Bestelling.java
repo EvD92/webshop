@@ -2,8 +2,19 @@ package domain;
 
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "BESTELLING")
 public class Bestelling {
+	
+	@Id
+	@Column(name = "BESTELLING_ID")
 	private int iD;
+	
 	public int getiD() {
 		return iD;
 	}
