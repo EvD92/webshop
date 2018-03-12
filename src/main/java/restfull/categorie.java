@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 public class categorie {
 	ResponseBuilder rb = null;
 	
-//	Requested functions:
+//	Requested functions in application/json:
 //		getAllCategories;
 		
 	@GET

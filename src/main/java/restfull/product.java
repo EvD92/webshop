@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 public class product {
 	ResponseBuilder rb = null;
 	
-//	Requested functions:
+//	Requested functions in application/json:
 //		getAllProducts();
 //		getProduct(int id);
 //		getProductsByCategory(int id);
