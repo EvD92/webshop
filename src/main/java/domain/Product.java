@@ -6,9 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,7 +18,7 @@ public class Product {
 	private String naam;
 	
 	@Column(name = "PRIJS")
-	private double prijs;
+	private float prijs;
 	
 	@Id
 	@Column(name ="PRODUCT_ID")
@@ -44,10 +42,10 @@ public class Product {
 	public void setNaam(String naam) {
 		this.naam = naam;
 	}
-	public double getPrijs() {
+	public float getPrijs() {
 		return prijs;
 	}
-	public void setPrijs(double prijs) {
+	public void setPrijs(float prijs) {
 		this.prijs = prijs;
 	}
 	public int getiD() {

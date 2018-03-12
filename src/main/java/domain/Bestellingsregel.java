@@ -20,7 +20,7 @@ public class Bestellingsregel {
 	private int aantal;
 	
 	@Column(name = "PRIJS")
-	private double prijs;
+	private float prijs;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "BESTELLING_ID")
@@ -46,7 +46,7 @@ public class Bestellingsregel {
 	public double getPrijs() {
 		return prijs;
 	}
-	public void setPrijs(double prijs) {
+	public void setPrijs(float prijs) {
 		this.prijs = prijs;
 	}
 	public Bestelling getBestelling() {
