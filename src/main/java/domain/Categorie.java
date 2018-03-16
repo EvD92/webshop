@@ -5,17 +5,23 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "CATEGORIE")
 public class Categorie {
 	@Id
+	@SequenceGenerator(name="my_seq", sequenceName="categorie_id_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="my_seq")
+	//@GeneratedValue(strategy=GenerationType.AUTO, generator="sequence")
 	@Column(name="CATEGORIE_ID")
 	private int id;
 	

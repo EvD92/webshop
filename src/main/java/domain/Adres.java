@@ -3,9 +3,12 @@ package domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -13,6 +16,9 @@ import javax.persistence.Table;
 public class Adres {
 	
 	@Id
+	@SequenceGenerator(name="my_seq", sequenceName="adres_id_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="my_seq")
+	//@GeneratedValue(strategy=GenerationType.AUTO, generator="adres_id_seq")
 	@Column(name = "ADRES_ID")
 	private int iD;
 	
@@ -34,10 +40,10 @@ public class Adres {
 	@JoinColumn(name="bestelling_id")
 	private Bestelling bestelling;
 	
-	public int getiD() {
+	public int getId() {
 		return iD;
 	}
-	public void setiD(int iD) {
+	public void setId(int iD) {
 		this.iD = iD;
 	}
 	public String getStraat() {

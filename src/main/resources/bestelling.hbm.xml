@@ -4,19 +4,20 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
 
 <hibernate-mapping>
-   <class name = "categorie" table = "CATEGORIE">
+   <class name = "domain.Bestelling" table = "BESTELLING">
       
       <meta attribute = "class-description">
-         This class contains the categorie detail. 
+         This class contains the bestelling detail. 
       </meta>
       
-      <id name = "id" type = "int" column = "CATEGORIE_ID">
-         <generator class="native"/>
+      <id name = "id" type = "int" column = "BESTELLING_ID">
+         <generator class="sequence">
+         	<param name="sequence">bestelling_id_seq</param>
+         </generator>
       </id>
       
       <!-- <property name = "id" column = "CATEGORIE_ID" type = "int"/>  -->
-      <property name = "naam" column = "NAAM" type = "string"/>
-      <property name = "omschrijving" column = "OMSCHRIJVING" type = "string"/>
+      <property name = "AfleverAdres" column = "AFLEVERADRES" type = "string"/>
       
    </class>
 </hibernate-mapping>

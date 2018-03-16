@@ -11,7 +11,14 @@
   <property name="hibernate.connection.password">tocba_2017_2d_team5</property>
   <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
   <property name="hibernate.default_schema">validate</property>
- <!-- <mapping class="org.assessme.com.entity.Categorie" /> -->
+  <mapping class="domain.Categorie" /> 
+  <mapping class="domain.Product" /> 
+  <mapping class="domain.Aanbieding" /> 
+  <mapping class="domain.Bestellingsregel" /> 
+  <mapping class="domain.Bestelling" /> 
+  <mapping class="domain.Account" /> 
+  <mapping class="domain.Klant" /> 
+  <mapping class="domain.Adres" /> 
  
  <!--  lol  s-->
  </session-factory>

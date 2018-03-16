@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name = "domain.Adres" table = "ADRES">
+      
+      <meta attribute = "class-description">
+         This class contains the adres detail. 
+      </meta>
+      
+      <id name = "id" type = "int" column = "ADRES_ID">
+         <generator class="sequence">
+         	<param name="sequence">adres_id_seq</param>
+         </generator>
+      </id>
+      
+      <property name = "Straat" column = "STRAAT" type = "string"/>
+      <property name = "StraatNummer" column = "STRAATNUMMER" type = "int"/>
+      
+   </class>
+</hibernate-mapping>

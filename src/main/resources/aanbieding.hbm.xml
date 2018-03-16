@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name = "domain.Aanbieding" table = "AANBIEDING">
+      
+      <meta attribute = "class-description">
+         This class contains the aanbieding detail. 
+      </meta>
+      
+      <id name = "id" type = "int" column = "AANBIEDING_ID">
+         <generator class="sequence">
+         	<param name="sequence">aanbieding_id_seq</param>
+         </generator>
+      </id>
+      
+      <!-- <property name = "id" column = "CATEGORIE_ID" type = "int"/>  -->
+      <property name = "VanDatum" column = "VAN_DATUM" type = "string"/>
+      <property name = "TotDatum" column = "TOT_DATUM" type = "string"/>
+      
+   </class>
+</hibernate-mapping>

@@ -5,9 +5,12 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +24,9 @@ public class Product {
 	private float prijs;
 	
 	@Id
+	@SequenceGenerator(name="my_seq", sequenceName="product_id_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="my_seq")
+	//@GeneratedValue(strategy=GenerationType.AUTO, generator="product_id_seq")
 	@Column(name ="PRODUCT_ID")
 	private int iD;
 	
@@ -48,10 +54,10 @@ public class Product {
 	public void setPrijs(float prijs) {
 		this.prijs = prijs;
 	}
-	public int getiD() {
+	public int getId() {
 		return iD;
 	}
-	public void setiD(int iD) {
+	public void setId(int iD) {
 		this.iD = iD;
 	}
 	public Set<Bestellingsregel> getBestellingsregel() {
