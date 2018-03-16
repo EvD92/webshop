@@ -31,11 +31,21 @@ import domain.Product;
 
 public class OracleDaoHibernate implements OracleDao {
 	private static EntityManager em;
-
+	private static SessionFactory factory; 
+	
 	public SessionFactory getFactory(){
-		   try {
+		
+		try {
+	         factory = new Configuration().configure().buildSessionFactory();
+	      } catch (Throwable ex) { 
+	         System.err.println("Failed to create sessionFactory object." + ex);
+	         throw new ExceptionInInitializerError(ex); 
+	      }
+		
+		return factory;
+		/*	   try {
 			StandardServiceRegistry standardRegistry = 
-		       new StandardServiceRegistryBuilder().configure("/webshop/src/main/resources/META-INF/persistence.xml").build();
+		       new StandardServiceRegistryBuilder().configure("/webshop/categorie.hbm.xmll").build();
 			Metadata metaData = 
 		        new MetadataSources(standardRegistry).getMetadataBuilder().build();
 			SessionFactory sessionFactory = metaData.getSessionFactoryBuilder().build();
@@ -43,14 +53,15 @@ public class OracleDaoHibernate implements OracleDao {
 		   } catch (Throwable th) {
 			System.err.println("Enitial SessionFactory creation failed" + th);
 			throw new ExceptionInInitializerError(th);
-		  }
+		  }*/
 		
 	}
 	
 	
-	public EntityManagerFactory setUp() {
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory( "org.hibernate.tutorial.jpa" );
-		return entityManagerFactory;
+	public EntityManager setUp() {
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory( "webshop" );
+		EntityManager em = entityManagerFactory.createEntityManager();
+		return em;
 		
 	}
 	

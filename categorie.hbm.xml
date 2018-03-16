@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name = "Categorie" table = "CATEGORIE">
+      
+      <meta attribute = "class-description">
+         This class contains the categorie detail. 
+      </meta>
+      
+      <id name = "id" type = "int" column = "CATEGORIE_ID">
+         <generator class="native"/>
+      </id>
+      
+      <!-- <property name = "id" column = "CATEGORIE_ID" type = "int"/>  -->
+      <property name = "naam" column = "NAAM" type = "string"/>
+      <property name = "omschrijving" column = "OMSCHRIJVING" type = "string"/>
+      
+   </class>
+</hibernate-mapping>

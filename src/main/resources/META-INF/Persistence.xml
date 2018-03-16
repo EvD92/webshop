@@ -5,6 +5,7 @@
 	version="1.0">
 
 	<persistence-unit name="webshop">
+	<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties> 
 			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@//ondora02.hu.nl:8521/cursus02.hu.nl" />

@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import org.hibernate.SessionFactory;
@@ -19,7 +20,7 @@ public interface OracleDao {
 	
 	//Factory
 	public SessionFactory getFactory();
-	public EntityManagerFactory setUp();
+	public EntityManager setUp();
 	
 	//getX
 	public Klant getKlant(int id);

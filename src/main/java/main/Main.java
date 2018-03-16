@@ -5,6 +5,7 @@ import java.awt.Event;
 import javax.persistence.EntityManager;
 
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -23,20 +24,15 @@ public class Main {
 		OracleDao odao = new OracleDaoHibernate();
 		SessionFactory sessionFactory = odao.getFactory();
 		
-		final EntityManager em = (EntityManager) odao.setUp();
+		final EntityManager em = odao.setUp();
 		
 		Session session = sessionFactory.openSession();
 		Transaction tx1 = session.beginTransaction();
 		
 		
-		odao.getKlant(1);
+
 		//odao.getAllProductenVanCategorie(1); //tryout
-		Categorie cat = new Categorie();
-		
-		cat.setId(6);
-		cat.setNaam("Bloemetjes");
-		cat.setOmschrijving("Voor al uw bloemen");
-		odao.createCategorie(cat);
+
 
 //	
 //		long id1 = (Long) session.save(cat);
@@ -46,11 +42,31 @@ public class Main {
 //		System.out.println("4. After committing save transaction");
 //		System.out.println("*****");
 		
-		em.getTransaction().begin();
+		try {
+	        // tx1 = session.beginTransaction();
+	         //Employee employee = new Employee(fname, lname, salary);
+	        // employeeID = (Integer) session.save(employee); 
+			odao.getKlant(1);
+			//odao.getAllProductenVanCategorie(1); //tryout
+			Categorie cat = new Categorie();
+			
+			cat.setId(6);
+			cat.setNaam("Bloemetjes");
+			cat.setOmschrijving("Voor al uw bloemen");
+			odao.createCategorie(cat);
+	         tx1.commit();
+	      } catch (HibernateException e) {
+	         if (tx1!=null) tx1.rollback();
+	         e.printStackTrace(); 
+	      } finally {
+	         session.close(); 
+	      }
+		
+		/*em.getTransaction().begin();
 		em.persist(cat );
 
 		em.getTransaction().commit();
-		em.close();
+		em.close();*/
 		
 	}
 
