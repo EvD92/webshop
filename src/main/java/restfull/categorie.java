@@ -2,6 +2,7 @@ package restfull;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.security.RolesAllowed;
 import javax.json.Json;
@@ -38,7 +39,7 @@ public class categorie {
 	  @Produces("application/json")
 	  public String getCategorien() {
 	    JsonArrayBuilder jab = Json.createArrayBuilder();
-	    List<Categorie> categorien;
+	    Set<Categorie> categorien;
 	    categorien = dao.getAllCategorien();
 	      JsonObjectBuilder job = Json.createObjectBuilder();
 	      for (Categorie cg : categorien) {

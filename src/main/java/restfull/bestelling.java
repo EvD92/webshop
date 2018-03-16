@@ -50,7 +50,7 @@ public class bestelling {
 	@Produces("application/json")
 	public String getAllBestellingen() {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
-		List<Bestelling> Bestellingen;
+		Set<Bestelling> Bestellingen;
 		Bestellingen = dao.getAllBestellingen();
 		JsonObjectBuilder job = Json.createObjectBuilder();
 		for (Bestelling pd : Bestellingen) {

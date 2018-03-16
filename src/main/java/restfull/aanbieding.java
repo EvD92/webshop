@@ -1,6 +1,7 @@
 package restfull;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.security.RolesAllowed;
 import javax.json.Json;
@@ -22,7 +23,7 @@ public class aanbieding {
 	@Produces("application/json")
 	public String getAanbiedingen() {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
-		List<Aanbieding> aanbiedingen;
+		Set<Aanbieding> aanbiedingen;
 		aanbiedingen = dao.getAllAanbiedingen();
 		JsonObjectBuilder job = Json.createObjectBuilder();
 		for (Aanbieding ab : aanbiedingen) {

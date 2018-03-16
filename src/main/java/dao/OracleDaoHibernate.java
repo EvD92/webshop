@@ -3,6 +3,7 @@ package dao;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Set;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -34,7 +35,7 @@ public class OracleDaoHibernate implements OracleDao {
 	public SessionFactory getFactory(){
 		   try {
 			StandardServiceRegistry standardRegistry = 
-		       new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
+		       new StandardServiceRegistryBuilder().configure("/webshop/src/main/resources/META-INF/persistence.xml").build();
 			Metadata metaData = 
 		        new MetadataSources(standardRegistry).getMetadataBuilder().build();
 			SessionFactory sessionFactory = metaData.getSessionFactoryBuilder().build();
@@ -85,18 +86,18 @@ public class OracleDaoHibernate implements OracleDao {
 	}
 
 	@Override
-	public List<Product> getAllProducten() {
+	public Set<Product> getAllProducten() {
 
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
 		em = emf.createEntityManager();
 		em.getTransaction().begin();
-		List<Product> producten = em.createQuery("SELECT * FROM Product").getResultList();
+		Set<Product> producten = (Set<Product>)em.createQuery("SELECT * FROM Product").getResultList();
 
 		return producten;
 	}
 
 	@Override
-	public List<Product> getAllProductenVanCategorie(int id) {
+	public Set<Product> getAllProductenVanCategorie(int id) {
 
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
 		em = emf.createEntityManager();
@@ -112,7 +113,7 @@ public class OracleDaoHibernate implements OracleDao {
 		// allemaal returnen
 
 		int ids = id;
-		List<Product> producten = em.createQuery("SELECT p FROM Product p WHERE p.categorie IN :ids")
+		Set<Product> producten = (Set<Product>)em.createQuery("SELECT p FROM Product p WHERE p.categorie IN :ids")
 				.setParameter("ids", ids).getResultList();
 		System.out.println(producten); // zou alle producten moeten returnen
 
@@ -123,7 +124,7 @@ public class OracleDaoHibernate implements OracleDao {
 	}
 
 	@Override
-	public List<Bestelling> getAllBestellingenVanKlant(int accountId) {
+	public Set<Bestelling> getAllBestellingenVanKlant(int accountId) {
 
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
 		em = emf.createEntityManager();
@@ -139,7 +140,7 @@ public class OracleDaoHibernate implements OracleDao {
 		// allemaal returnen
 
 		int ids = accountId; // WHERE p.account.ID?
-		List<Bestelling> bestellingen = em.createQuery("SELECT p FROM Bestelling p WHERE p.account IN :ids")
+		Set<Bestelling> bestellingen = (Set<Bestelling>)em.createQuery("SELECT p FROM Bestelling p WHERE p.account IN :ids")
 				.setParameter("ids", ids).getResultList();
 		System.out.println(bestellingen); // zou alle producten moeten returnen
 
@@ -159,21 +160,21 @@ public class OracleDaoHibernate implements OracleDao {
 	}
 
 	@Override
-	public List<Categorie> getAllCategorien() {
+	public Set<Categorie> getAllCategorien() {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
 		em = emf.createEntityManager();
 		em.getTransaction().begin();
-		List<Categorie> categorien = em.createQuery("SELECT * FROM Categorie").getResultList();
+		Set<Categorie> categorien = (Set<Categorie>)em.createQuery("SELECT * FROM Categorie").getResultList();
 
 		return categorien;
 	}
 
 	@Override
-	public List<Aanbieding> getAllAanbiedingen() {
+	public Set<Aanbieding> getAllAanbiedingen() {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
 		em = emf.createEntityManager();
 		em.getTransaction().begin();
-		List<Aanbieding> aanbiedingen = em.createQuery("SELECT * FROM Categorie").getResultList();
+		Set<Aanbieding> aanbiedingen = (Set<Aanbieding>)em.createQuery("SELECT * FROM Categorie").getResultList();
 
 		return aanbiedingen;
 	}

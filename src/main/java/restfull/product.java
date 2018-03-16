@@ -57,7 +57,7 @@ public class product {
 	@Produces("application/json")
 	public String getAllProducten() {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
-		List<Product> producten;
+		Set<Product> producten;
 		producten = dao.getAllProducten();
 		JsonObjectBuilder job = Json.createObjectBuilder();
 		for (Product pd : producten) {
@@ -111,7 +111,7 @@ public class product {
 	public String getProduct(int id) {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
 		Product pd = dao.getProduct(id);
-		List<Aanbieding> aanbiedingen = dao.getAllAanbiedingen();
+		Set<Aanbieding> aanbiedingen = dao.getAllAanbiedingen();
 		
 
 		JsonObjectBuilder job = Json.createObjectBuilder();
@@ -142,7 +142,7 @@ public class product {
 	@Produces("application/json")
 	public String getProductenVanCategorie(int id) {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
-		List<Product> producten;
+		Set<Product> producten;
 		producten = dao.getAllProductenVanCategorie(id);
 		JsonObjectBuilder job = Json.createObjectBuilder();
 		for (Product pd : producten) {

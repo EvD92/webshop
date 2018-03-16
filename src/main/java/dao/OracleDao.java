@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManagerFactory;
 
@@ -27,16 +28,16 @@ public interface OracleDao {
 	
 	
 	//getAllX
-	public List<Categorie> getAllCategorien();
+	public Set<Categorie> getAllCategorien();
 	
-	public List<Product> getAllProducten();
+	public Set<Product> getAllProducten();
 	
-	public List<Aanbieding> getAllAanbiedingen();
+	public Set<Aanbieding> getAllAanbiedingen();
 
 	//getAllXvanB
-	public List<Product> getAllProductenVanCategorie(int i);
+	public Set<Product> getAllProductenVanCategorie(int i);
 
-	public List<Bestelling> getAllBestellingenVanKlant(int id);
+	public Set<Bestelling> getAllBestellingenVanKlant(int id);
 	
 	//CRUD product		eis
 	public Product createProduct(Product pd);
