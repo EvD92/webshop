@@ -21,6 +21,8 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
+import com.fasterxml.classmate.AnnotationConfiguration;
+
 import domain.Aanbieding;
 import domain.Account;
 import domain.Adres;
@@ -35,7 +37,7 @@ public class OracleDaoHibernate implements OracleDao {
 	
 	public SessionFactory getFactory(){
 		
-		try {
+		try {				//Configuration
 	         factory = new Configuration().configure().buildSessionFactory();
 	      } catch (Throwable ex) { 
 	         System.err.println("Failed to create sessionFactory object." + ex);
