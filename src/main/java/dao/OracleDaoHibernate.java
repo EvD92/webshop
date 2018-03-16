@@ -15,11 +15,13 @@ import javax.persistence.Persistence;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import com.fasterxml.classmate.AnnotationConfiguration;
 
@@ -264,22 +266,29 @@ public class OracleDaoHibernate implements OracleDao {
 		Configuration cf=new Configuration();
 		cf.configure();
 		SessionFactory sessionFactory = cf.buildSessionFactory();
-		Session session =sessionFactory.openSession();
-        session.beginTransaction();
+		Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
         
         //Add new Employee object
-        Categorie cat = catg;
+        //Categorie cat = catg;
          
         //Save the employee in database
-        session.persist(cat);
+        //session.persist(cat);
  
         //Commit the transaction
-        session.flush();
+        //session.flush();
+        
+        System.out.println(catg.getNaam());
+        //session.save(catg);
+        Query query = session.createSQLQuery("insert into categorie VALUES ("+ catg.getId()+ ", '" + catg.getNaam()+ "', '" +catg.getOmschrijving()+"')");
+        //session.get
+        query.executeUpdate();
+        tx.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
         session.close();
-        
-        session.getTransaction().commit();
-        
-		return cat;
+        sessionFactory.close();
+        System.out.println(query);
+		return catg;
 	}
 	
 	@Override

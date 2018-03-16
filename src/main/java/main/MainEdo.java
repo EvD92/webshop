@@ -4,6 +4,8 @@ import dao.BaseDaoExampleImpl;
 import dao.BaseDaoExampleInt;
 
 public class MainEdo {
-	BaseDaoExampleInt bdao = new BaseDaoExampleImpl();
-	bdao.returnShitt();
+	public static void main(String[] args) {
+	BaseDaoExampleInt bdei = new BaseDaoExampleImpl();
+	bdei.returnShitt();
+	}
 }

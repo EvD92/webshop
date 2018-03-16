@@ -24,11 +24,9 @@ public class Main {
 		OracleDao odao = new OracleDaoHibernate();
 		SessionFactory sessionFactory = odao.getFactory();
 		
-		final EntityManager em = odao.setUp();
-		
-		Session session = sessionFactory.openSession();
-		Transaction tx1 = session.beginTransaction();
-		
+		//final EntityManager em = odao.setUp();
+
+	
 		
 
 		//odao.getAllProductenVanCategorie(1); //tryout
@@ -42,25 +40,21 @@ public class Main {
 //		System.out.println("4. After committing save transaction");
 //		System.out.println("*****");
 		
-		try {
+
 	        // tx1 = session.beginTransaction();
 	         //Employee employee = new Employee(fname, lname, salary);
 	        // employeeID = (Integer) session.save(employee); 
-			odao.getKlant(1);
+			//odao.getKlant(1);
 			//odao.getAllProductenVanCategorie(1); //tryout
 			Categorie cat = new Categorie();
 			
-			cat.setId(6);
-			cat.setNaam("Bloemetjes");
-			cat.setOmschrijving("Voor al uw bloemen");
+			cat.setId(2);// auto incr?
+			cat.setNaam("bijtjes");
+			cat.setOmschrijving("Voor al uw bijtjes");
+			
 			odao.createCategorie(cat);
-	         tx1.commit();
-	      } catch (HibernateException e) {
-	         if (tx1!=null) tx1.rollback();
-	         e.printStackTrace(); 
-	      } finally {
-	         session.close(); 
-	      }
+			sessionFactory.close();
+		
 		
 		/*em.getTransaction().begin();
 		em.persist(cat );

@@ -2,6 +2,7 @@ package domain;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,10 +32,10 @@ public class Categorie {
 	@Column(name="OMSCHRIJVING")
 	private String omschrijving;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinTable(name = "CAT_PROD",
-        joinColumns = @JoinColumn(name = "CATEGORIE_ID"),
-        inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
+        joinColumns = @JoinColumn(name = "PRODUCT_ID"),
+        inverseJoinColumns = @JoinColumn(name = "CATEGORIE_ID"))
 	private Set<Product> product;
 	
 	public int getId() {
