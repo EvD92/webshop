@@ -86,5 +86,37 @@ public class OracleDaoImpl extends BaseDao {
 		}
 		return trains;
 	}
+	
+	@Override
+	public ResponseBuilder attributeRule(BusinessRule b) {
+
+		ST ST = new ST("alter table <TABLE> add constraint <NAAM> CHECK(<ATTRIBUTE> <OPERATOR> <VALUE>)");
+		System.out.println("b");
+		for (Attribute a : b.getAttributes()) {
+			ST.add("TABLE", a.getEntityTable().getNaam());
+			ST.add("ATTRIBUTE", a.getAttribute());
+			break;
+		}
+		// for (Value v : b.getValues()) {
+		// ST.add("VALUE",v.getValue());
+		// break;
+		// }
+		ST.add("NAAM", b.getNaam());
+		ST.add("OPERATOR", b.getOperator().getOperator());
+		System.out.println("d");
+		try {
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+			PreparedStatement stmt;
+			stmt = conn.prepareStatement(ST.render());
+			stmt.executeQuery();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			return Response.status(404).entity(e.getMessage().toString());
+		}
+		return Response.status(200).entity("Succes.");
+
+	}
 
 }
