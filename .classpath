@@ -24,6 +24,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/Users/Edo/Documents/GitHub/tosad_2017_2d_team2-/ojdbc8.jar"/>
+	<classpathentry kind="lib" path="/tosad_2017_2d_team2-/ojdbc8.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
