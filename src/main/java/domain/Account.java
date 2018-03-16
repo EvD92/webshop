@@ -6,11 +6,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -24,6 +27,9 @@ public class Account {
 	private String factuurAdres;
 	
 	@Id
+	@SequenceGenerator(name="my_seq", sequenceName="account_id_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="my_seq")
+	//@GeneratedValue(strategy=GenerationType.AUTO, generator="account_id_seq")
 	@Column(name = "ACCOUNT_ID")
 	private int iD;
 	
@@ -52,16 +58,19 @@ public class Account {
 	public void setFactuurAdres(String factuurAdres) {
 		this.factuurAdres = factuurAdres;
 	}
-	public int getiD() {
+	public int getId() {
 		return iD;
 	}
-	public void setiD(int iD) {
+	public void setId(int iD) {
 		this.iD = iD;
 	}
-	public boolean isActief() {
+	public boolean getIsActief() {
 		return isActief;
 	}
 	public void setActief(boolean isActief) {
+		this.isActief = isActief;
+	}
+	public void setIsActief(boolean isActief) {
 		this.isActief = isActief;
 	}
 	public Set<Bestelling> getBestelling() {

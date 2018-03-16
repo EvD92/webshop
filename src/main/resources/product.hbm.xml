@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name = "domain.Product" table = "PRODUCT">
+      
+      <meta attribute = "class-description">
+         This class contains the product detail. 
+      </meta>
+      
+      <id name = "id" type = "int" column = "PRODUCT_ID">
+         <generator class="sequence"/>
+      </id>
+      
+      <!-- <property name = "id" column = "CATEGORIE_ID" type = "int"/>  -->
+      <property name = "Naam" column = "NAAM" type = "string"/>
+      <property name = "Prijs" column = "PRIJS" type = "float"/>
+      <property name = "Omschrijving" column = "OMSCHRIJVING" type = "string"/>
+      
+   </class>
+</hibernate-mapping>

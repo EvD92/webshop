@@ -3,15 +3,23 @@ package domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "KLANT")
 public class Klant {
+
 	@Id
+	@SequenceGenerator(name="my_seq", sequenceName="klant_id_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="my_seq")
+	//@GeneratedValue(strategy=GenerationType.AUTO, generator="klant_id_seq")
 	@Column(name = "KLANT_ID")
+
 	private int iD;
 	
 	@Column(name = "NAAM")
@@ -42,10 +50,10 @@ public class Klant {
 	public void setAfbeelding(int afbeelding) {
 		this.afbeelding = afbeelding;
 	}
-	public String getWoonAdres() {
+	public String getWoonadres() {
 		return woonAdres;
 	}
-	public void setWoonAdres(String woonAdres) {
+	public void setWoonadres(String woonAdres) {
 		this.woonAdres = woonAdres;
 	}
 	public Account getAccount() {
@@ -60,10 +68,10 @@ public class Klant {
 	public void setAdres(Adres adres) {
 		this.adres = adres;
 	}
-	public int getiD() {
+	public int getid() {
 		return iD;
 	}
-	public void setiD(int iD) {
+	public void setid(int iD) {
 		this.iD = iD;
 	}
 

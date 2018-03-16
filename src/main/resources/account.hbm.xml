@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name = "domain.Account" table = "ACCOUNT">
+      
+      <meta attribute = "class-description">
+         This class contains the account detail. 
+      </meta>
+      
+      <id name = "Id" type = "int" column = "ACCOUNT_ID">
+         <generator class="sequence">
+         	<param name="sequence">account_id_seq</param>
+         </generator>
+      </id>
+      
+      <property name = "OpenDatum" column = "OPEN_DATUM" type = "string"/>
+      <property name = "FactuurAdres" column = "FACTUURADRES" type = "string"/>
+      <property name = "IsActief" column = "IS_ACTIEF" type = "boolean"/>
+      
+   </class>
+</hibernate-mapping>

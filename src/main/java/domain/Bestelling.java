@@ -5,12 +5,15 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +21,9 @@ import javax.persistence.Table;
 public class Bestelling {
 	
 	@Id
+	@SequenceGenerator(name="my_seq", sequenceName="bestelling_id_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="my_seq")
+	//@GeneratedValue(strategy=GenerationType.AUTO, generator="bestelling_id_seq")
 	@Column(name = "BESTELLING_ID")
 	private int iD;
 
@@ -34,10 +40,10 @@ public class Bestelling {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "bestelling")
 	private Set<Bestellingsregel> bestellingsRegel;
 	
-	public int getiD() {
+	public int getId() {
 		return iD;
 	}
-	public void setiD(int iD) {
+	public void setId(int iD) {
 		this.iD = iD;
 	}
 	public String getAfleverAdres() {
