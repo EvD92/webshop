@@ -11,6 +11,8 @@
   <property name="hibernate.connection.password">tocba_2017_2d_team5</property>
   <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
   <property name="hibernate.default_schema">validate</property>
- <!-- <mapping class="org.assessme.com.entity.Categorie" /> --> 
+ <!-- <mapping class="org.assessme.com.entity.Categorie" /> -->
+ 
+ <!--  lol  s-->
  </session-factory>
 </hibernate-configuration>
