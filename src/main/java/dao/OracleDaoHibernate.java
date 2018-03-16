@@ -271,7 +271,7 @@ public class OracleDaoHibernate implements OracleDao {
         Categorie cat = catg;
          
         //Save the employee in database
-        session.save(cat);
+        session.persist(cat);
  
         //Commit the transaction
         session.flush();
