@@ -43,14 +43,14 @@ public interface OracleDao {
 	//CRUD product		eis
 	public Product createProduct(Product pd);
 	public Product getProduct(int id);
-	public Product updateProduct(Product id);
-	public Product deleteProduct(Product id);
+	public Product updateProduct(Product pd);
+	public Product deleteProduct(int code);
 	
 	//CRUD categorie    eis
 	public Categorie createCategorie(Categorie cat);
 	public Categorie getCategorie(int cat_id);
-	public Categorie updateCategorie(Categorie cat_id);
-	public Categorie deleteCategorie(Categorie cat_id);
+	public Categorie updateCategorie(Categorie catg);
+	public Categorie deleteCategorie(Categorie catg);
 	
 	//createX
 	public Bestelling createBestelling(Bestelling best);

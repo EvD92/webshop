@@ -225,28 +225,88 @@ public class OracleDaoHibernate implements OracleDao {
 
 	@Override
 	public Product createProduct(Product pd) {
-		Product prod = pd;
-		// add product aan DB
+		// add pd aan DB
+		Configuration cf=new Configuration();
+		cf.configure();
+		SessionFactory sessionFactory = cf.buildSessionFactory();
+		Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
 
+        System.out.println(pd.getNaam());
+        Query query = session.createSQLQuery(
+        		"insert into Product values(:sid, :snaam, :somschrijving, :sprijs, :scategorie)");
+        		query.setParameter("sid", pd.getId());
+        		query.setParameter("sprijs", pd.getPrijs());
+        		query.setParameter("scategorie", pd.getCategorie());
+        		query.setParameter("snaam", pd.getNaam());
+        		query.setParameter("somschrijving", pd.getOmschrijving());
+        		query.executeUpdate();
+        
+        tx.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
+        session.close();
+        sessionFactory.close();
+        System.out.println(query);
 		return pd;
 	}
 
 	@Override
-	public Product updateProduct(Product id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Product updateProduct(Product pd) {
+		// update pd aan DB
+		Configuration cf=new Configuration();
+		cf.configure();
+		SessionFactory sessionFactory = cf.buildSessionFactory();
+		Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        System.out.println(pd.getNaam());
+        Query query = session.createSQLQuery(
+        		"UPDATE Product SET (naam = :snaam, id = :sid, omschrijving = :somschrijving, prijs = :sprijs, categorie = :scategorie) "
+        		+ "WHERE Product.id = :sid"); //zo iets
+        		query.setParameter("sid", pd.getId());
+        		query.setParameter("sprijs", pd.getPrijs());
+        		query.setParameter("scategorie", pd.getCategorie());
+        		query.setParameter("snaam", pd.getNaam());
+        		query.setParameter("somschrijving", pd.getOmschrijving());
+        		query.executeUpdate();
+
+        tx.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
+        session.close();
+        sessionFactory.close();
+        System.out.println(query);
+		return pd;
 	}
 
 	@Override
 	public Product deleteProduct(Product id) {
-		// TODO Auto-generated method stub
-		return null;
+		//Delete pd van db
+		Configuration cf=new Configuration();
+		cf.configure();
+		SessionFactory sessionFactory = cf.buildSessionFactory();
+		Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        System.out.println(id);
+        Query query = session.createSQLQuery(
+        		"DELETE FROM Product WHERE id = :sid");
+        		query.setParameter("sid", id);
+        		query.executeUpdate();
+
+        tx.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
+        session.close();
+        sessionFactory.close();
+        System.out.println(query);
+		return id;
+
 	}
 
 
 
 	@Override
 	public Categorie getCategorie(int cat_id) {
+		//Get cat van db
 		System.out.println(cat_id + "derp");
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
 		em = emf.createEntityManager();
@@ -261,27 +321,21 @@ public class OracleDaoHibernate implements OracleDao {
 
 	@Override
 	public Categorie createCategorie(Categorie catg) {
-		//Categorie cat = catg;
 		// add cat aan DB
 		Configuration cf=new Configuration();
 		cf.configure();
 		SessionFactory sessionFactory = cf.buildSessionFactory();
 		Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        
-        //Add new Employee object
-        //Categorie cat = catg;
-         
-        //Save the employee in database
-        //session.persist(cat);
- 
-        //Commit the transaction
-        //session.flush();
-        
+
         System.out.println(catg.getNaam());
-        //session.save(catg);
-        Query query = session.createSQLQuery("insert into categorie VALUES ("+ catg.getId()+ ", '" + catg.getNaam()+ "', '" +catg.getOmschrijving()+"')");
-        //session.get
+        Query query = session.createSQLQuery(
+        		"insert into categorie VALUES (sid, somschrijving, snaam)");
+        
+        query.setParameter("sid", catg.getId());
+        query.setParameter("somschrijving", catg.getOmschrijving());
+        query.setParameter("snaam", catg.getNaam());
+
         query.executeUpdate();
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
@@ -292,14 +346,51 @@ public class OracleDaoHibernate implements OracleDao {
 	}
 	
 	@Override
-	public Categorie updateCategorie(Categorie cat_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Categorie updateCategorie(Categorie catg) {
+		// update cat aan DB
+				Configuration cf=new Configuration();
+				cf.configure();
+				SessionFactory sessionFactory = cf.buildSessionFactory();
+				Session session = sessionFactory.openSession();
+		        Transaction tx = session.beginTransaction();
+
+		        System.out.println(catg.getNaam());
+		        Query query = session.createSQLQuery(
+		        		"UPDATE Categorie SET (naam = :snaam, id = :sid, omschrijving = :somschrijving)"
+		        		+ " WHERE Categorie.id = catg.id;"); //zo iets
+		        query.setParameter("sid", catg.getId());
+		        query.setParameter("snaam", catg.getNaam());
+		        query.setParameter("somschrijving", catg.getOmschrijving());
+		        query.executeUpdate();
+
+		        tx.commit();
+		        System.out.println("COMMITTTEDEDEDE AF");
+		        session.close();
+		        sessionFactory.close();
+		        System.out.println(query);
+				return catg;
 	}
 
 	@Override
 	public Categorie deleteCategorie(Categorie cat_id) {
-		// TODO Auto-generated method stub
-		return null;
+		//Delete cat van db
+		Configuration cf=new Configuration();
+		cf.configure();
+		SessionFactory sessionFactory = cf.buildSessionFactory();
+		Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        System.out.println(cat_id);
+        Query query = session.createSQLQuery(
+        		"DELETE FROM Categorie WHERE id = :sid");
+        		query.setParameter("sid", cat_id);
+        		query.executeUpdate();
+
+        tx.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
+        session.close();
+        sessionFactory.close();
+        System.out.println(query);
+		return cat_id;
 	}
 }
