@@ -46,16 +46,7 @@ public class product {
 	// public Product deleteProduct(int id);
 
 	@GET
-	@RolesAllowed("guest")
-	@Produces("text/html")
-	public Response testing() {
-		String s = "t werkte joepie";
-		rb = Response.status(200).entity(s);
-		return rb.build();
-	}
-
-	@GET
-	@Path("/all")
+//	@Path("/all")
 	@RolesAllowed("guest")
 	@Produces("application/json")
 	public String getAllProducten() {
@@ -76,144 +67,144 @@ public class product {
 
 		return jab.build().toString();
 	}
-
-	// Crud
-	@POST
-	@Produces("application/json")
-	public String createProduct(@FormParam("p_id") int p_id, @FormParam("c_id") int c_id,
-			@FormParam("naam") String naam, @FormParam("prijs") int prijs, @FormParam("omschrijving") String oms) {
-		JsonArrayBuilder jab = Json.createArrayBuilder();
-		Product pd = new Product();
-
-		pd.setId(p_id);
-		pd.setCategorie(c_id); // Koen? cat id?
-		pd.setNaam(naam);
-		pd.setOmschrijving(oms);
-
-		dao.createProduct(pd);
-
-		// return JSON nog nodig?
-		JsonObjectBuilder job = Json.createObjectBuilder();
-		job.add("product_id", pd.getId());
-		job.add("categorie_id", pd.getCategorie());
-		job.add("naam", pd.getNaam());
-		job.add("oms", pd.getOmschrijving());
-		jab.add(job);
-
-		return jab.build().toString();
-	}
-
-	// cRud
-	@GET
-	@Path("{id}")
-	@RolesAllowed("guest")
-	@Produces("application/json")
-	public String getProduct(int id) {
-		JsonArrayBuilder jab = Json.createArrayBuilder();
-		Product pd = dao.getProduct(id);
-		Set<Aanbieding> aanbiedingen = dao.getAllAanbiedingen();
-
-		JsonObjectBuilder job = Json.createObjectBuilder();
-
-		job.add("product_id", pd.getId());
-		job.add("naam", pd.getNaam());
-		job.add("omschrijving", pd.getOmschrijving());
-		job.add("prijs", pd.getPrijs());
-		job.add("aanbieding", (JsonValue) pd.getAanbieding());
-		job.add("bestellingsRegel", (JsonValue) pd.getBestellingsregel());
-		job.add("categorie", (JsonValue) pd.getCategorie());
-
-		for (Aanbieding ab : aanbiedingen) {
-			if (ab.getProduct().getId() == pd.getId()) { // als
-															// aanbieding.product_id
-															// = pd.id
-				job.add("aanbiedingId", ab.getId());
-				job.add("totDatum", ab.getTotDatum());
-				job.add("vanDatum", ab.getVanDatum());
-
-			}
-		}
-		jab.add(job);
-
-		return jab.build().toString();
-	}
-
-	// crUd
-
-	@PUT
-	@Path("{id}")
-	@RolesAllowed("guest")
-	@Produces("application/json")
-	public String updateProduct(@FormParam("p_id") int p_id, @FormParam("c_id") int c_id,
-			@FormParam("naam") String naam, @FormParam("prijs") int prijs, @FormParam("omschrijving") String oms) {
-		JsonObjectBuilder job = Json.createObjectBuilder();
-		Set<Product> producten = dao.getAllProducten();
-		for (Product pd : producten) {
-			//System.out.println(pd.getId()+ " " + p_id);
-			if (pd.getId() == p_id) {
-				pd.setCategorie(c_id); //Koen?
-				//pd.setId(p_id);
-				pd.setNaam(naam);
-				pd.setOmschrijving(oms);
-				pd.setPrijs(prijs);
-				dao.updateProduct(pd);
-				
-				job.add("id", p_id);
-				job.add("categorie", c_id);
-				job.add("naam", naam);
-				job.add("omschrijving", oms);
-				job.add("prijs", prijs);
-				break;
-
-			}
-			// throw new WebApplicationException("Customer not found!");
-		}
-		System.out.println(job.build().toString() + " build");
-		return job.build().toString();
-	}
-
-	// cruD
-	
-	@DELETE
-	@Path("{code}")
-	public Response deleteProduct(@PathParam("code") int code) {
-		System.out.println("deleted: " + code);
-		Product found = null;
-		for (Product pd : dao.getAllProducten()) {
-			if (pd.getId()== code) {
-				found = pd;
-				dao.deleteProduct(found.getId());
-				break;
-			}
-		}
-
-		if (found == null) {
-			return Response.status(Response.Status.NOT_FOUND).build();
-		} else {
-			return Response.ok().build();
-		}
-	}
-
-	@GET
-	@Path("/bycat/{id}")
-	@Produces("application/json")
-	public String getProductenVanCategorie(int id) {
-		JsonArrayBuilder jab = Json.createArrayBuilder();
-		Set<Product> producten;
-		producten = dao.getAllProductenVanCategorie(id);
-		JsonObjectBuilder job = Json.createObjectBuilder();
-		for (Product pd : producten) {
-			job.add("product_id", pd.getiD());
-			job.add("naam", pd.getNaam());
-			job.add("omschrijving", pd.getOmschrijving());
-			job.add("prijs", pd.getPrijs());
-			job.add("aanbieding", (JsonValue) pd.getAanbieding());
-			job.add("bestellingsRegel", (JsonValue) pd.getBestellingsregel());
-			job.add("categorie", (JsonValue) pd.getCategorie());
-			jab.add(job);
-		}
-
-		return jab.build().toString();
-	}
+//
+//	// Crud
+//	@POST
+//	@Produces("application/json")
+//	public String createProduct(@FormParam("p_id") int p_id, @FormParam("c_id") int c_id,
+//			@FormParam("naam") String naam, @FormParam("prijs") int prijs, @FormParam("omschrijving") String oms) {
+//		JsonArrayBuilder jab = Json.createArrayBuilder();
+//		Product pd = new Product();
+//
+//		pd.setId(p_id);
+//		pd.setCategorie(c_id); // Koen? cat id?
+//		pd.setNaam(naam);
+//		pd.setOmschrijving(oms);
+//
+//		dao.createProduct(pd);
+//
+//		// return JSON nog nodig?
+//		JsonObjectBuilder job = Json.createObjectBuilder();
+//		job.add("product_id", pd.getId());
+//		job.add("categorie_id", pd.getCategorie());
+//		job.add("naam", pd.getNaam());
+//		job.add("oms", pd.getOmschrijving());
+//		jab.add(job);
+//
+//		return jab.build().toString();
+//	}
+//
+//	// cRud
+//	@GET
+//	@Path("{id}")
+//	@RolesAllowed("guest")
+//	@Produces("application/json")
+//	public String getProduct(int id) {
+//		JsonArrayBuilder jab = Json.createArrayBuilder();
+//		Product pd = dao.getProduct(id);
+//		Set<Aanbieding> aanbiedingen = dao.getAllAanbiedingen();
+//
+//		JsonObjectBuilder job = Json.createObjectBuilder();
+//
+//		job.add("product_id", pd.getId());
+//		job.add("naam", pd.getNaam());
+//		job.add("omschrijving", pd.getOmschrijving());
+//		job.add("prijs", pd.getPrijs());
+//		job.add("aanbieding", (JsonValue) pd.getAanbieding());
+//		job.add("bestellingsRegel", (JsonValue) pd.getBestellingsregel());
+//		job.add("categorie", (JsonValue) pd.getCategorie());
+//
+//		for (Aanbieding ab : aanbiedingen) {
+//			if (ab.getProduct().getId() == pd.getId()) { // als
+//															// aanbieding.product_id
+//															// = pd.id
+//				job.add("aanbiedingId", ab.getId());
+//				job.add("totDatum", ab.getTotDatum());
+//				job.add("vanDatum", ab.getVanDatum());
+//
+//			}
+//		}
+//		jab.add(job);
+//
+//		return jab.build().toString();
+//	}
+//
+//	// crUd
+//
+//	@PUT
+//	@Path("{id}")
+//	@RolesAllowed("guest")
+//	@Produces("application/json")
+//	public String updateProduct(@FormParam("p_id") int p_id, @FormParam("c_id") int c_id,
+//			@FormParam("naam") String naam, @FormParam("prijs") int prijs, @FormParam("omschrijving") String oms) {
+//		JsonObjectBuilder job = Json.createObjectBuilder();
+//		Set<Product> producten = dao.getAllProducten();
+//		for (Product pd : producten) {
+//			//System.out.println(pd.getId()+ " " + p_id);
+//			if (pd.getId() == p_id) {
+//				pd.setCategorie(c_id); //Koen?
+//				//pd.setId(p_id);
+//				pd.setNaam(naam);
+//				pd.setOmschrijving(oms);
+//				pd.setPrijs(prijs);
+//				dao.updateProduct(pd);
+//				
+//				job.add("id", p_id);
+//				job.add("categorie", c_id);
+//				job.add("naam", naam);
+//				job.add("omschrijving", oms);
+//				job.add("prijs", prijs);
+//				break;
+//
+//			}
+//			// throw new WebApplicationException("Customer not found!");
+//		}
+//		System.out.println(job.build().toString() + " build");
+//		return job.build().toString();
+//	}
+//
+//	// cruD
+//	
+//	@DELETE
+//	@Path("{code}")
+//	public Response deleteProduct(@PathParam("code") int code) {
+//		System.out.println("deleted: " + code);
+//		Product found = null;
+//		for (Product pd : dao.getAllProducten()) {
+//			if (pd.getId()== code) {
+//				found = pd;
+//				dao.deleteProduct(found.getId());
+//				break;
+//			}
+//		}
+//
+//		if (found == null) {
+//			return Response.status(Response.Status.NOT_FOUND).build();
+//		} else {
+//			return Response.ok().build();
+//		}
+//	}
+//
+//	@GET
+//	@Path("/bycat/{id}")
+//	@Produces("application/json")
+//	public String getProductenVanCategorie(int id) {
+//		JsonArrayBuilder jab = Json.createArrayBuilder();
+//		Set<Product> producten;
+//		producten = dao.getAllProductenVanCategorie(id);
+//		JsonObjectBuilder job = Json.createObjectBuilder();
+//		for (Product pd : producten) {
+//			job.add("product_id", pd.getiD());
+//			job.add("naam", pd.getNaam());
+//			job.add("omschrijving", pd.getOmschrijving());
+//			job.add("prijs", pd.getPrijs());
+//			job.add("aanbieding", (JsonValue) pd.getAanbieding());
+//			job.add("bestellingsRegel", (JsonValue) pd.getBestellingsregel());
+//			job.add("categorie", (JsonValue) pd.getCategorie());
+//			jab.add(job);
+//		}
+//
+//		return jab.build().toString();
+//	}
 
 }
