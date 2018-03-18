@@ -322,18 +322,42 @@ public class OracleDaoHibernate implements OracleDao {
 
 
 	@Override
-	public Categorie getCategorie(int cat_id) {
+	public List getCategorie(int cat_id) {
 		//Get cat van db
-		System.out.println(cat_id + "derp");
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
-		em = emf.createEntityManager();
-		em.getTransaction().begin();
+//		System.out.println(cat_id + "derp");
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
+//		em = emf.createEntityManager();
+//		em.getTransaction().begin();
+//																					WRM WERKT OUDE CODE NIET MEER?
+//		Categorie cat = em.find(Categorie.class, cat_id);
+//		System.out.println(cat.getNaam());
+//		em.getTransaction().commit();
+//		em.close();
+//		emf.close();
+//		return cat;
+		
+		Configuration cf=new Configuration();
+		cf.configure();
+		SessionFactory sessionFactory = cf.buildSessionFactory();
+		Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
 
-		Categorie cat = em.find(Categorie.class, cat_id);
-		em.getTransaction().commit();
-		em.close();
-		emf.close();
-		return cat;
+        System.out.println(cat_id);
+        Query query = session.createSQLQuery(
+        		"SELECT * FROM CATEGORIE WHERE categorie_id = :sid");
+        		query.setParameter("sid", cat_id);
+        		//query.executeUpdate();
+        		List l = query.list();
+        		
+
+        tx.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
+        session.close();
+        sessionFactory.close();
+        System.out.println(query);
+		return l;
+
+		
 	}
 
 	@Override

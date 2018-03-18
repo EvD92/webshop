@@ -48,7 +48,7 @@ public interface OracleDao {
 	
 	//CRUD categorie    eis
 	public Categorie createCategorie(Categorie cat);
-	public Categorie getCategorie(int cat_id);
+	public List getCategorie(int cat_id);
 	public Categorie updateCategorie(Categorie catg);
 	public Categorie deleteCategorie(Categorie catg);
 	

@@ -1,6 +1,7 @@
 package restfull;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -35,61 +36,72 @@ public class categorie {
 	@GET
 	@RolesAllowed("guest")
 	  @Produces("application/json")
-	  public String getCategorien() {
-	    JsonArrayBuilder jab = Json.createArrayBuilder();
-	    Set<Categorie> categorien;
-	    categorien = dao.getAllCategorien();
+	  public String getCategorien() {												//returned JSON, werkt
+		List<Object[]> categorien = dao.getAllCategorien(); // Get alle categorien van DB
+		System.out.println(categorien);
+		
+		JsonArrayBuilder jab = Json.createArrayBuilder();
 	      JsonObjectBuilder job = Json.createObjectBuilder();
-	      for (Categorie cg : categorien) {
-	        job.add("id", cg.getId());
-	        job.add("naam", cg.getNaam());
-	        job.add("omschrijving", cg.getOmschrijving());
+	      for (Object[] cg : categorien) {
+	    	  Number id = (Number) cg[0]; //Maak number van Object
+	    	  String naam = "" + cg[1]; //Maak er n String van
+	    	  String oms = "" + cg[2];	//Maak er n String van
+	    	  
+	        job.add("id", id.intValue()); //krijg int van Number
+	        job.add("naam", naam);
+	        job.add("omschrijving", oms);
+	        
 	        jab.add(job);
 	      }
 
 	    return jab.build().toString();
 	  }
 	
-//	//Crud
-//	@POST
-//	@Produces("application/json")
-//	public String createCategorie(@FormParam("c_id") int c_id, @FormParam("naam") String naam, @FormParam("omschrijving") String oms) {
-//		JsonArrayBuilder jab = Json.createArrayBuilder();
-//		Categorie cat = new Categorie();
-//		cat.setCategorie(c_id); // Koen? cat id?
-//		cat.setNaam(naam);
-//		cat.setOmschrijving(oms);
-//
-//		dao.createCategorie(cat);
-//
-//		// return JSON nog nodig?
-//		JsonObjectBuilder job = Json.createObjectBuilder();
-//		job.add("categorie_id", cat.getId());
-//		job.add("naam", cat.getNaam());
-//		job.add("oms", cat.getOmschrijving());
-//		jab.add(job);
-//
-//		return jab.build().toString();
-//	}
+//	Crud
+	@POST 													//Werkt naar DB
+	@Produces("application/json")
+	public String createCategorie(@FormParam("c_id") int c_id, @FormParam("naam") String naam, @FormParam("omschrijving") String oms) {
+		JsonArrayBuilder jab = Json.createArrayBuilder();
+		Categorie cat = new Categorie();
+		cat.setId(c_id); // Koen? cat id?
+		cat.setNaam(naam);
+		cat.setOmschrijving(oms);
+
+		dao.createCategorie(cat);
+
+		// return JSON nog nodig?
+		JsonObjectBuilder job = Json.createObjectBuilder();
+		job.add("categorie_id", cat.getId());
+		job.add("naam", cat.getNaam());
+		job.add("oms", cat.getOmschrijving());
+		jab.add(job);
+
+		return jab.build().toString();
+	}
 //	
 //	//cRud
-//	@GET
-//	@Path("{id}")
-//	@RolesAllowed("guest")
-//	@Produces("application/json")
-//	public String getCategorie(int id) {
-//		JsonArrayBuilder jab = Json.createArrayBuilder();
-//		Categorie cat = dao.getCategorie(id);
-//		
-//		JsonObjectBuilder job = Json.createObjectBuilder();
-//
-//		job.add("product_id", cat.getId());
-//		job.add("naam", cat.getNaam());
-//		job.add("omschrijving", cat.getOmschrijving());
-//		
-//		jab.add(job);
-//		return jab.build().toString();
-//	}
+	@GET
+	@Path("{id}")
+	@RolesAllowed("guest")
+	@Produces("application/json")
+	public String getCategorie(int id) {					//werkt weer
+		JsonArrayBuilder jab = Json.createArrayBuilder();
+		ArrayList l = (ArrayList) dao.getCategorie(1);
+
+		
+	Object[] o = (Object[]) l.get(0);
+	System.out.println(o[1]);
+	JsonObjectBuilder job = Json.createObjectBuilder();
+	Number o_id = (Number) o[0]; // Maak number van Object
+	String naam = "" + o[1];
+	String oms = "" + o[2];
+	job.add("id", o_id.intValue()); // krijg int van Number
+	job.add("naam", naam);
+	job.add("omschrijving", oms);
+		
+		jab.add(job);
+		return jab.build().toString();
+	}
 //	
 //	//crUd
 //	@PUT

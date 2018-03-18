@@ -2,6 +2,10 @@ package main;
 import java.awt.Event;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
 import javax.persistence.EntityManager;
 
 import org.hibernate.Hibernate;
@@ -56,17 +60,31 @@ public class Main {
 //			odao.createCategorie(cat);
 			List<Object[]> categorien = odao.getAllCategorien();
 			System.out.println(categorien);
-			for (Object[] c : categorien){
-				//int i = (Integer) object
-				Number id = (Number) c[0];
-				if (id.intValue() == 6){
-				System.out.println(c[0]);
-				System.out.println(c[1]);
-				System.out.println(c[2]);
-				c[0]=3;
-				System.out.println(c[0]);
-				}
-			}
+//			for (Object[] c : categorien){
+//				//int i = (Integer) object
+//				Number id = (Number) c[0];
+//				if (id.intValue() == 6){			//beetje uitproberen
+//				System.out.println(c[0]);
+//				System.out.println(c[1]);
+//				System.out.println(c[2]);
+//				c[0]=3;
+//				System.out.println(c[0]);
+//				}
+//			}
+			
+			JsonArrayBuilder jab = Json.createArrayBuilder();
+		      JsonObjectBuilder job = Json.createObjectBuilder();
+		      for (Object[] cg : categorien) {
+		    	  Number id = (Number) cg[0]; //Maak number van Object
+		    	  String naam = "" + cg[1];
+		    	  String oms = "" + cg[2];
+		        job.add("id", id.intValue()); //krijg int van Number
+		        job.add("naam", naam);
+		        job.add("omschrijving", oms);
+		        jab.add(job);
+		      }
+
+		    System.out.println( jab.build().toString());
 			
 			sessionFactory.close();
 		
