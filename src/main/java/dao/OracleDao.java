@@ -29,7 +29,7 @@ public interface OracleDao {
 	
 	
 	//getAllX
-	public Set<Categorie> getAllCategorien();
+	public List<Object[]> getAllCategorien();
 	
 	public Set<Product> getAllProducten();
 	
@@ -54,6 +54,7 @@ public interface OracleDao {
 	
 	//createX
 	public Bestelling createBestelling(Bestelling best);
+	Product deleteProduct(Product id);
 
 
 

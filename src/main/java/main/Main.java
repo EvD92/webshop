@@ -1,6 +1,6 @@
 package main;
-
 import java.awt.Event;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 
@@ -46,13 +46,28 @@ public class Main {
 	        // employeeID = (Integer) session.save(employee); 
 			//odao.getKlant(1);
 			//odao.getAllProductenVanCategorie(1); //tryout
-			Categorie cat = new Categorie();
 			
-			cat.setId(2);// auto incr?
-			cat.setNaam("bijtjes");
-			cat.setOmschrijving("Voor al uw bijtjes");
+//		Categorie cat = new Categorie();
+//			
+//			cat.setId(2);// auto incr?
+//			cat.setNaam("bijtjes");
+//			cat.setOmschrijving("Voor al uw bijtjes");
+//			
+//			odao.createCategorie(cat);
+			List<Object[]> categorien = odao.getAllCategorien();
+			System.out.println(categorien);
+			for (Object[] c : categorien){
+				//int i = (Integer) object
+				Number id = (Number) c[0];
+				if (id.intValue() == 6){
+				System.out.println(c[0]);
+				System.out.println(c[1]);
+				System.out.println(c[2]);
+				c[0]=3;
+				System.out.println(c[0]);
+				}
+			}
 			
-			odao.createCategorie(cat);
 			sessionFactory.close();
 		
 		

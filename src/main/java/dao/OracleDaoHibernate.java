@@ -175,11 +175,28 @@ public class OracleDaoHibernate implements OracleDao {
 	}
 
 	@Override
-	public Set<Categorie> getAllCategorien() {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
-		em = emf.createEntityManager();
-		em.getTransaction().begin();
-		Set<Categorie> categorien = (Set<Categorie>)em.createQuery("SELECT * FROM Categorie").getResultList();
+	public List<Object[]> getAllCategorien() {
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
+//		em = emf.createEntityManager();
+//		em.getTransaction().begin();
+//		List<Categorie> categorien =em.createQuery("SELECT * FROM Categorie").getResultList();
+
+		Configuration cf=new Configuration();
+		cf.configure();
+		SessionFactory sessionFactory = cf.buildSessionFactory();
+		Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        
+        Query query = session.createSQLQuery(
+        		"SELECT * FROM Categorie");
+        List<Object[]> categorien = query.list();
+
+        //query.executeUpdate();
+        tx.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
+        session.close();
+        sessionFactory.close();
+        System.out.println(query);
 
 		return categorien;
 	}
@@ -330,7 +347,7 @@ public class OracleDaoHibernate implements OracleDao {
 
         System.out.println(catg.getNaam());
         Query query = session.createSQLQuery(
-        		"insert into categorie VALUES (sid, somschrijving, snaam)");
+        		"insert into categorie VALUES (:sid, :somschrijving, :snaam)");
         
         query.setParameter("sid", catg.getId());
         query.setParameter("somschrijving", catg.getOmschrijving());
@@ -392,5 +409,12 @@ public class OracleDaoHibernate implements OracleDao {
         sessionFactory.close();
         System.out.println(query);
 		return cat_id;
+	}
+
+
+	@Override
+	public Product deleteProduct(int code) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
