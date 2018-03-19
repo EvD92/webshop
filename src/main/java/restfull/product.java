@@ -156,13 +156,16 @@ public class product {
 		System.out.println(list.get(0));
 		
 		Object o = list.get(0);
+		System.out.println(list.size());
+		System.out.println(o.toString());
 		Object[] c = (Object[]) o;
 	
 		JsonObjectBuilder job = Json.createObjectBuilder();
 		Number o_id = (Number) c[0]; // Maak number van Object
 		String naam = "" + c[1];
 		String oms = "" + c[2];
-		Number prijs = (Number) c[3];
+		//Number prijs = (Number) c[3];
+		//System.out.println(o_id + naam + oms);
 		job.add("id", o_id.intValue()); // krijg int van Number
 		job.add("naam", naam);
 		job.add("omschrijving", oms);
