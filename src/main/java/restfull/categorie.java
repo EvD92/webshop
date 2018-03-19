@@ -18,6 +18,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
@@ -36,7 +37,7 @@ public class categorie {
 //		getAllCategories;
 	@GET
 	@RolesAllowed("guest")
-	  @Produces("text/html")
+	  @Produces("application/json")
 	
 	  public String getCategorien() {
 		System.out.println("kak");//returned JSON, werkt
@@ -82,29 +83,37 @@ public class categorie {
 		return jab.build().toString();
 	}
 //	
-/*//	//cRud
+//	//cRud
 	@GET
 	@Path("{id}")
 	@RolesAllowed("guest")
 	@Produces("application/json")
-	public String getCategorie(int id) {					//werkt weer
+	public String getCategorie(@PathParam ("id") int id) {					//werkt weer
 		JsonArrayBuilder jab = Json.createArrayBuilder();
-		ArrayList l = (ArrayList) dao.getCategorie(1);
-
+		System.out.println(id+" de meegegeven ID");
 		
-	Object[] o = (Object[]) l.get(0);
-	System.out.println(o[1]);
+		List<Object[]> list = new ArrayList<Object[]>();
+		list.addAll(dao.getCategorie(id));
+		
+		System.out.println("----------------------------------------------------------------------------------------------------------");
+		System.out.println(list.size());
+		System.out.println(list.get(0));
+		
+	Object o = list.get(0);
+	Object[] c = (Object[]) o;
+	
 	JsonObjectBuilder job = Json.createObjectBuilder();
-	Number o_id = (Number) o[0]; // Maak number van Object
-	String naam = "" + o[1];
-	String oms = "" + o[2];
+	Number o_id = (Number) c[0]; // Maak number van Object
+	String naam = "" + c[1];
+	String oms = "" + c[2];
 	job.add("id", o_id.intValue()); // krijg int van Number
 	job.add("naam", naam);
 	job.add("omschrijving", oms);
+
 		
 		jab.add(job);
 		return jab.build().toString();
-	}*/
+	}
 //	
 //	//crUd
 //	@PUT
