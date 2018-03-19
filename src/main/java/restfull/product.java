@@ -82,30 +82,33 @@ public class product {
 	}
 //
 //	// Crud
-//	@POST
-//	@Produces("application/json")
-//	public String createProduct(@FormParam("p_id") int p_id, @FormParam("c_id") int c_id,
-//			@FormParam("naam") String naam, @FormParam("prijs") int prijs, @FormParam("omschrijving") String oms) {
-//		JsonArrayBuilder jab = Json.createArrayBuilder();
-//		Product pd = new Product();
-//
-//		pd.setId(p_id);
-//		pd.setCategorie(c_id); // Koen? cat id?
-//		pd.setNaam(naam);
-//		pd.setOmschrijving(oms);
-//
-//		dao.createProduct(pd);
-//
-//		// return JSON nog nodig?
-//		JsonObjectBuilder job = Json.createObjectBuilder();
-//		job.add("product_id", pd.getId());
-//		job.add("categorie_id", pd.getCategorie());
-//		job.add("naam", pd.getNaam());
-//		job.add("oms", pd.getOmschrijving());
-//		jab.add(job);
-//
-//		return jab.build().toString();
-//	}
+	@POST
+	@Path("create/{p_id}/{c_id}/{naam}/{prijs}/{omschrijving}")
+	@RolesAllowed("guest")
+	@Produces("application/json")
+	public String createProduct(@FormParam("p_id") int p_id, @FormParam("c_id") int c_id,
+			@FormParam("naam") String naam, @FormParam("prijs") int prijs, @FormParam("omschrijving") String oms) {
+		JsonArrayBuilder jab = Json.createArrayBuilder();
+		Product pd = new Product();
+
+		pd.setId(p_id);
+		Set<Categorie> dit = pd.getCategorie();
+		pd.setCategorie(dit); // Koen? cat id?
+		pd.setNaam(naam);
+		pd.setOmschrijving(oms);
+
+		dao.createProduct(pd);
+
+		// return JSON nog nodig?
+		JsonObjectBuilder job = Json.createObjectBuilder();
+		job.add("product_id", pd.getId());
+		job.add("categorie_id", (JsonValue) pd.getCategorie());
+		job.add("naam", pd.getNaam());
+		job.add("oms", pd.getOmschrijving());
+		//jab.add(job);
+
+		return job.build().toString();
+	}
 //
 // cRud
 	@GET
@@ -113,35 +116,7 @@ public class product {
 	@RolesAllowed("guest")
 	@Produces("application/json")
 	public String getProduct(@PathParam("id") int id) {
-		/*JsonArrayBuilder jab = Json.createArrayBuilder();
-		Product pd = dao.getProduct(id);
-		List<Object[]> aanbiedingen = dao.getAllAanbiedingen();
-
-		JsonObjectBuilder job = Json.createObjectBuilder();
-
-		job.add("product_id", pd.getId());
-		job.add("naam", pd.getNaam());
-		job.add("omschrijving", pd.getOmschrijving());
-		job.add("prijs", pd.getPrijs());
-		job.add("aanbieding", (JsonValue) pd.getAanbieding());
-		job.add("bestellingsRegel", (JsonValue) pd.getBestellingsregel());
-		job.add("categorie", (JsonValue) pd.getCategorie());
-
-		for (Object[] ab : aanbiedingen) {
-			Number nummer = (Number) ab[0];
-			if (nummer.intValue() == pd.getId()) { // als
-				String totDatum = "" + ab[1];// aanbieding.product_id
-				String vanDatum = "" + ab[2];
-															// = pd.id
-				job.add("aanbiedingId", nummer.intValue());
-				job.add("totDatum", totDatum);
-				job.add("vanDatum", vanDatum);
-
-			}
-		}
-		jab.add(job);
-
-		return jab.build().toString();*/
+		
 		
 		JsonArrayBuilder jab = Json.createArrayBuilder();
 		System.out.println(id+" de meegegeven ID");
@@ -191,7 +166,7 @@ public class product {
 //	// crUd
 
 	@PUT
-	@Path("{id}")
+	@Path("update/{id}/{c_id}/{naam}/{prijs}/{omschrijving}")
 	@RolesAllowed("guest")
 	@Produces("application/json")
 	public String updateProduct(@PathParam("p_id") int p_id, @PathParam("c_id") int c_id,
@@ -225,12 +200,12 @@ public class product {
 	@Path("{code}")
 	public Response deleteProduct(@PathParam("code") int code) {
 		System.out.println("deleted: " + code);
-		Product found = null;
-		for (List<Object[]> pd : dao.getAllProducten()) {
+		Object[] found = null;
+		for (Object[] pd : dao.getAllProducten()) {
 			Number num = (Number) pd[0];
 			if (num.intValue() == code) {
 				found = pd;
-				dao.deleteProduct(found.getId());
+				dao.deleteProduct(num.intValue());
 				break;
 			}
 		}
