@@ -24,7 +24,6 @@ public interface OracleDao {
 	public EntityManager setUp();
 	
 	//getX
-	public Klant getKlant(int id);
 	public Adres getAdres(int k_id);
 	public Account getAccount(int k_id);
 	
@@ -59,6 +58,9 @@ public interface OracleDao {
 	public List<Object[]> getAllBestellingen();
 	
 	public List getBestelling(int id);
+	public void createKlant(Klant bst);
+	public List getKlant(int id);
+	public List<Object[]> getAllKlanten();
 
 
 

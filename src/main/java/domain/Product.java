@@ -81,8 +81,8 @@ public class Product {
 	public Set<Categorie> getCategorie() {
 		return categorie;
 	}
-	public void setCategorie(Set<Categorie> categorie) {
-		this.categorie = categorie;
+	public void setCategorie(Set<Categorie> dit) {
+		this.categorie = dit;
 	}
 
 }

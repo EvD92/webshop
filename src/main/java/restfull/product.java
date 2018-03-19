@@ -82,30 +82,33 @@ public class product {
 	}
 //
 //	// Crud
-//	@POST
-//	@Produces("application/json")
-//	public String createProduct(@FormParam("p_id") int p_id, @FormParam("c_id") int c_id,
-//			@FormParam("naam") String naam, @FormParam("prijs") int prijs, @FormParam("omschrijving") String oms) {
-//		JsonArrayBuilder jab = Json.createArrayBuilder();
-//		Product pd = new Product();
-//
-//		pd.setId(p_id);
-//		pd.setCategorie(c_id); // Koen? cat id?
-//		pd.setNaam(naam);
-//		pd.setOmschrijving(oms);
-//
-//		dao.createProduct(pd);
-//
-//		// return JSON nog nodig?
-//		JsonObjectBuilder job = Json.createObjectBuilder();
-//		job.add("product_id", pd.getId());
-//		job.add("categorie_id", pd.getCategorie());
-//		job.add("naam", pd.getNaam());
-//		job.add("oms", pd.getOmschrijving());
-//		jab.add(job);
-//
-//		return jab.build().toString();
-//	}
+	@POST
+	@Path("create/{p_id}/{c_id}/{naam}/{prijs}/{omschrijving}")
+	@RolesAllowed("guest")
+	@Produces("application/json")
+	public String createProduct(@FormParam("p_id") int p_id, @FormParam("c_id") int c_id,
+			@FormParam("naam") String naam, @FormParam("prijs") int prijs, @FormParam("omschrijving") String oms) {
+		JsonArrayBuilder jab = Json.createArrayBuilder();
+		Product pd = new Product();
+
+		pd.setId(p_id);
+		Set<Categorie> dit = pd.getCategorie();
+		pd.setCategorie(dit); // Koen? cat id?
+		pd.setNaam(naam);
+		pd.setOmschrijving(oms);
+
+		dao.createProduct(pd);
+
+		// return JSON nog nodig?
+		JsonObjectBuilder job = Json.createObjectBuilder();
+		job.add("product_id", pd.getId());
+		job.add("categorie_id", (JsonValue) pd.getCategorie());
+		job.add("naam", pd.getNaam());
+		job.add("oms", pd.getOmschrijving());
+		//jab.add(job);
+
+		return job.build().toString();
+	}
 //
 // cRud
 	@GET
@@ -113,35 +116,7 @@ public class product {
 	@RolesAllowed("guest")
 	@Produces("application/json")
 	public String getProduct(@PathParam("id") int id) {
-		/*JsonArrayBuilder jab = Json.createArrayBuilder();
-		Product pd = dao.getProduct(id);
-		List<Object[]> aanbiedingen = dao.getAllAanbiedingen();
-
-		JsonObjectBuilder job = Json.createObjectBuilder();
-
-		job.add("product_id", pd.getId());
-		job.add("naam", pd.getNaam());
-		job.add("omschrijving", pd.getOmschrijving());
-		job.add("prijs", pd.getPrijs());
-		job.add("aanbieding", (JsonValue) pd.getAanbieding());
-		job.add("bestellingsRegel", (JsonValue) pd.getBestellingsregel());
-		job.add("categorie", (JsonValue) pd.getCategorie());
-
-		for (Object[] ab : aanbiedingen) {
-			Number nummer = (Number) ab[0];
-			if (nummer.intValue() == pd.getId()) { // als
-				String totDatum = "" + ab[1];// aanbieding.product_id
-				String vanDatum = "" + ab[2];
-															// = pd.id
-				job.add("aanbiedingId", nummer.intValue());
-				job.add("totDatum", totDatum);
-				job.add("vanDatum", vanDatum);
-
-			}
-		}
-		jab.add(job);
-
-		return jab.build().toString();*/
+		
 		
 		JsonArrayBuilder jab = Json.createArrayBuilder();
 		System.out.println(id+" de meegegeven ID");
@@ -171,12 +146,14 @@ public class product {
 		job.add("omschrijving", oms);
 		
 		for (Object[] ab : aanbiedingen) {
-			Number nummer = (Number) ab[0];
+			Number nummer = (Number) ab[3];
 			if (nummer.intValue() == o_id.intValue()) { // als
+				Number aanbieding_id = (Number) ab[0];
 				String totDatum = "" + ab[1];// aanbieding.product_id
 				String vanDatum = "" + ab[2];
+				
 															// = pd.id
-				job.add("aanbiedingId", nummer.intValue());
+				job.add("aanbiedingId", aanbieding_id.intValue());
 				job.add("totDatum", totDatum);
 				job.add("vanDatum", vanDatum);
 			}
@@ -187,61 +164,59 @@ public class product {
 	}
 
 //	// crUd
-//
-//	@PUT
-//	@Path("{id}")
-//	@RolesAllowed("guest")
-//	@Produces("application/json")
-//	public String updateProduct(@FormParam("p_id") int p_id, @FormParam("c_id") int c_id,
-//			@FormParam("naam") String naam, @FormParam("prijs") int prijs, @FormParam("omschrijving") String oms) {
-//		JsonObjectBuilder job = Json.createObjectBuilder();
-//		Set<Product> producten = dao.getAllProducten();
-//		for (Product pd : producten) {
-//			//System.out.println(pd.getId()+ " " + p_id);
-//			if (pd.getId() == p_id) {
-//				pd.setCategorie(c_id); //Koen?
-//				//pd.setId(p_id);
-//				pd.setNaam(naam);
-//				pd.setOmschrijving(oms);
-//				pd.setPrijs(prijs);
-//				dao.updateProduct(pd);
-//				
-//				job.add("id", p_id);
-//				job.add("categorie", c_id);
-//				job.add("naam", naam);
-//				job.add("omschrijving", oms);
-//				job.add("prijs", prijs);
-//				break;
-//
-//			}
-//			// throw new WebApplicationException("Customer not found!");
-//		}
-//		System.out.println(job.build().toString() + " build");
-//		return job.build().toString();
-//	}
+
+	@PUT
+	@Path("update/{id}/{c_id}/{naam}/{prijs}/{omschrijving}")
+	@RolesAllowed("guest")
+	@Produces("application/json")
+	public String updateProduct(@PathParam("p_id") int p_id, @PathParam("c_id") int c_id,
+			@PathParam("naam") String naam, @PathParam("prijs") int prijs, @PathParam("omschrijving") String oms) {
+		JsonObjectBuilder job = Json.createObjectBuilder();
+		List<Object[]> producten = dao.getAllProducten();
+		for (Object[] pd : producten) {
+			//System.out.println(pd.getId()+ " " + p_id);
+			Number pr_id = (Number)pd[0];
+			if (pr_id.intValue() == p_id) {
+				Number ca_id = (Number) pd[1];
+				//String naam = "" + pd[2];
+				
+				job.add("id", p_id);
+				job.add("categorie", ca_id.intValue());
+				job.add("naam", naam);
+				job.add("omschrijving", oms);
+				job.add("prijs", prijs);
+				break;
+
+			}
+			// throw new WebApplicationException("Customer not found!");
+		}
+		System.out.println(job.build().toString() + " build");
+		return job.build().toString();
+	}
 //
 //	// cruD
-//	
-//	@DELETE
-//	@Path("{code}")
-//	public Response deleteProduct(@PathParam("code") int code) {
-//		System.out.println("deleted: " + code);
-//		Product found = null;
-//		for (Product pd : dao.getAllProducten()) {
-//			if (pd.getId()== code) {
-//				found = pd;
-//				dao.deleteProduct(found.getId());
-//				break;
-//			}
-//		}
-//
-//		if (found == null) {
-//			return Response.status(Response.Status.NOT_FOUND).build();
-//		} else {
-//			return Response.ok().build();
-//		}
-//	}
-//
+	
+	@DELETE
+	@Path("{code}")
+	public Response deleteProduct(@PathParam("code") int code) {
+		System.out.println("deleted: " + code);
+		Object[] found = null;
+		for (Object[] pd : dao.getAllProducten()) {
+			Number num = (Number) pd[0];
+			if (num.intValue() == code) {
+				found = pd;
+				dao.deleteProduct(num.intValue());
+				break;
+			}
+		}
+
+		if (found == null) {
+			return Response.status(Response.Status.NOT_FOUND).build();
+		} else {
+			return Response.ok().build();
+		}
+	}
+
 //	@GET
 //	@Path("/bycat/{id}")
 //	@Produces("application/json")
