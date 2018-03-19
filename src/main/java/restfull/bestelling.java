@@ -95,33 +95,33 @@ public class bestelling {
 		return jab.build().toString();
 	}
 
-	@POST
-	@Path("{id}/{afleverAdres}/{account}/{adres}/{bestellingsRegel}")
-	@Produces("application/json")
-	public String createBestelling(@PathParam("id") int id, @PathParam("afleverAdres") String aa,
-			@PathParam("account") Account acc, @PathParam("adres") Adres adr,
-			@PathParam("bestellingsRegel") Set<Bestellingsregel> bstr) {
-		JsonArrayBuilder jab = Json.createArrayBuilder();
-		Bestelling bst = new Bestelling();
-		bst.setId(id); // Koen? cat id?
-		bst.setAdres(adr);
-		bst.setAfleverAdres(aa);
-		bst.setBestellingsRegel(bstr);
-		bst.setAccount(acc);
-
-		dao.createBestelling(bst);
-
-		// return JSON nog nodig?
-		JsonObjectBuilder job = Json.createObjectBuilder();
-		job.add("Bestelling_id", id);
-		job.add("afleverAdres", aa);
-		job.add("Account", (JsonValue) acc);
-		job.add("Adres", (JsonValue) adr);
-		job.add("bestellingsRegel", (JsonValue) bstr);
-		jab.add(job);
-
-		return jab.build().toString();
-	}
+//	@POST
+//	@Path("{id}/{afleverAdres}/{account}/{adres}/{bestellingsRegel}")
+//	@Produces("application/json")
+//	public String createBestelling(@PathParam("id") int id, @PathParam("afleverAdres") String aa,
+//			@PathParam("account") Account acc, @PathParam("adres") Adres adr,
+//			@PathParam("bestellingsRegel") Set<Bestellingsregel> bstr) {
+//		JsonArrayBuilder jab = Json.createArrayBuilder();
+//		Bestelling bst = new Bestelling();
+//		bst.setId(id); // Koen? cat id?
+//		bst.setAdres(adr);
+//		bst.setAfleverAdres(aa);
+//		bst.setBestellingsRegel(bstr);
+//		bst.setAccount(acc);
+//
+//		dao.createBestelling(bst);
+//
+//		// return JSON nog nodig?
+//		JsonObjectBuilder job = Json.createObjectBuilder();
+//		job.add("Bestelling_id", id);
+//		job.add("afleverAdres", aa);
+//		job.add("Account", (JsonValue) acc);
+//		job.add("Adres", (JsonValue) adr);
+//		job.add("bestellingsRegel", (JsonValue) bstr);
+//		jab.add(job);
+//
+//		return jab.build().toString();
+//	}
 
 	@GET
 	@Path("/bycat/{id}")

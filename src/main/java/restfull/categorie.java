@@ -111,8 +111,8 @@ public class categorie {
 	job.add("omschrijving", oms);
 
 		
-		jab.add(job);
-		return jab.build().toString();
+		
+		return job.build().toString();
 	}
 	
 	//crUd
