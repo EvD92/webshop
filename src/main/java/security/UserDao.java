@@ -26,14 +26,16 @@ public class UserDao extends security.BaseDao {
 	}
 	public String findRoleForEmailAndPassword(String email, String password) {
 		String role = null;
-		String query = "SELECT role FROM lid WHERE email = ? AND password = ?";
+//		String query = "SELECT role FROM lid WHERE email = ? AND password = ?";
+		String query = "SELECT NAAM FROM CATEGORIE WHERE CATEGORIE_ID = 6";
 		try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
 			PreparedStatement pstmt = con.prepareStatement(query);
-			pstmt.setString(1, email);
-			pstmt.setString(2, password);
+//			pstmt.setString(1, email);
+//			pstmt.setString(2, password);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
-				role = rs.getString("role");
+//				role = rs.getString("role");
+				role = rs.getString("NAAM");
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
