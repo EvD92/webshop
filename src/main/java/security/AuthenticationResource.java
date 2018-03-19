@@ -21,7 +21,9 @@ public class AuthenticationResource {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response authenticateUser(@FormParam("email") String email, @FormParam("password") String password) {
+	public Response authenticateUser(@FormParam("username") String email, @FormParam("password") String password) {
+		System.out.println(email);
+		System.out.println(password);
 		try {
 			// Authenticate the user against the database
 			UserDao dao = new UserDao();
