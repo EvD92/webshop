@@ -72,20 +72,7 @@ public class OracleDaoHibernate implements OracleDao {
 	}
 	
 	
-	@Override
-	public Klant getKlant(int id) {
-		System.out.println(id + "derp");
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
-		em = emf.createEntityManager();
-		em.getTransaction().begin();
 
-		Klant k = em.find(Klant.class, id);
-		// System.out.println(b.getId() + "ID");
-		em.getTransaction().commit();
-		em.close();
-		emf.close();
-		return k;
-	}
 
 	@Override
 	public List getProduct(int prod_id) {
@@ -106,7 +93,7 @@ public class OracleDaoHibernate implements OracleDao {
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
-        factory.close();
+      //  factory.close();
         System.out.println(query);
         return l;
     }
@@ -164,34 +151,6 @@ public class OracleDaoHibernate implements OracleDao {
 	}
 
 	@Override
-	public Set<Bestelling> getAllBestellingenVanKlant(int accountId) {
-
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
-		em = emf.createEntityManager();
-		em.getTransaction().begin();
-
-		// JsonArrayBuilder jab = Json.createArrayBuilder();
-
-		// List<Product> producten;
-		// List<Categorie> categorien;
-
-		Klant k = em.find(Klant.class, accountId); // nodig?
-		// producten = (List<Product>) em.find(Product.class, id);// moet ze
-		// allemaal returnen
-
-		int ids = accountId; // WHERE p.account.ID?
-		Set<Bestelling> bestellingen = (Set<Bestelling>)em.createQuery("SELECT p FROM Bestelling p WHERE p.account IN :ids")
-				.setParameter("ids", ids).getResultList();
-		System.out.println(bestellingen); // zou alle producten moeten returnen
-
-		em.getTransaction().commit();
-		em.close();
-		emf.close();
-		return bestellingen;
-
-	}
-
-	@Override
 	public Bestelling createBestelling(Bestelling bst) {
 		Bestelling best = bst;
 		// add bestelling aan DB
@@ -223,7 +182,7 @@ public class OracleDaoHibernate implements OracleDao {
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
-        factory.close();
+       // factory.close();
         System.out.println(query);
 
 		return categorien;
@@ -247,7 +206,7 @@ public class OracleDaoHibernate implements OracleDao {
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
-        factory.close();
+        //factory.close();
         System.out.println(query);
 
 		return aanbiedingen;
@@ -308,7 +267,7 @@ public class OracleDaoHibernate implements OracleDao {
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
-        sessionFactory.close();
+        //sessionFactory.close();
         System.out.println(query);
 		return pd;
 	}
@@ -473,6 +432,81 @@ public class OracleDaoHibernate implements OracleDao {
 
 	@Override
 	public Product deleteProduct(int code) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<Object[]> getAllBestellingenVanKlant(int id) {
+		return null;
+
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
+//		em = emf.createEntityManager();
+//		em.getTransaction().begin();
+//
+//		// JsonArrayBuilder jab = Json.createArrayBuilder();
+//
+//		// List<Product> producten;
+//		// List<Categorie> categorien;
+//
+//		Klant k = em.find(Klant.class, accountId); // nodig?
+//		// producten = (List<Product>) em.find(Product.class, id);// moet ze
+//		// allemaal returnen
+//
+//		int ids = accountId; // WHERE p.account.ID?
+//		Set<Bestelling> bestellingen = (Set<Bestelling>)em.createQuery("SELECT p FROM Bestelling p WHERE p.account IN :ids")
+//				.setParameter("ids", ids).getResultList();
+//		System.out.println(bestellingen); // zou alle producten moeten returnen
+//
+//		em.getTransaction().commit();
+//		em.close();
+//		emf.close();
+//		return bestellingen;
+
+	}
+
+
+	@Override
+	public List<Object[]> getAllBestellingen() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List getBestelling(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void createKlant(Klant bst) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public List getKlant(int id) {
+		return null;
+//		System.out.println(id + "derp");
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
+//		em = emf.createEntityManager();
+//		em.getTransaction().begin();
+//
+//		Klant k = em.find(Klant.class, id);
+//		// System.out.println(b.getId() + "ID");
+//		em.getTransaction().commit();
+//		em.close();
+//		emf.close();
+//		return k;
+	}
+
+
+	@Override
+	public List<Object[]> getAllKlanten() {
 		// TODO Auto-generated method stub
 		return null;
 	}
