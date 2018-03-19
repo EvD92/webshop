@@ -31,9 +31,9 @@ public interface OracleDao {
 	//getAllX
 	public List<Object[]> getAllCategorien();
 	
-	public Set<Product> getAllProducten();
+	public List<Object[]> getAllProducten();
 	
-	public Set<Aanbieding> getAllAanbiedingen();
+	public List<Object[]> getAllAanbiedingen();
 
 	//getAllXvanB
 	public Set<Product> getAllProductenVanCategorie(int i);
@@ -42,13 +42,13 @@ public interface OracleDao {
 	
 	//CRUD product		eis
 	public Product createProduct(Product pd);
-	public Product getProduct(int id);
+	public List getProduct(int id);
 	public Product updateProduct(Product pd);
 	public Product deleteProduct(int code);
 	
 	//CRUD categorie    eis
 	public Categorie createCategorie(Categorie cat);
-	//public List getCategorie(int cat_id);
+	public List getCategorie(int cat_id);
 	public Categorie updateCategorie(Categorie catg);
 	public Categorie deleteCategorie(Categorie catg);
 	

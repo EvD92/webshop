@@ -37,6 +37,15 @@ public class OracleDaoHibernate implements OracleDao {
 	private static EntityManager em;
 	private static SessionFactory factory; 
 	
+	public OracleDaoHibernate() {
+		try {				//Configuration
+	         factory = new Configuration().configure().buildSessionFactory();
+	      } catch (Throwable ex) { 
+	         System.err.println("Failed to create sessionFactory object." + ex);
+	         throw new ExceptionInInitializerError(ex); 
+	      }
+	}
+	
 	public SessionFactory getFactory(){
 		
 		try {				//Configuration
@@ -86,22 +95,31 @@ public class OracleDaoHibernate implements OracleDao {
 	}
 
 	@Override
-	public Product getProduct(int id) {
-		System.out.println(id + "derp");
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
-		em = emf.createEntityManager();
-		em.getTransaction().begin();
+	public List getProduct(int prod_id) {
+		Configuration cf=new Configuration();
+		cf.configure();
+		factory = cf.buildSessionFactory();
+		Session session = factory.openSession();
+        Transaction tx = session.beginTransaction();
 
-		Product p = em.find(Product.class, id);
-		// System.out.println(b.getId() + "ID");
-		em.getTransaction().commit();
-		em.close();
-		emf.close();
-		return p;
+        System.out.println(prod_id);
+        Query query = session.createSQLQuery(
+        		"SELECT * FROM CATEGORIE WHERE categorie_id = :sid");
+        		query.setParameter("sid", prod_id);
+        		//query.executeUpdate();
+        		List l = query.list();
+        		
+
+        tx.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
+        session.close();
+        factory.close();
+        System.out.println(query);
+		return l;
 	}
 
 	@Override
-	public Set<Product> getAllProducten() {
+	public List<Object[]> getAllProducten() {
 
 		factory = getFactory();
 		System.out.println("hallow product");
@@ -113,13 +131,13 @@ public class OracleDaoHibernate implements OracleDao {
        // System.out.println(em.getTransaction());
         Query query = session.createSQLQuery(
         		"SELECT * FROM Product");
-        Set<Product> producten = (Set<Product>) query.list();
+        List<Object[]> producten = query.list();
 
         //query.executeUpdate();
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
-        factory.close();
+      //  factory.close();
         System.out.println(query);
 
 		return producten;
@@ -212,18 +230,18 @@ public class OracleDaoHibernate implements OracleDao {
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
-        factory.close();
+        //factory.close();
         System.out.println(query);
 
 		return categorien;
 	}
 
 	@Override
-	public Set<Aanbieding> getAllAanbiedingen() {
+	public List<Object[]> getAllAanbiedingen() {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
 		em = emf.createEntityManager();
 		em.getTransaction().begin();
-		Set<Aanbieding> aanbiedingen = (Set<Aanbieding>)em.createQuery("SELECT * FROM Categorie").getResultList();
+		List<Object[]> aanbiedingen = em.createQuery("SELECT * FROM Categorie").getResultList();
 
 		return aanbiedingen;
 	}
@@ -338,7 +356,7 @@ public class OracleDaoHibernate implements OracleDao {
 
 
 
-	/*@Override
+	@Override
 	public List getCategorie(int cat_id) {
 		//Get cat van db
 //		System.out.println(cat_id + "derp");
@@ -375,7 +393,7 @@ public class OracleDaoHibernate implements OracleDao {
 		return l;
 
 		
-	}*/
+	}
 
 	@Override
 	public Categorie createCategorie(Categorie catg) {
