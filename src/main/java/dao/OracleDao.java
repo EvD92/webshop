@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -38,7 +39,7 @@ public interface OracleDao {
 	//getAllXvanB
 	public Set<Product> getAllProductenVanCategorie(int i);
 
-	public Set<Bestelling> getAllBestellingenVanKlant(int id);
+	public List<Object[]> getAllBestellingenVanKlant(int id);
 	
 	//CRUD product		eis
 	public Product createProduct(Product pd);
@@ -55,6 +56,9 @@ public interface OracleDao {
 	//createX
 	public Bestelling createBestelling(Bestelling best);
 	Product deleteProduct(Product id);
+	public List<Object[]> getAllBestellingen();
+	
+	public List getBestelling(int id);
 
 
 

@@ -11,7 +11,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -64,7 +64,7 @@ public class categorie {
 //	Crud
 	@POST 													//Werkt naar DB
 	@Produces("application/json")
-	public String createCategorie(@FormParam("c_id") int c_id, @FormParam("naam") String naam, @FormParam("omschrijving") String oms) {
+	public String createCategorie(@PathParam("c_id") int c_id, @PathParam("naam") String naam, @PathParam("omschrijving") String oms) {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
 		Categorie cat = new Categorie();
 		cat.setId(c_id); // Koen? cat id?
@@ -120,7 +120,7 @@ public class categorie {
 	@Path("{id}")
 	@RolesAllowed("guest")
 	@Produces("application/json")
-	public String updateCategorie(@FormParam("c_id") int c_id, @FormParam("naam") String naam, @FormParam("omschrijving") String oms) {
+	public String updateCategorie(@PathParam("c_id") int c_id, @PathParam("naam") String naam, @PathParam("omschrijving") String oms) {
 		JsonObjectBuilder job = Json.createObjectBuilder();
 		List<Object[]> categorien = dao.getAllCategorien();
 		for (Object[] cat : categorien) {
