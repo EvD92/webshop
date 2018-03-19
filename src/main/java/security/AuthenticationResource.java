@@ -3,6 +3,8 @@ package security;
 import java.security.Key;
 import java.util.Calendar;
 
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -37,7 +39,9 @@ public class AuthenticationResource {
 			String token = Jwts.builder().setSubject(email).claim("role", role).setExpiration(expiration.getTime())
 					.signWith(SignatureAlgorithm.HS512, key).compact();
 			// Return the token on the response
-			return Response.ok(token).build();
+			JsonObjectBuilder job = Json.createObjectBuilder();
+			job.add("token", token);
+			return Response.ok(job.build().toString()).build();
 		} catch (JwtException | IllegalArgumentException e) {
 			return Response.status(Response.Status.UNAUTHORIZED).build();
 		}
