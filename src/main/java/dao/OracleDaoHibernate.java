@@ -2,6 +2,8 @@ package dao;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -36,15 +38,6 @@ import domain.Product;
 public class OracleDaoHibernate implements OracleDao {
 	private static EntityManager em;
 	private static SessionFactory factory; 
-	
-	public OracleDaoHibernate() {
-		try {				//Configuration
-	         factory = new Configuration().configure().buildSessionFactory();
-	      } catch (Throwable ex) { 
-	         System.err.println("Failed to create sessionFactory object." + ex);
-	         throw new ExceptionInInitializerError(ex); 
-	      }
-	}
 	
 	public SessionFactory getFactory(){
 		
@@ -96,41 +89,41 @@ public class OracleDaoHibernate implements OracleDao {
 
 	@Override
 	public List getProduct(int prod_id) {
-		Configuration cf=new Configuration();
-		cf.configure();
-		factory = cf.buildSessionFactory();
-		Session session = factory.openSession();
+        Configuration cf=new Configuration();
+        cf.configure();
+        factory = cf.buildSessionFactory();
+        Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
         System.out.println(prod_id);
         Query query = session.createSQLQuery(
-        		"SELECT * FROM CATEGORIE WHERE categorie_id = :sid");
-        		query.setParameter("sid", prod_id);
-        		//query.executeUpdate();
-        		List l = query.list();
-        		
+                "SELECT * FROM CATEGORIE WHERE categorie_id = :sid");
+                query.setParameter("sid", prod_id);
+                //query.executeUpdate();
+                List l = query.list();
+
 
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
         factory.close();
         System.out.println(query);
-		return l;
-	}
+        return l;
+    }
 
 	@Override
 	public List<Object[]> getAllProducten() {
 
-		factory = getFactory();
-		System.out.println("hallow product");
-		Configuration cf=new Configuration();
-		cf.configure();
-		//SessionFactory sessionFactory = cf.buildSessionFactory();
-		Session session = factory.openSession();
+        factory = getFactory();
+        System.out.println("hallow product");
+        Configuration cf=new Configuration();
+        cf.configure();
+        //SessionFactory sessionFactory = cf.buildSessionFactory();
+        Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
        // System.out.println(em.getTransaction());
         Query query = session.createSQLQuery(
-        		"SELECT * FROM Product");
+                "SELECT * FROM Product");
         List<Object[]> producten = query.list();
 
         //query.executeUpdate();
@@ -140,8 +133,8 @@ public class OracleDaoHibernate implements OracleDao {
       //  factory.close();
         System.out.println(query);
 
-		return producten;
-	}
+        return producten;
+    }
 
 	@Override
 	public Set<Product> getAllProductenVanCategorie(int id) {
@@ -230,7 +223,7 @@ public class OracleDaoHibernate implements OracleDao {
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
-        //factory.close();
+        factory.close();
         System.out.println(query);
 
 		return categorien;
@@ -238,12 +231,29 @@ public class OracleDaoHibernate implements OracleDao {
 
 	@Override
 	public List<Object[]> getAllAanbiedingen() {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
-		em = emf.createEntityManager();
-		em.getTransaction().begin();
-		List<Object[]> aanbiedingen = em.createQuery("SELECT * FROM Categorie").getResultList();
+
+		factory = getFactory();
+		Configuration cf=new Configuration();
+		cf.configure();
+		//SessionFactory sessionFactory = cf.buildSessionFactory();
+		Session session = factory.openSession();
+        Transaction tx = session.beginTransaction();
+       // System.out.println(em.getTransaction());
+        Query query = session.createSQLQuery(
+        		"SELECT * FROM aanbieding");
+        List<Object[]> aanbiedingen = query.list();
+
+        //query.executeUpdate();
+        tx.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
+        session.close();
+        factory.close();
+        System.out.println(query);
 
 		return aanbiedingen;
+		
+		
+		
 	}
 
 	@Override
@@ -277,6 +287,7 @@ public class OracleDaoHibernate implements OracleDao {
 
 	@Override
 	public Product createProduct(Product pd) {
+        factory = getFactory();
 		// add pd aan DB
 		Configuration cf=new Configuration();
 		cf.configure();
@@ -304,11 +315,12 @@ public class OracleDaoHibernate implements OracleDao {
 
 	@Override
 	public Product updateProduct(Product pd) {
+        factory = getFactory();
 		// update pd aan DB
 		Configuration cf=new Configuration();
 		cf.configure();
-		SessionFactory sessionFactory = cf.buildSessionFactory();
-		Session session = sessionFactory.openSession();
+		SessionFactory factory = cf.buildSessionFactory();
+		Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
         System.out.println(pd.getNaam());
@@ -325,7 +337,6 @@ public class OracleDaoHibernate implements OracleDao {
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
-        sessionFactory.close();
         System.out.println(query);
 		return pd;
 	}
@@ -333,10 +344,11 @@ public class OracleDaoHibernate implements OracleDao {
 	@Override
 	public Product deleteProduct(Product id) {
 		//Delete pd van db
+        factory = getFactory();
 		Configuration cf=new Configuration();
 		cf.configure();
-		SessionFactory sessionFactory = cf.buildSessionFactory();
-		Session session = sessionFactory.openSession();
+		SessionFactory factory = cf.buildSessionFactory();
+		Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
         System.out.println(id);
@@ -348,7 +360,6 @@ public class OracleDaoHibernate implements OracleDao {
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
-        sessionFactory.close();
         System.out.println(query);
 		return id;
 
@@ -359,25 +370,15 @@ public class OracleDaoHibernate implements OracleDao {
 	@Override
 	public List getCategorie(int cat_id) {
 		//Get cat van db
-//		System.out.println(cat_id + "derp");
-//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
-//		em = emf.createEntityManager();
-//		em.getTransaction().begin();
-//																					WRM WERKT OUDE CODE NIET MEER?
-//		Categorie cat = em.find(Categorie.class, cat_id);
-//		System.out.println(cat.getNaam());
-//		em.getTransaction().commit();
-//		em.close();
-//		emf.close();
-//		return cat;
-		
+
+        factory = getFactory();
 		Configuration cf=new Configuration();
 		cf.configure();
-		SessionFactory sessionFactory = cf.buildSessionFactory();
-		Session session = sessionFactory.openSession();
+		SessionFactory factory = cf.buildSessionFactory();
+		Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
-        System.out.println(cat_id);
+        System.out.println(cat_id + " zoekt op deze ID in db");
         Query query = session.createSQLQuery(
         		"SELECT * FROM CATEGORIE WHERE categorie_id = :sid");
         		query.setParameter("sid", cat_id);
@@ -388,7 +389,6 @@ public class OracleDaoHibernate implements OracleDao {
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
-        sessionFactory.close();
         System.out.println(query);
 		return l;
 
@@ -398,10 +398,11 @@ public class OracleDaoHibernate implements OracleDao {
 	@Override
 	public Categorie createCategorie(Categorie catg) {
 		// add cat aan DB
+        factory = getFactory();
 		Configuration cf=new Configuration();
 		cf.configure();
-		SessionFactory sessionFactory = cf.buildSessionFactory();
-		Session session = sessionFactory.openSession();
+		SessionFactory factory = cf.buildSessionFactory();
+		Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
         System.out.println(catg.getNaam());
@@ -416,7 +417,6 @@ public class OracleDaoHibernate implements OracleDao {
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
-        sessionFactory.close();
         System.out.println(query);
 		return catg;
 	}
@@ -424,10 +424,11 @@ public class OracleDaoHibernate implements OracleDao {
 	@Override
 	public Categorie updateCategorie(Categorie catg) {
 		// update cat aan DB
+        factory = getFactory();
 				Configuration cf=new Configuration();
 				cf.configure();
-				SessionFactory sessionFactory = cf.buildSessionFactory();
-				Session session = sessionFactory.openSession();
+				SessionFactory factory = cf.buildSessionFactory();
+				Session session = factory.openSession();
 		        Transaction tx = session.beginTransaction();
 
 		        System.out.println(catg.getNaam());
@@ -442,7 +443,6 @@ public class OracleDaoHibernate implements OracleDao {
 		        tx.commit();
 		        System.out.println("COMMITTTEDEDEDE AF");
 		        session.close();
-		        sessionFactory.close();
 		        System.out.println(query);
 				return catg;
 	}
@@ -450,10 +450,11 @@ public class OracleDaoHibernate implements OracleDao {
 	@Override
 	public Categorie deleteCategorie(Categorie cat_id) {
 		//Delete cat van db
+        factory = getFactory();
 		Configuration cf=new Configuration();
 		cf.configure();
-		SessionFactory sessionFactory = cf.buildSessionFactory();
-		Session session = sessionFactory.openSession();
+		SessionFactory factory = cf.buildSessionFactory();
+		Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
         System.out.println(cat_id);
@@ -465,7 +466,6 @@ public class OracleDaoHibernate implements OracleDao {
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
-        sessionFactory.close();
         System.out.println(query);
 		return cat_id;
 	}
