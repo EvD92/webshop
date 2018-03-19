@@ -114,55 +114,54 @@ public class categorie {
 		jab.add(job);
 		return jab.build().toString();
 	}
-//	
-//	//crUd
-//	@PUT
-//	@Path("{id}")
-//	@RolesAllowed("guest")
-//	@Produces("application/json")
-//	public String updateCategorie(@FormParam("c_id") int c_id, @FormParam("naam") String naam, @FormParam("omschrijving") String oms) {
-//		JsonObjectBuilder job = Json.createObjectBuilder();
-//		Set<Categorie> categorien = dao.getAllCategorien();
-//		for (Categorie cat : categorien) {
-//			if (cat.getId() == c_id) {
-//				cat.setNaam(naam);
-//				cat.setOmschrijving(oms);
-//				
-//				dao.updateCategorie(cat);
-//				
-//				job.add("categorie_id", c_id);
-//				job.add("naam", naam);
-//				job.add("omschrijving", oms);
-//				break;
-//
-//			}
-//			// throw new WebApplicationException("Customer not found!");
-//		}
-//		System.out.println(job.build().toString() + " build");
-//		return job.build().toString();
-//	}
-//	
-//	//cruD
-//	@DELETE
-//	@Path("{code}")
-//	public Response deleteCategorie(@PathParam("code") int code) {
-//		System.out.println("deleted: " + code);
-//		Categorie found = null;
-//		for (Categorie cat : dao.getAllCategorien()) {
-//			if (cat.getId()== code) {
-//				found = cat;
-//				dao.deleteProduct(found.getId());
-//				break;
-//			}
-//		}
-//
-//		if (found == null) {
-//			return Response.status(Response.Status.NOT_FOUND).build();
-//		} else {
-//			return Response.ok().build();
-//		}
-//	}
-//	
-//	
+	
+	//crUd
+	@PUT
+	@Path("{id}")
+	@RolesAllowed("guest")
+	@Produces("application/json")
+	public String updateCategorie(@FormParam("c_id") int c_id, @FormParam("naam") String naam, @FormParam("omschrijving") String oms) {
+		JsonObjectBuilder job = Json.createObjectBuilder();
+		List<Object[]> categorien = dao.getAllCategorien();
+		for (Object[] cat : categorien) {
+			Number numb = (Number) cat[0];
+			if (numb.intValue() == c_id) {
+				Categorie categorie = null;
+				//categorie.setId(c_id);
+				categorie.setNaam(naam);
+				categorie.setOmschrijving(oms);
+				dao.updateCategorie(categorie);
+				
+				job.add("categorie_id", c_id);
+				job.add("naam", naam);
+				job.add("omschrijving", oms);
+				break;
+
+			}
+			// throw new WebApplicationException("Customer not found!");
+		}
+		//System.out.println(job.build().toString() + " build");
+		return job.build().toString();
+	}
+	
+	//cruD
+	@DELETE
+	@Path("{code}")
+	public Response deleteCategorie(@PathParam("code") int code) {
+		System.out.println("deleted: " + code);
+		Number found = 0;
+		for (Object[] cat : dao.getAllCategorien()) {
+			Number numb = (Number) cat[0];
+			if (numb.intValue() == code) {
+				found = numb;
+				dao.deleteProduct(found.intValue());
+				break;
+			}
+		}
+
+		return Response.ok().build();
+	}
+	
+	
 	
 }
