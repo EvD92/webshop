@@ -22,21 +22,24 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import dao.OracleDao;
+import dao.OracleDaoHibernate;
 import domain.Aanbieding;
 import domain.Categorie;
 import domain.Product;
 
 @Path("/categories")
 public class categorie {
-	OracleDao dao;
+	OracleDao dao = new OracleDaoHibernate();
 	ResponseBuilder rb = null;
 	
 //	Requested functions in application/json:
 //		getAllCategories;
 	@GET
 	@RolesAllowed("guest")
-	  @Produces("application/json")
-	  public String getCategorien() {												//returned JSON, werkt
+	  @Produces("text/html")
+	
+	  public String getCategorien() {
+		System.out.println("kak");//returned JSON, werkt
 		List<Object[]> categorien = dao.getAllCategorien(); // Get alle categorien van DB
 		System.out.println(categorien);
 		
@@ -79,7 +82,7 @@ public class categorie {
 		return jab.build().toString();
 	}
 //	
-//	//cRud
+/*//	//cRud
 	@GET
 	@Path("{id}")
 	@RolesAllowed("guest")
@@ -101,7 +104,7 @@ public class categorie {
 		
 		jab.add(job);
 		return jab.build().toString();
-	}
+	}*/
 //	
 //	//crUd
 //	@PUT

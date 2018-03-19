@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import dao.OracleDao;
+import dao.OracleDaoHibernate;
 import domain.Aanbieding;
 import domain.Account;
 import domain.Adres;
@@ -31,7 +32,7 @@ import domain.Product;
 
 @Path("/products")
 public class product {
-	OracleDao dao;
+	OracleDao dao = new OracleDaoHibernate();
 	ResponseBuilder rb = null;
 
 	// Requested functions in application/json:

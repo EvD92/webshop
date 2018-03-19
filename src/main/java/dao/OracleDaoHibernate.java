@@ -103,10 +103,24 @@ public class OracleDaoHibernate implements OracleDao {
 	@Override
 	public Set<Product> getAllProducten() {
 
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
-		em = emf.createEntityManager();
-		em.getTransaction().begin();
-		Set<Product> producten = (Set<Product>)em.createQuery("SELECT * FROM Product").getResultList();
+		factory = getFactory();
+		System.out.println("hallow product");
+		Configuration cf=new Configuration();
+		cf.configure();
+		//SessionFactory sessionFactory = cf.buildSessionFactory();
+		Session session = factory.openSession();
+        Transaction tx = session.beginTransaction();
+       // System.out.println(em.getTransaction());
+        Query query = session.createSQLQuery(
+        		"SELECT * FROM Product");
+        Set<Product> producten = (Set<Product>) query.list();
+
+        //query.executeUpdate();
+        tx.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
+        session.close();
+        factory.close();
+        System.out.println(query);
 
 		return producten;
 	}
@@ -174,19 +188,22 @@ public class OracleDaoHibernate implements OracleDao {
 		return best;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public List<Object[]> getAllCategorien() {
 //		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
 //		em = emf.createEntityManager();
 //		em.getTransaction().begin();
 //		List<Categorie> categorien =em.createQuery("SELECT * FROM Categorie").getResultList();
-
+		
+		factory = getFactory();
+		System.out.println("hallow");
 		Configuration cf=new Configuration();
 		cf.configure();
-		SessionFactory sessionFactory = cf.buildSessionFactory();
-		Session session = sessionFactory.openSession();
+		//SessionFactory sessionFactory = cf.buildSessionFactory();
+		Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
-        
+       // System.out.println(em.getTransaction());
         Query query = session.createSQLQuery(
         		"SELECT * FROM Categorie");
         List<Object[]> categorien = query.list();
@@ -195,7 +212,7 @@ public class OracleDaoHibernate implements OracleDao {
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
-        sessionFactory.close();
+        factory.close();
         System.out.println(query);
 
 		return categorien;
@@ -321,7 +338,7 @@ public class OracleDaoHibernate implements OracleDao {
 
 
 
-	@Override
+	/*@Override
 	public List getCategorie(int cat_id) {
 		//Get cat van db
 //		System.out.println(cat_id + "derp");
@@ -358,7 +375,7 @@ public class OracleDaoHibernate implements OracleDao {
 		return l;
 
 		
-	}
+	}*/
 
 	@Override
 	public Categorie createCategorie(Categorie catg) {
