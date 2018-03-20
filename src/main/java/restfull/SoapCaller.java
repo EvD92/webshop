@@ -10,6 +10,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.json.Json;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -30,6 +31,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import dao.OracleDao;
+import dao.OracleDaoHibernate;
 import domain.Categorie;
 
 
@@ -40,6 +43,7 @@ public class SoapCaller {
       static String globNaam = null;
       static String globAdres = null;
       static String globBedrag = null;
+      OracleDao dao = new OracleDaoHibernate();
 	
 	@GET
 	@Path("{adres}/{naam}/{bedrag}")
@@ -62,7 +66,7 @@ public class SoapCaller {
 	        SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
-	        
+            System.out.println("---SOAP Connection closed---\n");
 	        SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(soapAction), soapEndpointUrl);
 	        soapConnection.close();
 	        System.out.println("---SOAP Connection closed---\n");
@@ -88,9 +92,10 @@ public class SoapCaller {
             String c = sws.substring(392, 398);
             System.out.println(c);
             
-          job.add("response", c);
-   			return job.build().toString();
-          }
+          //job.add("response", c);
+   			//return job.build().toString();
+            return c;
+	}
            
 	    
 

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.xml.soap.SOAPException;
 
 import org.hibernate.SessionFactory;
 
@@ -43,14 +44,18 @@ public interface OracleDao {
 	//CRUD product		eis
 	public Product createProduct(Product pd);
 	public List<Object[]> getProduct(int id);
-	//public Product updateProduct(Product pd);
-	//public Product deleteProduct(int code);
+	public Product updateProduct(Product pd);
+	public String deleteProduct(int code);
 	
 	//CRUD categorie    eis
 	//public Categorie createCategorie(Categorie cat);
 	public List<Object[]> getCategorie(int cat_id);
 	//public Categorie updateCategorie(Categorie catg);
 	//public Categorie deleteCategorie(Categorie catg);
+
+	public int createBestelling(Bestelling bst, int prijs) throws SOAPException, Exception;
+
+	public String doSoapCall();
 	
 	//createX
 	//public Bestelling createBestelling(Bestelling best);

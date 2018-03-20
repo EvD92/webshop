@@ -14,6 +14,7 @@ import javax.json.JsonValue;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.xml.soap.SOAPException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -31,9 +32,11 @@ import domain.Aanbieding;
 import domain.Account;
 import domain.Adres;
 import domain.Bestelling;
+import domain.Bestellingsregel;
 import domain.Categorie;
 import domain.Klant;
 import domain.Product;
+import restfull.SoapCaller;
 
 public class OracleDaoHibernate implements OracleDao {
 	private static EntityManager em;
@@ -163,13 +166,51 @@ public class OracleDaoHibernate implements OracleDao {
 //		return producten;
 //	}
 
-//	@Override
-//	public Bestelling createBestelling(Bestelling bst) {
-//		Bestelling best = bst;
-//		// add bestelling aan DB
-//
-//		return best;
-//	}
+	@Override
+	public int createBestelling(Bestelling bst, int prijs) throws SOAPException, Exception {
+		SoapCaller sc = new SoapCaller();
+		Bestelling best = bst;
+		factory = getSessionFactory();
+		Session session = factory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        Query query = session.createSQLQuery(
+        		"insert into Bestelling (bestelling_id, afleveradres, account_id, betalingskenmerk) values( :sid, :saflevera, :saccount, :c)");
+
+        		query.setParameter("saccount", bst.getAccount());
+        		//System.out.println(bst.getAccount());
+        		//query.setParameter("sadres", bst.getAdres().getStraat());
+        		//System.out.println(bst.getAdres().getStraat().length());
+        		System.out.println(bst.getAfleverAdres().length());
+        		System.out.println(bst.getAfleverAdres());
+        		query.setParameter("saflevera", bst.getAfleverAdres());
+        		//query.setParameter("sbestellingrgl", bst.getBestellingsRegel());
+
+        		query.setParameter("sid", bst.getId());
+        		System.out.println(query.toString());
+        		
+		
+        	    //soapcaller
+        	    //call soapcaller en krijg C
+        	    String prijsString = Integer.toString(prijs);
+        	    //String naam = Integer.toString(bst.getAccount());
+        	    
+        	    		//System.out.println(bst.getAccount().getKlant().getNaam());
+        	    
+        	    String c = sc.createBetaling("naam", bst.getAfleverAdres(), prijsString);
+        	    
+        	    query.setParameter("c", c);
+        	    
+        	    best.setBetalingsKenmerk(c);
+        	    
+        	    query.executeUpdate();
+        	    tx.commit();
+        	    
+        	    System.out.println("Betalingskenmerk set: "+c);
+		// add bestelling aan DB
+
+		return 200;
+	}
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -297,8 +338,7 @@ public class OracleDaoHibernate implements OracleDao {
                 	}
                 	System.out.println(counter);
                 }
-                
-        		
+                		
         System.out.println(pd.getNaam());
         Query queryCat = session.createSQLQuery("insert into CAT_PROD (CATEGORIE_ID, PRODUCT_ID) values(:scategorie, :ssid)");
 		queryCat.setParameter("scategorie", 1);
@@ -311,11 +351,6 @@ public class OracleDaoHibernate implements OracleDao {
 		tx = session.beginTransaction();
 		queryCat.executeUpdate();
 		
-        
-
-
-        
-        
         //System.out.println("eind query 2");
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
@@ -325,57 +360,68 @@ public class OracleDaoHibernate implements OracleDao {
 		return pd;
 	}
 
-//	@Override
-//	public Product updateProduct(Product pd) {
-//      //  factory = getFactory();
-//		// update pd aan DB
-//		Configuration cf=new Configuration();
-//		cf.configure();
-//		SessionFactory factory = cf.buildSessionFactory();
-//		Session session = factory.openSession();
-//        Transaction tx = session.beginTransaction();
-//
-//        System.out.println(pd.getNaam());
-//        Query query = session.createSQLQuery(
-//        		"UPDATE Product SET (naam = :snaam, id = :sid, omschrijving = :somschrijving, prijs = :sprijs, categorie = :scategorie) "
-//        		+ "WHERE Product.id = :sid"); //zo iets
-//        		query.setParameter("sid", pd.getId());
-//        		query.setParameter("sprijs", pd.getPrijs());
-//        		query.setParameter("scategorie", pd.getCategorie());
-//        		query.setParameter("snaam", pd.getNaam());
-//        		query.setParameter("somschrijving", pd.getOmschrijving());
-//        		query.executeUpdate();
-//
-//        tx.commit();
-//        System.out.println("COMMITTTEDEDEDE AF");
-//        session.close();
-//        System.out.println(query);
-//		return pd;
-//	}
-//
-//	@Override
-//	public Product deleteProduct(Product id) {
-//		//Delete pd van db
-//       // factory = getFactory();
-//		Configuration cf=new Configuration();
-//		cf.configure();
-//		SessionFactory factory = cf.buildSessionFactory();
-//		Session session = factory.openSession();
-//        Transaction tx = session.beginTransaction();
-//
-//        System.out.println(id);
-//        Query query = session.createSQLQuery(
-//        		"DELETE FROM Product WHERE id = :sid");
-//        		query.setParameter("sid", id);
-//        		query.executeUpdate();
-//
-//        tx.commit();
-//        System.out.println("COMMITTTEDEDEDE AF");
-//        session.close();
-//        System.out.println(query);
-//		return id;
-//
-//	}
+	@Override
+	public Product updateProduct(Product pd) {
+		//  factory = getFactory();
+		// update pd aan DB
+		//Configuration cf=new Configuration();
+		//cf.configure();
+		//SessionFactory factory = cf.buildSessionFactory();
+		factory = getSessionFactory();
+		Session session = factory.openSession();
+        Transaction tx2 = session.beginTransaction();
+
+        System.out.println(pd.getNaam());
+        Query query = session.createSQLQuery(
+        		"UPDATE Product SET naam = :snaam, omschrijving = :somschrijving, prijs = :sprijs WHERE Product.product_id = :sid"); //zo iets
+        System.out.println("after query");
+        		query.setParameter("sid", pd.getId());
+        		query.setParameter("sprijs", pd.getPrijs());
+        		//query.setParameter("scategorie", pd.getCategorie());
+        		query.setParameter("snaam", pd.getNaam());
+        		query.setParameter("somschrijving", pd.getOmschrijving());
+        		System.out.println("before update");
+        		query.executeUpdate();
+        		System.out.println("after update");
+        tx2.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
+        session.close();
+        System.out.println(query);
+		return pd;
+	}
+
+	@Override
+	public String deleteProduct(int id) {
+		//Delete pd van db
+       // factory = getFactory();
+		//Configuration cf=new Configuration();
+		//cf.configure();
+		//SessionFactory factory = cf.buildSessionFactory();
+		factory = getSessionFactory();
+		Session session = factory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        System.out.println(id);
+        
+        Query query2 = session.createQuery("delete from cat_prod where categorie_id = 1 AND product_id = :sid1");
+        query2.setParameter("sid1", id);
+        
+        query2.executeUpdate();
+        tx.commit();
+        
+        
+        Query query = session.createSQLQuery(
+        		"DELETE FROM Product WHERE product_id = :sid");
+        		query.setParameter("sid", id);
+        		query.executeUpdate();
+        tx = session.beginTransaction();
+        tx.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
+        session.close();
+        System.out.println(query);
+		return "product met id: " + id + " gedelete." ;
+
+	}
 
 
 
@@ -564,4 +610,14 @@ public class OracleDaoHibernate implements OracleDao {
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
+
+
+
+
+	@Override
+	public String doSoapCall() {
+		
+		
+		return null;
+	}
 }
