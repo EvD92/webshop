@@ -1,6 +1,5 @@
 package restfull;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -10,28 +9,19 @@ import javax.annotation.security.RolesAllowed;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import dao.OracleDao;
 import dao.OracleDaoHibernate;
-import domain.Aanbieding;
-import domain.Account;
-import domain.Adres;
-import domain.Bestelling;
-import domain.Bestellingsregel;
 import domain.Categorie;
 import domain.Product;
 
@@ -65,18 +55,12 @@ public class product {
 			String naam = "" + pd[1];
 			String oms = "" + pd[2];
 			Number prijs = (Number) pd[3];
-			//String aanbieding = "" +pd[4];
-			//String bestellingsRegel = "" + pd[5];
-			//String categorie = "" + pd[6];
 			
 			
 			job.add("id", id.intValue());
 			job.add("naam", naam);
 			job.add("omschrijving", oms);
 			job.add("prijs", prijs.intValue());
-			//job.add("aanbieding", aanbieding);
-			//job.add("bestellingsRegel", bestellingsRegel);
-			//job.add("categorie", categorie);
 	        
 			jab.add(job);
 		}
@@ -106,13 +90,11 @@ public class product {
 		cg.setNaam(Naam);
 		cg.setOmschrijving(omschrijving);
 		
-		//cg.setId(o[0]);
-		
 		pd.setId(p_id);
 		
 		Set<Categorie> dit = new HashSet<Categorie>(); 
 		dit.add(cg);
-		pd.setCategorie(dit); // Koen? cat id?
+		pd.setCategorie(dit); 
 		pd.setNaam(naam);
 		pd.setOmschrijving(oms);
 		pd.setPrijs(prijs);
@@ -142,8 +124,6 @@ public class product {
 		System.out.println(id+" de meegegeven ID");
 		
 		List<Object[]> list = new ArrayList<Object[]>();
-		//List<Object[]> aanbiedingen = new ArrayList<Object[]>();
-		//aanbiedingen.addAll(dao.getAllAanbiedingen());
 		list.addAll(dao.getProduct(id));
 		
 		System.out.println("----------------------------------------------------------------------------------------------------------");
@@ -160,25 +140,12 @@ public class product {
 		String naam = "" + c[1];
 		String oms = "" + c[2];
 		Number prijs = (Number) c[3];
-		//System.out.println(o_id + naam + oms);
 		job.add("id", o_id.intValue()); // krijg int van Number
 		job.add("naam", naam);
 		job.add("omschrijving", oms);
 		job.add("prijs", prijs.intValue());
 		
-//		for (Object[] ab : aanbiedingen) {
-//			Number nummer = (Number) ab[3];
-//			if (nummer.intValue() == o_id.intValue()) { // als
-//				Number aanbieding_id = (Number) ab[0];
-//				String totDatum = "" + ab[1];// aanbieding.product_id
-//				String vanDatum = "" + ab[2];
-//				
-//															// = pd.id
-//				job.add("aanbiedingId", aanbieding_id.intValue());
-//				job.add("totDatum", totDatum);
-//				job.add("vanDatum", vanDatum);
-//			}
-//		}
+
 		
 		
 		return job.build().toString();
@@ -205,10 +172,6 @@ public class product {
 			pdn.setPrijs(prijs);
 			System.out.println(prijs);
 			System.out.println(pdn.getNaam());
-			//System.out.println(pd.getId()+ " " + p_id);
-			//Number pr_id = (Number)pd[0];
-				//Number ca_id = (Number) pd[1];
-				//String naam = "" + pd[2];
 			break;	
 				
 
@@ -216,15 +179,12 @@ public class product {
 		System.out.println("dao update call");
 			dao.updateProduct(pdn);
 			System.out.println("dao call finish!");
-			// throw new WebApplicationException("Customer not found!");
 		
 			job.add("id", p_id);
 			//job.add("categorie", ca_id.intValue());
 			job.add("naam", naam);
 			job.add("omschrijving", oms);
 			job.add("prijs", prijs);
-	
-		//System.out.println(job.build().toString() + " build");
 		return job.build().toString();
 	}
 //
@@ -233,15 +193,9 @@ public class product {
 	@DELETE
 	@Path("{id}")
 	public String deleteProduct(@PathParam("id") int id) {
-		//System.out.println("deleted: " + code);
 		System.out.println(id);
 		dao.deleteProduct(id);
 		return "gelukt";
-//		if (found == null) {
-//			return Response.status(Response.Status.NOT_FOUND).build();
-//		} else {
-//			return Response.ok().build();
-//		}
 	}
 
 //	@GET

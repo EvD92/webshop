@@ -1,39 +1,19 @@
 package restfull;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.io.StringWriter;
-import java.util.List;
-import java.util.Scanner;
-
 import javax.annotation.security.RolesAllowed;
 import javax.json.Json;
 import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.*;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import dao.OracleDao;
 import dao.OracleDaoHibernate;
-import domain.Categorie;
 
 
 @Path ("/betaling")
@@ -57,11 +37,6 @@ public class SoapCaller {
 	        globBedrag = bedrag;
 	        String soapEndpointUrl = "http://localhost:8989/soap-project/services/KoopServiceImpl";
 	        String soapAction = "http://services.koop.com/KoopServiceImpl/getBetalingRequest";
-
-	        //this.createSOAPRequest(soapAction) returned soapMessage
-	        //this.createSoapEnvelope(this.createSOAPRequest(soapAction));
-	        
-	        //this.callSoapWebService(soapEndpointUrl, soapAction);
 	        
 	        SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();

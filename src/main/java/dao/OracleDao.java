@@ -1,28 +1,14 @@
 package dao;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.xml.soap.SOAPException;
 
-import org.hibernate.SessionFactory;
-
-import domain.Aanbieding;
-import domain.Account;
-import domain.Adres;
 import domain.Bestelling;
-import domain.Categorie;
-import domain.Klant;
 import domain.Product;
 
 public interface OracleDao {
 	
 	//Factory
-//	public SessionFactory getFactory();
-	//public EntityManager setUp();
 	
 	//getX
 	//public Adres getAdres(int k_id);
@@ -54,8 +40,6 @@ public interface OracleDao {
 	//public Categorie deleteCategorie(Categorie catg);
 
 	public int createBestelling(Bestelling bst, int prijs) throws SOAPException, Exception;
-
-	public String doSoapCall();
 	
 	//createX
 	//public Bestelling createBestelling(Bestelling best);

@@ -3,7 +3,6 @@ package junitTest;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +25,7 @@ public class aanbiedingenJsonTest {
 	Product pd = new Product();
 	List<Object[]> aanbiedingen = new ArrayList<Object[]>() ;
 	List<Aanbieding> abs = new ArrayList<Aanbieding>();
-	@SuppressWarnings("unchecked")
+	
 	@Test
 	public void test() {
 		System.out.println("Start");

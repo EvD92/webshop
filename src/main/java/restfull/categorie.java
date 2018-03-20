@@ -1,32 +1,19 @@
 package restfull;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 import javax.annotation.security.RolesAllowed;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import dao.OracleDao;
 import dao.OracleDaoHibernate;
-import domain.Aanbieding;
-import domain.Categorie;
-import domain.Product;
 
 @Path("/categories")
 public class categorie {
@@ -61,28 +48,7 @@ public class categorie {
 	    return jab.build().toString();
 	  }
 	
-//	Crud
-//	@POST 													//Werkt naar DB
-//	@Produces("application/json")
-//	public String createCategorie(@PathParam("c_id") int c_id, @PathParam("naam") String naam, @PathParam("omschrijving") String oms) {
-//		JsonArrayBuilder jab = Json.createArrayBuilder();
-//		Categorie cat = new Categorie();
-//		cat.setId(c_id); // Koen? cat id?
-//		cat.setNaam(naam);
-//		cat.setOmschrijving(oms);
-//
-//		dao.createCategorie(cat);
-//
-//		// return JSON nog nodig?
-//		JsonObjectBuilder job = Json.createObjectBuilder();
-//		job.add("categorie_id", cat.getId());
-//		job.add("naam", cat.getNaam());
-//		job.add("oms", cat.getOmschrijving());
-//		jab.add(job);
-//
-//		return jab.build().toString();
-//	}
-//	
+
 //	//cRud
 	@GET
 	@Path("{id}")
@@ -163,5 +129,26 @@ public class categorie {
 //	}
 //	
 //	
-	
+//	Crud
+//	@POST 													//Werkt naar DB
+//	@Produces("application/json")
+//	public String createCategorie(@PathParam("c_id") int c_id, @PathParam("naam") String naam, @PathParam("omschrijving") String oms) {
+//		JsonArrayBuilder jab = Json.createArrayBuilder();
+//		Categorie cat = new Categorie();
+//		cat.setId(c_id); // Koen? cat id?
+//		cat.setNaam(naam);
+//		cat.setOmschrijving(oms);
+//
+//		dao.createCategorie(cat);
+//
+//		// return JSON nog nodig?
+//		JsonObjectBuilder job = Json.createObjectBuilder();
+//		job.add("categorie_id", cat.getId());
+//		job.add("naam", cat.getNaam());
+//		job.add("oms", cat.getOmschrijving());
+//		jab.add(job);
+//
+//		return jab.build().toString();
+//	}
+//	
 }

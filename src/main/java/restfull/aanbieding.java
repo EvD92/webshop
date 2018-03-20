@@ -1,21 +1,16 @@
 package restfull;
 
 import java.util.List;
-import java.util.Set;
-
 import javax.annotation.security.RolesAllowed;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import dao.OracleDao;
 import dao.OracleDaoHibernate;
-import domain.Aanbieding;
-import domain.Categorie;
 
 
 @Path("/aanbiedingen")
@@ -43,10 +38,6 @@ public class aanbieding {
 			job.add("product_id", sss);
 			job.add("aanbiedingsprijs", ssss);
 			
-//			job.add("id", ab.getId());
-//			job.add("naam", ab.getTotDatum());
-//			job.add("omschrijving", ab.getVanDatum());
-//			job.add("omschrijving", (JsonValue) ab.getProduct());
 			jab.add(job);
 		}
 

@@ -4,11 +4,11 @@ import java.sql.Connection;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
-//BLABLABLABLALAAAAA
+
 public class BaseDao {
 	private DataSource connectionPool;
-// test//
-	public BaseDao() { //HOIHOIEDO
+
+	public BaseDao() {
 		try {
 			final String DATABASE_URL_PROP = System.getenv("DATABASE_URL");
 			if (DATABASE_URL_PROP != null) {

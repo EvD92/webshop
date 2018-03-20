@@ -3,7 +3,6 @@ package security;
 import java.security.Key;
 import java.util.Calendar;
 
-import javax.annotation.security.RolesAllowed;
 import javax.json.Json;
 import javax.json.JsonObjectBuilder;
 import javax.ws.rs.Consumes;
@@ -47,9 +46,6 @@ public class AuthenticationResource {
 			// Return the token on the response
 			JsonObjectBuilder job = Json.createObjectBuilder();
 			job.add("token", token);
-//			job.add("naam", k.getNaam());
-//			job.add("straat", k.getAdres().getStraat());
-//			job.add("straatnummer", k.getAdres().getStraatNummer());
 			
 			
 			return Response.ok(job.build().toString()).build();
