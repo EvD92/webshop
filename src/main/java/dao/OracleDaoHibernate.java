@@ -14,6 +14,7 @@ import javax.json.JsonValue;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.xml.soap.SOAPException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -31,9 +32,11 @@ import domain.Aanbieding;
 import domain.Account;
 import domain.Adres;
 import domain.Bestelling;
+import domain.Bestellingsregel;
 import domain.Categorie;
 import domain.Klant;
 import domain.Product;
+import restfull.SoapCaller;
 
 public class OracleDaoHibernate implements OracleDao {
 	private static EntityManager em;
@@ -163,13 +166,51 @@ public class OracleDaoHibernate implements OracleDao {
 //		return producten;
 //	}
 
-//	@Override
-//	public Bestelling createBestelling(Bestelling bst) {
-//		Bestelling best = bst;
-//		// add bestelling aan DB
-//
-//		return best;
-//	}
+	@Override
+	public int createBestelling(Bestelling bst, int prijs) throws SOAPException, Exception {
+		SoapCaller sc = new SoapCaller();
+		Bestelling best = bst;
+		factory = getSessionFactory();
+		Session session = factory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        Query query = session.createSQLQuery(
+        		"insert into Bestelling (bestelling_id, afleveradres, account_id, betalingskenmerk) values( :sid, :saflevera, :saccount, :c)");
+
+        		query.setParameter("saccount", bst.getAccount());
+        		//System.out.println(bst.getAccount());
+        		//query.setParameter("sadres", bst.getAdres().getStraat());
+        		//System.out.println(bst.getAdres().getStraat().length());
+        		System.out.println(bst.getAfleverAdres().length());
+        		System.out.println(bst.getAfleverAdres());
+        		query.setParameter("saflevera", bst.getAfleverAdres());
+        		//query.setParameter("sbestellingrgl", bst.getBestellingsRegel());
+
+        		query.setParameter("sid", bst.getId());
+        		System.out.println(query.toString());
+        		
+		
+        	    //soapcaller
+        	    //call soapcaller en krijg C
+        	    String prijsString = Integer.toString(prijs);
+        	    //String naam = Integer.toString(bst.getAccount());
+        	    
+        	    		//System.out.println(bst.getAccount().getKlant().getNaam());
+        	    
+        	    String c = sc.createBetaling("naam", bst.getAfleverAdres(), prijsString);
+        	    
+        	    query.setParameter("c", c);
+        	    
+        	    best.setBetalingsKenmerk(c);
+        	    
+        	    query.executeUpdate();
+        	    tx.commit();
+        	    
+        	    System.out.println("Betalingskenmerk set: "+c);
+		// add bestelling aan DB
+
+		return 200;
+	}
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -564,4 +605,14 @@ public class OracleDaoHibernate implements OracleDao {
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
+
+
+
+
+	@Override
+	public String doSoapCall() {
+		
+		
+		return null;
+	}
 }

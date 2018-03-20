@@ -18,6 +18,7 @@
       
       <!-- <property name = "id" column = "CATEGORIE_ID" type = "int"/>  -->
       <property name = "AfleverAdres" column = "AFLEVERADRES" type = "string"/>
+      <property name = "Account" column = "ACCOUNT_ID" type = "int"/>
       
    </class>
 </hibernate-mapping>

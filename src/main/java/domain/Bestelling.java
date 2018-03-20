@@ -58,20 +58,28 @@ public class Bestelling {
 	public Account getAccount() {
 		return account;
 	}
-	public void setAccount(Account account) {
-		this.account = account;
+	public void setAccount(Account acc) {
+		this.account = acc;
 	}
 	public Adres getAdres() {
 		return adres;
 	}
-	public void setAdres(Adres adres) {
-		this.adres = adres;
+	public void setAdres(Adres adr) {
+		this.adres = adr;
 	}
 	public Set<Bestellingsregel> getBestellingsRegel() {
 		return bestellingsRegel;
 	}
 	public void setBestellingsRegel(Set<Bestellingsregel> bestellingsRegel) {
 		this.bestellingsRegel = bestellingsRegel;
+	}
+	
+	public void setBetalingsKenmerk(String betalingskenmerk){
+		this.betalingskenmerk = betalingskenmerk;
+	}
+	
+	public String getBetalingsKenmerk(){
+		return betalingskenmerk;
 	}
 	
 

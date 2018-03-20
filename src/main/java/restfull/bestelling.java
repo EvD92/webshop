@@ -18,6 +18,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.xml.soap.SOAPException;
 
 import dao.OracleDao;
 import dao.OracleDaoHibernate;
@@ -27,7 +28,7 @@ import domain.Adres;
 import domain.Bestelling;
 import domain.Bestellingsregel;
 
-@Path("/Bestellingen")
+@Path("/bestellingen")
 public class bestelling {
 	OracleDao dao = new OracleDaoHibernate();
 	
@@ -99,33 +100,49 @@ public class bestelling {
 //		return jab.build().toString();
 //	}
 
-//	@POST
-//	@Path("{id}/{afleverAdres}/{account}/{adres}/{bestellingsRegel}")
-//	@Produces("application/json")
-//	public String createBestelling(@PathParam("id") int id, @PathParam("afleverAdres") String aa,
-//			@PathParam("account") Account acc, @PathParam("adres") Adres adr,
-//			@PathParam("bestellingsRegel") Set<Bestellingsregel> bstr) {
-//		JsonArrayBuilder jab = Json.createArrayBuilder();
-//		Bestelling bst = new Bestelling();
-//		bst.setId(id); // Koen? cat id?
-//		bst.setAdres(adr);
-//		bst.setAfleverAdres(aa);
-//		bst.setBestellingsRegel(bstr);
-//		bst.setAccount(acc);
-//
-//		dao.createBestelling(bst);
-//
-//		// return JSON nog nodig?
-//		JsonObjectBuilder job = Json.createObjectBuilder();
-//		job.add("Bestelling_id", id);
-//		job.add("afleverAdres", aa);
-//		job.add("Account", (JsonValue) acc);
-//		job.add("Adres", (JsonValue) adr);
-//		job.add("bestellingsRegel", (JsonValue) bstr);
-//		jab.add(job);
-//
-//		return jab.build().toString();
-//	}
+	@GET
+	@Path("{id}/{afleverAdres}/{account}/{prijs}")
+	@Produces("application/json")
+	public String createBestelling(@PathParam("id") int id, @PathParam("afleverAdres") String aa,
+			@PathParam("account") int acc,
+			@PathParam("prijs") int  prijs) throws SOAPException {
+		JsonArrayBuilder jab = Json.createArrayBuilder();
+		Bestelling bst = new Bestelling();
+		Adres adres = new Adres();
+		
+		adres.setStraat(aa);
+		bst.setId(id); // Koen? cat id?
+		//bst.setAdres(adres);
+		System.out.println(adres.getStraat());
+		bst.setAfleverAdres(adres.getStraat());
+		//bst.setBestellingsRegel(bstr);
+		
+		Account account = new Account();
+		account.setId(acc);
+		bst.setAccount(account);
+
+		try {
+			dao.createBestelling(bst, prijs);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//String c = dao.doSoapCall();//returned c
+		
+		//dao.setBestellingskenmerk(id, c);
+
+		// return JSON nog nodig?
+		JsonObjectBuilder job = Json.createObjectBuilder();
+		job.add("Bestelling_id", id);
+		job.add("afleverAdres", aa);
+		job.add("Account",  acc);
+		//job.add("Adres", aa);
+		//job.add("bestellingsRegel", (JsonValue) bstr);
+		//job.add("Kenmerk", c);
+		jab.add(job);
+
+		return jab.build().toString();
+	}
 
 //	@GET
 //	@Path("/catby/{id}")
