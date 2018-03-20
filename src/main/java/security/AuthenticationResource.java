@@ -37,7 +37,7 @@ public class AuthenticationResource {
 			if (role == null) {
 				throw new IllegalArgumentException("No user found!");
 			}
-//			Klant k = dao.getKlant(email);
+			// Klant k = dao.getKlant(email);
 			// Issue a token for the user
 			Calendar expiration = Calendar.getInstance();
 			expiration.add(Calendar.MINUTE, 30);
@@ -46,19 +46,18 @@ public class AuthenticationResource {
 			// Return the token on the response
 			JsonObjectBuilder job = Json.createObjectBuilder();
 			job.add("token", token);
-			
-			
+
 			return Response.ok(job.build().toString()).build();
 		} catch (JwtException | IllegalArgumentException e) {
 			return Response.status(Response.Status.UNAUTHORIZED).build();
 		}
 	}
-	
+
 	@GET
 	@Path("{email}")
-//	@RolesAllowed("guest")
-	@Produces("application/json")	
-	public Response getUser(@PathParam("email") String email){		
+	// @RolesAllowed("guest")
+	@Produces("application/json")
+	public Response getUser(@PathParam("email") String email) {
 		System.out.println(email);
 		try {
 			// Authenticate the user against the database
@@ -68,18 +67,17 @@ public class AuthenticationResource {
 				throw new IllegalArgumentException("No user found!");
 			}
 			JsonObjectBuilder job = Json.createObjectBuilder();
-//			job.add("token", token);
-			job.add("naam", k.getNaam());
 			System.out.println(k.getNaam() + "naam");
-			job.add("straat", k.getAdres().getStraat());
+			job.add("naam", k.getNaam());
 			System.out.println(k.getAdres().getStraat());
-			job.add("straatnummer", k.getAdres().getStraatNummer());
-			
-			
+//			job.add("straat", k.getAdres().getStraat());
+			System.out.println(k.getAdres().getStraatNummer());
+//			job.add("straatnummer", k.getAdres().getStraatNummer());
+
 			return Response.ok(job.build().toString()).build();
 		} catch (JwtException | IllegalArgumentException e) {
 			return Response.status(Response.Status.NOT_FOUND).build();
 		}
-		
+
 	}
 }
