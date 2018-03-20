@@ -91,7 +91,7 @@ public class product {
 	//@Path("/create/{id}/{prijs}/{omschrijving}/{naam}")
 	@RolesAllowed("guest")
 	@Produces("application/json")
-	//@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public String createProduct(@FormParam("id") int p_id,
 			@FormParam("naam") String naam, @FormParam("prijs") int prijs, @FormParam("omschrijving") String oms) {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
@@ -142,8 +142,8 @@ public class product {
 		System.out.println(id+" de meegegeven ID");
 		
 		List<Object[]> list = new ArrayList<Object[]>();
-		List<Object[]> aanbiedingen = new ArrayList<Object[]>();
-		aanbiedingen.addAll(dao.getAllAanbiedingen());
+		//List<Object[]> aanbiedingen = new ArrayList<Object[]>();
+		//aanbiedingen.addAll(dao.getAllAanbiedingen());
 		list.addAll(dao.getProduct(id));
 		
 		System.out.println("----------------------------------------------------------------------------------------------------------");
@@ -159,11 +159,12 @@ public class product {
 		Number o_id = (Number) c[0]; // Maak number van Object
 		String naam = "" + c[1];
 		String oms = "" + c[2];
-		//Number prijs = (Number) c[3];
+		Number prijs = (Number) c[3];
 		//System.out.println(o_id + naam + oms);
 		job.add("id", o_id.intValue()); // krijg int van Number
 		job.add("naam", naam);
 		job.add("omschrijving", oms);
+		job.add("prijs", prijs.intValue());
 		
 //		for (Object[] ab : aanbiedingen) {
 //			Number nummer = (Number) ab[3];
