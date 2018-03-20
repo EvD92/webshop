@@ -30,12 +30,16 @@ import domain.Bestellingsregel;
 @Path("/Bestellingen")
 public class bestelling {
 	OracleDao dao = new OracleDaoHibernate();
-
+	
 	// Requested functions in application/json:
 	// getAllBestellings();
 	// getBestelling(int id);
 	// getBestellingsByCategory(int id);
 
+	@GET
+	public String getBestelling() {
+		return"";
+	}
 //	@GET
 //	@RolesAllowed("guest")
 //	@Produces("application/json")

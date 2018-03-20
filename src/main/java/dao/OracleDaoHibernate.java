@@ -89,12 +89,13 @@ public class OracleDaoHibernate implements OracleDao {
 		//Configuration cf=new Configuration();
         //cf.configure();
         //factory = cf.buildSessionFactory();
+		factory = getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
         System.out.println(prod_id);
         Query query = session.createSQLQuery(
-                "SELECT * FROM CATEGORIE WHERE categorie_id = :sid");
+                "SELECT * FROM PRODUCT WHERE product_id = :sid");
                 query.setParameter("sid", prod_id);
                 //query.executeUpdate();
                 List<Object[]> l = query.list();
@@ -266,20 +267,56 @@ public class OracleDaoHibernate implements OracleDao {
 		Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
-        System.out.println(pd.getNaam());
         Query query = session.createSQLQuery(
-        		"insert into Product values(:sid, :snaam, :somschrijving, :sprijs, :scategorie)");
-        		query.setParameter("sid", pd.getId());
+        		"insert into PRODUCT (NAAM, OMSCHRIJVING, PRIJS) values( :snaam, :somschrijving, :sprijs)");
+        		//query.setParameter("sid", pd.getId());
+        		//System.out.println(pd.getId());
         		query.setParameter("snaam", pd.getNaam());
+        		System.out.println(pd.getNaam());
         		query.setParameter("somschrijving", pd.getOmschrijving());
         		query.setParameter("sprijs", pd.getPrijs());
+        		//System.out.println(query.toString());
+        		 System.out.println("execute numero uno"); 
         		query.executeUpdate();
+        	    tx.commit(); 
+
+        		System.out.println("eind query 1");
+       
+        		Query query2 = session.createSQLQuery(
+                        "SELECT * FROM Product");
+                List<Object[]> producten = query2.list();
+                int counter = 0;
+                for (Object[] pd2 : producten) {
+                	
+                	Number id = (Number) pd2[0];
+        			String naam = "" + pd2[1];
+        			String oms = "" + pd2[2];
+        			Number prijs = (Number) pd2[3];
+                	if (id.intValue() > counter) {
+                		counter = id.intValue();
+                	}
+                	System.out.println(counter);
+                }
+                
         		
-        Query queryCat = session.createSQLQuery("insert into CAT_PROD values(:scategorie, :sid)");
-        		query.setParameter("scategorie", 1);
-        		query.setParameter(":sid", pd.getId());
-        		query.executeUpdate();
+        System.out.println(pd.getNaam());
+        Query queryCat = session.createSQLQuery("insert into CAT_PROD (CATEGORIE_ID, PRODUCT_ID) values(:scategorie, :ssid)");
+		queryCat.setParameter("scategorie", 1);
+		//System.out.println(pd.getId());
+		queryCat.setParameter("ssid", counter);
+		System.out.println("before execute..");	
+		System.out.println(queryCat.toString());
+
+		System.out.println("execute numero dos");
+		tx = session.beginTransaction();
+		queryCat.executeUpdate();
+		
         
+
+
+        
+        
+        //System.out.println("eind query 2");
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
