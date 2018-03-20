@@ -297,8 +297,7 @@ public class OracleDaoHibernate implements OracleDao {
                 	}
                 	System.out.println(counter);
                 }
-                
-        		
+                		
         System.out.println(pd.getNaam());
         Query queryCat = session.createSQLQuery("insert into CAT_PROD (CATEGORIE_ID, PRODUCT_ID) values(:scategorie, :ssid)");
 		queryCat.setParameter("scategorie", 1);
@@ -311,11 +310,6 @@ public class OracleDaoHibernate implements OracleDao {
 		tx = session.beginTransaction();
 		queryCat.executeUpdate();
 		
-        
-
-
-        
-        
         //System.out.println("eind query 2");
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
@@ -325,57 +319,68 @@ public class OracleDaoHibernate implements OracleDao {
 		return pd;
 	}
 
-//	@Override
-//	public Product updateProduct(Product pd) {
-//      //  factory = getFactory();
-//		// update pd aan DB
-//		Configuration cf=new Configuration();
-//		cf.configure();
-//		SessionFactory factory = cf.buildSessionFactory();
-//		Session session = factory.openSession();
-//        Transaction tx = session.beginTransaction();
-//
-//        System.out.println(pd.getNaam());
-//        Query query = session.createSQLQuery(
-//        		"UPDATE Product SET (naam = :snaam, id = :sid, omschrijving = :somschrijving, prijs = :sprijs, categorie = :scategorie) "
-//        		+ "WHERE Product.id = :sid"); //zo iets
-//        		query.setParameter("sid", pd.getId());
-//        		query.setParameter("sprijs", pd.getPrijs());
-//        		query.setParameter("scategorie", pd.getCategorie());
-//        		query.setParameter("snaam", pd.getNaam());
-//        		query.setParameter("somschrijving", pd.getOmschrijving());
-//        		query.executeUpdate();
-//
-//        tx.commit();
-//        System.out.println("COMMITTTEDEDEDE AF");
-//        session.close();
-//        System.out.println(query);
-//		return pd;
-//	}
-//
-//	@Override
-//	public Product deleteProduct(Product id) {
-//		//Delete pd van db
-//       // factory = getFactory();
-//		Configuration cf=new Configuration();
-//		cf.configure();
-//		SessionFactory factory = cf.buildSessionFactory();
-//		Session session = factory.openSession();
-//        Transaction tx = session.beginTransaction();
-//
-//        System.out.println(id);
-//        Query query = session.createSQLQuery(
-//        		"DELETE FROM Product WHERE id = :sid");
-//        		query.setParameter("sid", id);
-//        		query.executeUpdate();
-//
-//        tx.commit();
-//        System.out.println("COMMITTTEDEDEDE AF");
-//        session.close();
-//        System.out.println(query);
-//		return id;
-//
-//	}
+	@Override
+	public Product updateProduct(Product pd) {
+		//  factory = getFactory();
+		// update pd aan DB
+		//Configuration cf=new Configuration();
+		//cf.configure();
+		//SessionFactory factory = cf.buildSessionFactory();
+		factory = getSessionFactory();
+		Session session = factory.openSession();
+        Transaction tx2 = session.beginTransaction();
+
+        System.out.println(pd.getNaam());
+        Query query = session.createSQLQuery(
+        		"UPDATE Product SET naam = :snaam, omschrijving = :somschrijving, prijs = :sprijs WHERE Product.product_id = :sid"); //zo iets
+        System.out.println("after query");
+        		query.setParameter("sid", pd.getId());
+        		query.setParameter("sprijs", pd.getPrijs());
+        		//query.setParameter("scategorie", pd.getCategorie());
+        		query.setParameter("snaam", pd.getNaam());
+        		query.setParameter("somschrijving", pd.getOmschrijving());
+        		System.out.println("before update");
+        		query.executeUpdate();
+        		System.out.println("after update");
+        tx2.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
+        session.close();
+        System.out.println(query);
+		return pd;
+	}
+
+	@Override
+	public String deleteProduct(int id) {
+		//Delete pd van db
+       // factory = getFactory();
+		//Configuration cf=new Configuration();
+		//cf.configure();
+		//SessionFactory factory = cf.buildSessionFactory();
+		factory = getSessionFactory();
+		Session session = factory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        System.out.println(id);
+        
+        Query query2 = session.createQuery("delete from cat_prod where categorie_id = 1 AND product_id = :sid1");
+        query2.setParameter("sid1", id);
+        
+        query2.executeUpdate();
+        tx.commit();
+        
+        
+        Query query = session.createSQLQuery(
+        		"DELETE FROM Product WHERE product_id = :sid");
+        		query.setParameter("sid", id);
+        		query.executeUpdate();
+        tx = session.beginTransaction();
+        tx.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
+        session.close();
+        System.out.println(query);
+		return "product met id: " + id + " gedelete." ;
+
+	}
 
 
 

@@ -43,8 +43,8 @@ public interface OracleDao {
 	//CRUD product		eis
 	public Product createProduct(Product pd);
 	public List<Object[]> getProduct(int id);
-	//public Product updateProduct(Product pd);
-	//public Product deleteProduct(int code);
+	public Product updateProduct(Product pd);
+	public String deleteProduct(int code);
 	
 	//CRUD categorie    eis
 	//public Categorie createCategorie(Categorie cat);
