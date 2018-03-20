@@ -20,12 +20,12 @@ import domain.Product;
 public interface OracleDao {
 	
 	//Factory
-	public SessionFactory getFactory();
-	public EntityManager setUp();
+//	public SessionFactory getFactory();
+	//public EntityManager setUp();
 	
 	//getX
-	public Adres getAdres(int k_id);
-	public Account getAccount(int k_id);
+	//public Adres getAdres(int k_id);
+	//public Account getAccount(int k_id);
 	
 	
 	//getAllX
@@ -36,31 +36,31 @@ public interface OracleDao {
 	public List<Object[]> getAllAanbiedingen();
 
 	//getAllXvanB
-	public Set<Product> getAllProductenVanCategorie(int i);
+	//public Set<Product> getAllProductenVanCategorie(int i);
 
-	public List<Object[]> getAllBestellingenVanKlant(int id);
+	//public List<Object[]> getAllBestellingenVanKlant(int id);
 	
 	//CRUD product		eis
 	public Product createProduct(Product pd);
-	public List getProduct(int id);
-	public Product updateProduct(Product pd);
-	public Product deleteProduct(int code);
+	public List<Object[]> getProduct(int id);
+	//public Product updateProduct(Product pd);
+	//public Product deleteProduct(int code);
 	
 	//CRUD categorie    eis
-	public Categorie createCategorie(Categorie cat);
-	public List getCategorie(int cat_id);
-	public Categorie updateCategorie(Categorie catg);
-	public Categorie deleteCategorie(Categorie catg);
+	//public Categorie createCategorie(Categorie cat);
+	public List<Object[]> getCategorie(int cat_id);
+	//public Categorie updateCategorie(Categorie catg);
+	//public Categorie deleteCategorie(Categorie catg);
 	
 	//createX
-	public Bestelling createBestelling(Bestelling best);
-	Product deleteProduct(Product id);
-	public List<Object[]> getAllBestellingen();
+	//public Bestelling createBestelling(Bestelling best);
+	//Product deleteProduct(Product id);
+	//public List<Object[]> getAllBestellingen();
 	
-	public List getBestelling(int id);
-	public void createKlant(Klant bst);
-	public List getKlant(int id);
-	public List<Object[]> getAllKlanten();
+	//public List<Object[]> getBestelling(int id);
+	//public void createKlant(Klant bst);
+	//public List<Object[]> getKlant(int id);
+	//public List<Object[]> getAllKlanten();
 
 
 

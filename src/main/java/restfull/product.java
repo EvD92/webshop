@@ -62,18 +62,18 @@ public class product {
 			String naam = "" + pd[1];
 			String oms = "" + pd[2];
 			Number prijs = (Number) pd[3];
-			String aanbieding = "" +pd[4];
-			String bestellingsRegel = "" + pd[5];
-			String categorie = "" + pd[6];
+			//String aanbieding = "" +pd[4];
+			//String bestellingsRegel = "" + pd[5];
+			//String categorie = "" + pd[6];
 			
 			
-			job.add("product_id", id.intValue());
+			job.add("id", id.intValue());
 			job.add("naam", naam);
 			job.add("omschrijving", oms);
 			job.add("prijs", prijs.intValue());
-			job.add("aanbieding", aanbieding);
-			job.add("bestellingsRegel", bestellingsRegel);
-			job.add("categorie", categorie);
+			//job.add("aanbieding", aanbieding);
+			//job.add("bestellingsRegel", bestellingsRegel);
+			//job.add("categorie", categorie);
 	        
 			jab.add(job);
 		}
@@ -145,22 +145,22 @@ public class product {
 		job.add("naam", naam);
 		job.add("omschrijving", oms);
 		
-		for (Object[] ab : aanbiedingen) {
-			Number nummer = (Number) ab[3];
-			if (nummer.intValue() == o_id.intValue()) { // als
-				Number aanbieding_id = (Number) ab[0];
-				String totDatum = "" + ab[1];// aanbieding.product_id
-				String vanDatum = "" + ab[2];
-				
-															// = pd.id
-				job.add("aanbiedingId", aanbieding_id.intValue());
-				job.add("totDatum", totDatum);
-				job.add("vanDatum", vanDatum);
-			}
-		}
+//		for (Object[] ab : aanbiedingen) {
+//			Number nummer = (Number) ab[3];
+//			if (nummer.intValue() == o_id.intValue()) { // als
+//				Number aanbieding_id = (Number) ab[0];
+//				String totDatum = "" + ab[1];// aanbieding.product_id
+//				String vanDatum = "" + ab[2];
+//				
+//															// = pd.id
+//				job.add("aanbiedingId", aanbieding_id.intValue());
+//				job.add("totDatum", totDatum);
+//				job.add("vanDatum", vanDatum);
+//			}
+//		}
 		
-		jab.add(job);
-		return jab.build().toString();
+		
+		return job.build().toString();
 	}
 
 //	// crUd
@@ -196,26 +196,26 @@ public class product {
 //
 //	// cruD
 	
-	@DELETE
-	@Path("{code}")
-	public Response deleteProduct(@PathParam("code") int code) {
-		System.out.println("deleted: " + code);
-		Object[] found = null;
-		for (Object[] pd : dao.getAllProducten()) {
-			Number num = (Number) pd[0];
-			if (num.intValue() == code) {
-				found = pd;
-				dao.deleteProduct(num.intValue());
-				break;
-			}
-		}
-
-		if (found == null) {
-			return Response.status(Response.Status.NOT_FOUND).build();
-		} else {
-			return Response.ok().build();
-		}
-	}
+//	@DELETE
+//	@Path("{code}")
+//	public Response deleteProduct(@PathParam("code") int code) {
+//		System.out.println("deleted: " + code);
+//		Object found = null;
+//		for (Object pd : dao.getAllProducten()) {
+//			Number num = (Number) pd;
+//			if (num.intValue() == code) {
+//				found = pd;
+//				dao.deleteProduct(num.intValue());
+//				break;
+//			}
+//		}
+//
+//		if (found == null) {
+//			return Response.status(Response.Status.NOT_FOUND).build();
+//		} else {
+//			return Response.ok().build();
+//		}
+//	}
 
 //	@GET
 //	@Path("/bycat/{id}")

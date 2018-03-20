@@ -37,48 +37,58 @@ import domain.Product;
 
 public class OracleDaoHibernate implements OracleDao {
 	private static EntityManager em;
-	private static SessionFactory factory; 
+	private static SessionFactory factory;
 	
-	public SessionFactory getFactory(){
-		
-		try {				//Configuration
-	         factory = new Configuration().configure().buildSessionFactory();
-	      } catch (Throwable ex) { 
-	         System.err.println("Failed to create sessionFactory object." + ex);
-	         throw new ExceptionInInitializerError(ex); 
-	      }
-		
-		return factory;
-		/*	   try {
-			StandardServiceRegistry standardRegistry = 
-		       new StandardServiceRegistryBuilder().configure("/webshop/categorie.hbm.xmll").build();
-			Metadata metaData = 
-		        new MetadataSources(standardRegistry).getMetadataBuilder().build();
-			SessionFactory sessionFactory = metaData.getSessionFactoryBuilder().build();
-			return sessionFactory;
-		   } catch (Throwable th) {
-			System.err.println("Enitial SessionFactory creation failed" + th);
-			throw new ExceptionInInitializerError(th);
-		  }*/
-		
-	}
-	
-	
-	public EntityManager setUp() {
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory( "webshop" );
-		EntityManager em = entityManagerFactory.createEntityManager();
-		return em;
-		
-	}
+	public static synchronized SessionFactory getSessionFactory() {
+
+        if (factory == null) {
+            factory = new Configuration().configure("hibernate.cfg.xml").
+                    buildSessionFactory();
+        }         
+        return factory;
+    }
+//	
+//	public SessionFactory getFactory(){
+//		
+//		try {				//Configuration
+//	         factory = new Configuration().configure().buildSessionFactory();
+//	      } catch (Throwable ex) { 
+//	         System.err.println("Failed to create sessionFactory object." + ex);
+//	         throw new ExceptionInInitializerError(ex); 
+//	      }
+//		
+//		return factory;
+//		/*	   try {
+//			StandardServiceRegistry standardRegistry = 
+//		       new StandardServiceRegistryBuilder().configure("/webshop/categorie.hbm.xmll").build();
+//			Metadata metaData = 
+//		        new MetadataSources(standardRegistry).getMetadataBuilder().build();
+//			SessionFactory sessionFactory = metaData.getSessionFactoryBuilder().build();
+//			return sessionFactory;
+//		   } catch (Throwable th) {
+//			System.err.println("Enitial SessionFactory creation failed" + th);
+//			throw new ExceptionInInitializerError(th);
+//		  }*/
+//		
+//	}
+//	
+//	
+//	public EntityManager setUp() {
+//		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory( "webshop" );
+//		EntityManager em = entityManagerFactory.createEntityManager();
+//		return em;
+//		
+//	}
 	
 	
 
 
 	@Override
-	public List getProduct(int prod_id) {
-        Configuration cf=new Configuration();
-        cf.configure();
-        factory = cf.buildSessionFactory();
+	public List<Object[]> getProduct(int prod_id) {
+        //SessionFactory sessionFactory = factory.getSessionFactory().getI;
+		//Configuration cf=new Configuration();
+        //cf.configure();
+        //factory = cf.buildSessionFactory();
         Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
@@ -87,13 +97,13 @@ public class OracleDaoHibernate implements OracleDao {
                 "SELECT * FROM CATEGORIE WHERE categorie_id = :sid");
                 query.setParameter("sid", prod_id);
                 //query.executeUpdate();
-                List l = query.list();
+                List<Object[]> l = query.list();
 
-
+               System.out.println("1 product: " + l.size());
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
-      //  factory.close();
+       // factory.close();
         System.out.println(query);
         return l;
     }
@@ -101,10 +111,10 @@ public class OracleDaoHibernate implements OracleDao {
 	@Override
 	public List<Object[]> getAllProducten() {
 
-        factory = getFactory();
-        System.out.println("hallow product");
-        Configuration cf=new Configuration();
-        cf.configure();
+        factory = getSessionFactory();
+       // System.out.println("hallow product");
+       // Configuration cf=new Configuration();
+        //cf.configure();
         //SessionFactory sessionFactory = cf.buildSessionFactory();
         Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
@@ -112,51 +122,53 @@ public class OracleDaoHibernate implements OracleDao {
         Query query = session.createSQLQuery(
                 "SELECT * FROM Product");
         List<Object[]> producten = query.list();
-
+        System.out.println("producten size: " + producten.size());
+        
         //query.executeUpdate();
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
+        
         session.close();
-      //  factory.close();
+        //factory.close();
         System.out.println(query);
 
         return producten;
     }
 
-	@Override
-	public Set<Product> getAllProductenVanCategorie(int id) {
+//	@Override
+//	public Set<Product> getAllProductenVanCategorie(int id) {
+//
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
+//		em = emf.createEntityManager();
+//		em.getTransaction().begin();
+//
+//		// JsonArrayBuilder jab = Json.createArrayBuilder();
+//
+//		// List<Product> producten;
+//		List<Categorie> categorien;
+//
+//		Categorie cg = em.find(Categorie.class, id); // nodig?
+//		// producten = (List<Product>) em.find(Product.class, id);// moet ze
+//		// allemaal returnen
+//
+//		int ids = id;
+//		Set<Product> producten = (Set<Product>)em.createQuery("SELECT p FROM Product p WHERE p.categorie IN :ids")
+//				.setParameter("ids", ids).getResultList();
+//		System.out.println(producten); // zou alle producten moeten returnen
+//
+//		em.getTransaction().commit();
+//		em.close();
+//		emf.close();
+//		return producten;
+//	}
 
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
-		em = emf.createEntityManager();
-		em.getTransaction().begin();
-
-		// JsonArrayBuilder jab = Json.createArrayBuilder();
-
-		// List<Product> producten;
-		List<Categorie> categorien;
-
-		Categorie cg = em.find(Categorie.class, id); // nodig?
-		// producten = (List<Product>) em.find(Product.class, id);// moet ze
-		// allemaal returnen
-
-		int ids = id;
-		Set<Product> producten = (Set<Product>)em.createQuery("SELECT p FROM Product p WHERE p.categorie IN :ids")
-				.setParameter("ids", ids).getResultList();
-		System.out.println(producten); // zou alle producten moeten returnen
-
-		em.getTransaction().commit();
-		em.close();
-		emf.close();
-		return producten;
-	}
-
-	@Override
-	public Bestelling createBestelling(Bestelling bst) {
-		Bestelling best = bst;
-		// add bestelling aan DB
-
-		return best;
-	}
+//	@Override
+//	public Bestelling createBestelling(Bestelling bst) {
+//		Bestelling best = bst;
+//		// add bestelling aan DB
+//
+//		return best;
+//	}
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -166,10 +178,10 @@ public class OracleDaoHibernate implements OracleDao {
 //		em.getTransaction().begin();
 //		List<Categorie> categorien =em.createQuery("SELECT * FROM Categorie").getResultList();
 		
-		factory = getFactory();
-		System.out.println("hallow");
-		Configuration cf=new Configuration();
-		cf.configure();
+		factory = getSessionFactory();
+		//System.out.println("Categorie");
+		//Configuration cf=new Configuration();
+		//cf.configure();
 		//SessionFactory sessionFactory = cf.buildSessionFactory();
 		Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
@@ -177,31 +189,7 @@ public class OracleDaoHibernate implements OracleDao {
         Query query = session.createSQLQuery(
         		"SELECT * FROM Categorie");
         List<Object[]> categorien = query.list();
-
-        //query.executeUpdate();
-        tx.commit();
-        System.out.println("COMMITTTEDEDEDE AF");
-        session.close();
-       // factory.close();
-        System.out.println(query);
-
-		return categorien;
-	}
-
-	@Override
-	public List<Object[]> getAllAanbiedingen() {
-
-		factory = getFactory();
-		Configuration cf=new Configuration();
-		cf.configure();
-		//SessionFactory sessionFactory = cf.buildSessionFactory();
-		Session session = factory.openSession();
-        Transaction tx = session.beginTransaction();
-       // System.out.println(em.getTransaction());
-        Query query = session.createSQLQuery(
-        		"SELECT * FROM aanbieding");
-        List<Object[]> aanbiedingen = query.list();
-
+        System.out.println("categorien size: " + categorien.size());
         //query.executeUpdate();
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
@@ -209,49 +197,73 @@ public class OracleDaoHibernate implements OracleDao {
         //factory.close();
         System.out.println(query);
 
+		return categorien;
+	}
+
+	@Override
+	public List<Object[]> getAllAanbiedingen() {
+		//Configuration cf=new Configuration();
+		//cf.configure();
+		//SessionFactory sessionFactory = cf.buildSessionFactory();
+		factory = getSessionFactory();
+		Session session = factory.openSession();
+        Transaction tx = session.beginTransaction();
+       // System.out.println(em.getTransaction());
+        Query query = session.createSQLQuery(
+        		"SELECT * FROM aanbieding");
+        List<Object[]> aanbiedingen = query.list();
+        System.out.println("aantal aanbiedingen: " + aanbiedingen.size());
+        //query.executeUpdate();
+        tx.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
+        session.close();
+       // factory.close();
+        System.out.println(query);
+
 		return aanbiedingen;
 		
 		
 		
 	}
-
-	@Override
-	public Adres getAdres(int k_id) {
-		System.out.println(k_id + "derp");
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
-		em = emf.createEntityManager();
-		em.getTransaction().begin();
-
-		Adres a = em.find(Adres.class, k_id); // k_id is foreign key, vindt ie
-												// dit?
-		em.getTransaction().commit();
-		em.close();
-		emf.close();
-		return a;
-	}
-
-	@Override
-	public Account getAccount(int k_id) {
-		System.out.println(k_id + "derp");
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
-		em = emf.createEntityManager();
-		em.getTransaction().begin();
-
-		Account ac = em.find(Account.class, k_id);
-		em.getTransaction().commit();
-		em.close();
-		emf.close();
-		return ac;
-	}
+//
+//	@Override
+//	public Adres getAdres(int k_id) {
+//		System.out.println(k_id + "derp");
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
+//		em = emf.createEntityManager();
+//		em.getTransaction().begin();
+//
+//		Adres a = em.find(Adres.class, k_id); // k_id is foreign key, vindt ie
+//												// dit?
+//		em.getTransaction().commit();
+//		em.close();
+//		emf.close();
+//		return a;
+//	}
+//
+//	@Override
+//	public Account getAccount(int k_id) {
+//		System.out.println(k_id + "derp");
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
+//		em = emf.createEntityManager();
+//		em.getTransaction().begin();
+//
+//		Account ac = em.find(Account.class, k_id);
+//		em.getTransaction().commit();
+//		em.close();
+//		emf.close();
+//		return ac;
+//	}
 
 	@Override
 	public Product createProduct(Product pd) {
-        factory = getFactory();
+       // factory = getFactory();
 		// add pd aan DB
-		Configuration cf=new Configuration();
-		cf.configure();
-		SessionFactory sessionFactory = cf.buildSessionFactory();
-		Session session = sessionFactory.openSession();
+		//Configuration cf=new Configuration();
+		//cf.configure();
+		//SessionFactory sessionFactory = cf.buildSessionFactory();
+		factory = getSessionFactory();
+		Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
         System.out.println(pd.getNaam());
@@ -272,68 +284,68 @@ public class OracleDaoHibernate implements OracleDao {
 		return pd;
 	}
 
+//	@Override
+//	public Product updateProduct(Product pd) {
+//      //  factory = getFactory();
+//		// update pd aan DB
+//		Configuration cf=new Configuration();
+//		cf.configure();
+//		SessionFactory factory = cf.buildSessionFactory();
+//		Session session = factory.openSession();
+//        Transaction tx = session.beginTransaction();
+//
+//        System.out.println(pd.getNaam());
+//        Query query = session.createSQLQuery(
+//        		"UPDATE Product SET (naam = :snaam, id = :sid, omschrijving = :somschrijving, prijs = :sprijs, categorie = :scategorie) "
+//        		+ "WHERE Product.id = :sid"); //zo iets
+//        		query.setParameter("sid", pd.getId());
+//        		query.setParameter("sprijs", pd.getPrijs());
+//        		query.setParameter("scategorie", pd.getCategorie());
+//        		query.setParameter("snaam", pd.getNaam());
+//        		query.setParameter("somschrijving", pd.getOmschrijving());
+//        		query.executeUpdate();
+//
+//        tx.commit();
+//        System.out.println("COMMITTTEDEDEDE AF");
+//        session.close();
+//        System.out.println(query);
+//		return pd;
+//	}
+//
+//	@Override
+//	public Product deleteProduct(Product id) {
+//		//Delete pd van db
+//       // factory = getFactory();
+//		Configuration cf=new Configuration();
+//		cf.configure();
+//		SessionFactory factory = cf.buildSessionFactory();
+//		Session session = factory.openSession();
+//        Transaction tx = session.beginTransaction();
+//
+//        System.out.println(id);
+//        Query query = session.createSQLQuery(
+//        		"DELETE FROM Product WHERE id = :sid");
+//        		query.setParameter("sid", id);
+//        		query.executeUpdate();
+//
+//        tx.commit();
+//        System.out.println("COMMITTTEDEDEDE AF");
+//        session.close();
+//        System.out.println(query);
+//		return id;
+//
+//	}
+
+
+
 	@Override
-	public Product updateProduct(Product pd) {
-        factory = getFactory();
-		// update pd aan DB
-		Configuration cf=new Configuration();
-		cf.configure();
-		SessionFactory factory = cf.buildSessionFactory();
-		Session session = factory.openSession();
-        Transaction tx = session.beginTransaction();
-
-        System.out.println(pd.getNaam());
-        Query query = session.createSQLQuery(
-        		"UPDATE Product SET (naam = :snaam, id = :sid, omschrijving = :somschrijving, prijs = :sprijs, categorie = :scategorie) "
-        		+ "WHERE Product.id = :sid"); //zo iets
-        		query.setParameter("sid", pd.getId());
-        		query.setParameter("sprijs", pd.getPrijs());
-        		query.setParameter("scategorie", pd.getCategorie());
-        		query.setParameter("snaam", pd.getNaam());
-        		query.setParameter("somschrijving", pd.getOmschrijving());
-        		query.executeUpdate();
-
-        tx.commit();
-        System.out.println("COMMITTTEDEDEDE AF");
-        session.close();
-        System.out.println(query);
-		return pd;
-	}
-
-	@Override
-	public Product deleteProduct(Product id) {
-		//Delete pd van db
-        factory = getFactory();
-		Configuration cf=new Configuration();
-		cf.configure();
-		SessionFactory factory = cf.buildSessionFactory();
-		Session session = factory.openSession();
-        Transaction tx = session.beginTransaction();
-
-        System.out.println(id);
-        Query query = session.createSQLQuery(
-        		"DELETE FROM Product WHERE id = :sid");
-        		query.setParameter("sid", id);
-        		query.executeUpdate();
-
-        tx.commit();
-        System.out.println("COMMITTTEDEDEDE AF");
-        session.close();
-        System.out.println(query);
-		return id;
-
-	}
-
-
-
-	@Override
-	public List getCategorie(int cat_id) {
+	public List<Object[]> getCategorie(int cat_id) {
 		//Get cat van db
 
-        factory = getFactory();
-		Configuration cf=new Configuration();
-		cf.configure();
-		SessionFactory factory = cf.buildSessionFactory();
+        factory = getSessionFactory();
+		//Configuration cf=new Configuration();
+		//cf.configure();
+		//SessionFactory factory = cf.buildSessionFactory();
 		Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
@@ -342,172 +354,173 @@ public class OracleDaoHibernate implements OracleDao {
         		"SELECT * FROM CATEGORIE WHERE categorie_id = :sid");
         		query.setParameter("sid", cat_id);
         		//query.executeUpdate();
-        		List l = query.list();
-        		
+        		List<Object[]> l = query.list();
+        		System.out.println("1 categorie: " + l.size());
 
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();
+       // factory.close();
         System.out.println(query);
 		return l;
 
 		
 	}
-
-	@Override
-	public Categorie createCategorie(Categorie catg) {
-		// add cat aan DB
-        factory = getFactory();
-		Configuration cf=new Configuration();
-		cf.configure();
-		SessionFactory factory = cf.buildSessionFactory();
-		Session session = factory.openSession();
-        Transaction tx = session.beginTransaction();
-
-        System.out.println(catg.getNaam());
-        Query query = session.createSQLQuery(
-        		"insert into categorie VALUES (:sid, :somschrijving, :snaam)");
-        
-        query.setParameter("sid", catg.getId());
-        query.setParameter("somschrijving", catg.getOmschrijving());
-        query.setParameter("snaam", catg.getNaam());
-
-        query.executeUpdate();
-        tx.commit();
-        System.out.println("COMMITTTEDEDEDE AF");
-        session.close();
-        System.out.println(query);
-		return catg;
-	}
-	
-	@Override
-	public Categorie updateCategorie(Categorie catg) {
-		// update cat aan DB
-        factory = getFactory();
-				Configuration cf=new Configuration();
-				cf.configure();
-				SessionFactory factory = cf.buildSessionFactory();
-				Session session = factory.openSession();
-		        Transaction tx = session.beginTransaction();
-
-		        System.out.println(catg.getNaam());
-		        Query query = session.createSQLQuery(
-		        		"UPDATE Categorie SET (naam = :snaam, id = :sid, omschrijving = :somschrijving)"
-		        		+ " WHERE Categorie.id = catg.id;"); //zo iets
-		        query.setParameter("sid", catg.getId());
-		        query.setParameter("snaam", catg.getNaam());
-		        query.setParameter("somschrijving", catg.getOmschrijving());
-		        query.executeUpdate();
-
-		        tx.commit();
-		        System.out.println("COMMITTTEDEDEDE AF");
-		        session.close();
-		        System.out.println(query);
-				return catg;
-	}
-
-	@Override
-	public Categorie deleteCategorie(Categorie cat_id) {
-		//Delete cat van db
-        factory = getFactory();
-		Configuration cf=new Configuration();
-		cf.configure();
-		SessionFactory factory = cf.buildSessionFactory();
-		Session session = factory.openSession();
-        Transaction tx = session.beginTransaction();
-
-        System.out.println(cat_id);
-        Query query = session.createSQLQuery(
-        		"DELETE FROM Categorie WHERE id = :sid");
-        		query.setParameter("sid", cat_id);
-        		query.executeUpdate();
-
-        tx.commit();
-        System.out.println("COMMITTTEDEDEDE AF");
-        session.close();
-        System.out.println(query);
-		return cat_id;
-	}
-
-
-	@Override
-	public Product deleteProduct(int code) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public List<Object[]> getAllBestellingenVanKlant(int id) {
-		return null;
-
-//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
-//		em = emf.createEntityManager();
-//		em.getTransaction().begin();
 //
-//		// JsonArrayBuilder jab = Json.createArrayBuilder();
+//	@Override
+//	public Categorie createCategorie(Categorie catg) {
+//		// add cat aan DB
+//       // factory = getFactory();
+//		Configuration cf=new Configuration();
+//		cf.configure();
+//		SessionFactory factory = cf.buildSessionFactory();
+//		Session session = factory.openSession();
+//        Transaction tx = session.beginTransaction();
 //
-//		// List<Product> producten;
-//		// List<Categorie> categorien;
+//        System.out.println(catg.getNaam());
+//        Query query = session.createSQLQuery(
+//        		"insert into categorie VALUES (:sid, :somschrijving, :snaam)");
+//        
+//        query.setParameter("sid", catg.getId());
+//        query.setParameter("somschrijving", catg.getOmschrijving());
+//        query.setParameter("snaam", catg.getNaam());
 //
-//		Klant k = em.find(Klant.class, accountId); // nodig?
-//		// producten = (List<Product>) em.find(Product.class, id);// moet ze
-//		// allemaal returnen
+//        query.executeUpdate();
+//        tx.commit();
+//        System.out.println("COMMITTTEDEDEDE AF");
+//        session.close();
+//        System.out.println(query);
+//		return catg;
+//	}
+//	
+//	@Override
+//	public Categorie updateCategorie(Categorie catg) {
+//		// update cat aan DB
+//      //  factory = getFactory();
+//				Configuration cf=new Configuration();
+//				cf.configure();
+//				SessionFactory factory = cf.buildSessionFactory();
+//				Session session = factory.openSession();
+//		        Transaction tx = session.beginTransaction();
 //
-//		int ids = accountId; // WHERE p.account.ID?
-//		Set<Bestelling> bestellingen = (Set<Bestelling>)em.createQuery("SELECT p FROM Bestelling p WHERE p.account IN :ids")
-//				.setParameter("ids", ids).getResultList();
-//		System.out.println(bestellingen); // zou alle producten moeten returnen
+//		        System.out.println(catg.getNaam());
+//		        Query query = session.createSQLQuery(
+//		        		"UPDATE Categorie SET (naam = :snaam, id = :sid, omschrijving = :somschrijving)"
+//		        		+ " WHERE Categorie.id = catg.id;"); //zo iets
+//		        query.setParameter("sid", catg.getId());
+//		        query.setParameter("snaam", catg.getNaam());
+//		        query.setParameter("somschrijving", catg.getOmschrijving());
+//		        query.executeUpdate();
 //
-//		em.getTransaction().commit();
-//		em.close();
-//		emf.close();
-//		return bestellingen;
-
-	}
-
-
-	@Override
-	public List<Object[]> getAllBestellingen() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public List getBestelling(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public void createKlant(Klant bst) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public List getKlant(int id) {
-		return null;
-//		System.out.println(id + "derp");
-//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
-//		em = emf.createEntityManager();
-//		em.getTransaction().begin();
+//		        tx.commit();
+//		        System.out.println("COMMITTTEDEDEDE AF");
+//		        session.close();
+//		        System.out.println(query);
+//				return catg;
+//	}
 //
-//		Klant k = em.find(Klant.class, id);
-//		// System.out.println(b.getId() + "ID");
-//		em.getTransaction().commit();
-//		em.close();
-//		emf.close();
-//		return k;
-	}
-
-
-	@Override
-	public List<Object[]> getAllKlanten() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public Categorie deleteCategorie(Categorie cat_id) {
+//		//Delete cat van db
+//       // factory = getFactory();
+//		Configuration cf=new Configuration();
+//		cf.configure();
+//		SessionFactory factory = cf.buildSessionFactory();
+//		Session session = factory.openSession();
+//        Transaction tx = session.beginTransaction();
+//
+//        System.out.println(cat_id);
+//        Query query = session.createSQLQuery(
+//        		"DELETE FROM Categorie WHERE id = :sid");
+//        		query.setParameter("sid", cat_id);
+//        		query.executeUpdate();
+//
+//        tx.commit();
+//        System.out.println("COMMITTTEDEDEDE AF");
+//        session.close();
+//        System.out.println(query);
+//		return cat_id;
+//	}
+//
+//
+//	@Override
+//	public Product deleteProduct(int code) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//
+//	@Override
+//	public List<Object[]> getAllBestellingenVanKlant(int id) {
+//		return null;
+//
+////		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
+////		em = emf.createEntityManager();
+////		em.getTransaction().begin();
+////
+////		// JsonArrayBuilder jab = Json.createArrayBuilder();
+////
+////		// List<Product> producten;
+////		// List<Categorie> categorien;
+////
+////		Klant k = em.find(Klant.class, accountId); // nodig?
+////		// producten = (List<Product>) em.find(Product.class, id);// moet ze
+////		// allemaal returnen
+////
+////		int ids = accountId; // WHERE p.account.ID?
+////		Set<Bestelling> bestellingen = (Set<Bestelling>)em.createQuery("SELECT p FROM Bestelling p WHERE p.account IN :ids")
+////				.setParameter("ids", ids).getResultList();
+////		System.out.println(bestellingen); // zou alle producten moeten returnen
+////
+////		em.getTransaction().commit();
+////		em.close();
+////		emf.close();
+////		return bestellingen;
+//
+//	}
+//
+//
+//	@Override
+//	public List<Object[]> getAllBestellingen() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//
+//	@Override
+//	public List<Object[]> getBestelling(int id) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//
+//	@Override
+//	public void createKlant(Klant bst) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//
+//	@Override
+//	public List getKlant(int id) {
+//		return null;
+////		System.out.println(id + "derp");
+////		EntityManagerFactory emf = Persistence.createEntityManagerFactory("webshop");
+////		em = emf.createEntityManager();
+////		em.getTransaction().begin();
+////
+////		Klant k = em.find(Klant.class, id);
+////		// System.out.println(b.getId() + "ID");
+////		em.getTransaction().commit();
+////		em.close();
+////		emf.close();
+////		return k;
+//	}
+//
+//
+//	@Override
+//	public List<Object[]> getAllKlanten() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 }
