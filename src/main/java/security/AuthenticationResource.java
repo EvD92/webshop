@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import domain.Klant;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -33,6 +34,7 @@ public class AuthenticationResource {
 			if (role == null) {
 				throw new IllegalArgumentException("No user found!");
 			}
+			Klant k = dao.getKlant(email);
 			// Issue a token for the user
 			Calendar expiration = Calendar.getInstance();
 			expiration.add(Calendar.MINUTE, 30);
@@ -41,6 +43,11 @@ public class AuthenticationResource {
 			// Return the token on the response
 			JsonObjectBuilder job = Json.createObjectBuilder();
 			job.add("token", token);
+			job.add("naam", k.getNaam());
+			job.add("straat", k.getAdres().getStraat());
+			job.add("straatnummer", k.getAdres().getStraatNummer());
+			
+			
 			return Response.ok(job.build().toString()).build();
 		} catch (JwtException | IllegalArgumentException e) {
 			return Response.status(Response.Status.UNAUTHORIZED).build();

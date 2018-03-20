@@ -186,57 +186,63 @@ public class product {
 
 //	// crUd
 
-	@PUT
-	@Path("update/{id}/{c_id}/{naam}/{prijs}/{omschrijving}")
+	@POST
+	@Path("/{id}")
 	@RolesAllowed("guest")
 	@Produces("application/json")
-	public String updateProduct(@PathParam("p_id") int p_id, @PathParam("c_id") int c_id,
-			@PathParam("naam") String naam, @PathParam("prijs") int prijs, @PathParam("omschrijving") String oms) {
+	public String updateProduct(@PathParam("id") int p_id, @FormParam("naam") String naam, 
+			@FormParam("prijs") int prijs, @FormParam("omschrijving") String oms) {
 		JsonObjectBuilder job = Json.createObjectBuilder();
-		List<Object[]> producten = dao.getAllProducten();
+		List<Object[]> producten = dao.getProduct(p_id);
+		Product pdn = new Product();
 		for (Object[] pd : producten) {
+			pdn.setId(p_id);
+			System.out.println(p_id);
+			pdn.setNaam(naam);
+			System.out.println(naam);
+			pdn.setOmschrijving(oms);
+			System.out.println(oms);
+			pdn.setPrijs(prijs);
+			System.out.println(prijs);
+			System.out.println(pdn.getNaam());
 			//System.out.println(pd.getId()+ " " + p_id);
-			Number pr_id = (Number)pd[0];
-			if (pr_id.intValue() == p_id) {
-				Number ca_id = (Number) pd[1];
+			//Number pr_id = (Number)pd[0];
+				//Number ca_id = (Number) pd[1];
 				//String naam = "" + pd[2];
+			break;	
 				
-				job.add("id", p_id);
-				job.add("categorie", ca_id.intValue());
-				job.add("naam", naam);
-				job.add("omschrijving", oms);
-				job.add("prijs", prijs);
-				break;
 
 			}
+		System.out.println("dao update call");
+			dao.updateProduct(pdn);
+			System.out.println("dao call finish!");
 			// throw new WebApplicationException("Customer not found!");
-		}
-		System.out.println(job.build().toString() + " build");
+		
+			job.add("id", p_id);
+			//job.add("categorie", ca_id.intValue());
+			job.add("naam", naam);
+			job.add("omschrijving", oms);
+			job.add("prijs", prijs);
+	
+		//System.out.println(job.build().toString() + " build");
 		return job.build().toString();
 	}
 //
 //	// cruD
 	
-//	@DELETE
-//	@Path("{code}")
-//	public Response deleteProduct(@PathParam("code") int code) {
-//		System.out.println("deleted: " + code);
-//		Object found = null;
-//		for (Object pd : dao.getAllProducten()) {
-//			Number num = (Number) pd;
-//			if (num.intValue() == code) {
-//				found = pd;
-//				dao.deleteProduct(num.intValue());
-//				break;
-//			}
-//		}
-//
+	@DELETE
+	@Path("{id}")
+	public String deleteProduct(@PathParam("id") int id) {
+		//System.out.println("deleted: " + code);
+		System.out.println(id);
+		dao.deleteProduct(id);
+		return "gelukt";
 //		if (found == null) {
 //			return Response.status(Response.Status.NOT_FOUND).build();
 //		} else {
 //			return Response.ok().build();
 //		}
-//	}
+	}
 
 //	@GET
 //	@Path("/bycat/{id}")

@@ -19,6 +19,7 @@
   <mapping class="domain.Account" /> 
   <mapping class="domain.Klant" /> 
   <mapping class="domain.Adres" /> 
+  <mapping class="domain.Cat_prod" />
  
  <!--  lol  s-->
  </session-factory>
