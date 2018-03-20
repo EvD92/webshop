@@ -36,64 +36,64 @@ public class bestelling {
 	// getBestelling(int id);
 	// getBestellingsByCategory(int id);
 
-	@GET
-	@RolesAllowed("guest")
-	@Produces("application/json")
-	public String getAllBestellingen() {
-		JsonArrayBuilder jab = Json.createArrayBuilder();
-		List<Object[]> Bestellingen = dao.getAllBestellingen();
-		JsonObjectBuilder job = Json.createObjectBuilder();
-		for(Object[] pd : Bestellingen) {
-			
-			Number id = (Number) pd[0];
-			String aflvradres = "" +pd[1]; 
-			String acc = "" + pd[2];
-			String adres = ""+ pd[3];
-			String bestrgl = "" +pd[4];
-		
-			job.add("Bestelling_id", id.intValue());
-			job.add("afleverAdres", aflvradres);
-			job.add("Account", acc);
-			job.add("Adres", adres);
-			job.add("bestellingsRegel", bestrgl);
-			jab.add(job);
-		}
+//	@GET
+//	@RolesAllowed("guest")
+//	@Produces("application/json")
+//	public String getAllBestellingen() {
+//		JsonArrayBuilder jab = Json.createArrayBuilder();
+//		List<Object[]> Bestellingen = dao.getAllBestellingen();
+//		JsonObjectBuilder job = Json.createObjectBuilder();
+//		for(Object[] pd : Bestellingen) {
+//			
+//			Number id = (Number) pd[0];
+//			String aflvradres = "" +pd[1]; 
+//			String acc = "" + pd[2];
+//			String adres = ""+ pd[3];
+//			String bestrgl = "" +pd[4];
+//		
+//			job.add("Bestelling_id", id.intValue());
+//			job.add("afleverAdres", aflvradres);
+//			job.add("Account", acc);
+//			job.add("Adres", adres);
+//			job.add("bestellingsRegel", bestrgl);
+//			jab.add(job);
+//		}
+//
+//		return jab.build().toString();
+//	}
 
-		return jab.build().toString();
-	}
-
-	@GET
-	@Path("{id}")
-	@RolesAllowed("guest")
-	@Produces("application/json")
-	public String getBestelling(@PathParam ("id") int id) {
-		JsonArrayBuilder jab = Json.createArrayBuilder();
-		
-		List<Object[]> list = new ArrayList<Object[]>();
-		list.addAll(dao.getBestelling(id));
-		
-		System.out.println("----------------------------------------------------------------------------------------------------------");
-		System.out.println(list.size());
-		System.out.println(list.get(0));
-		
-	Object o = list.get(0);
-	Object[] pd = (Object[]) o;
-	
-	JsonObjectBuilder job = Json.createObjectBuilder();
-	Number b_id = (Number) pd[0];
-	String aflvradres = "" +pd[1]; 
-	String acc = "" + pd[2];
-	String adres = ""+ pd[3];
-	String bestrgl = "" +pd[4];
-
-	job.add("Bestelling_id", b_id.intValue());
-	job.add("afleverAdres", aflvradres);
-	job.add("Account", acc);
-	job.add("Adres", adres);
-	job.add("bestellingsRegel", bestrgl);
-	jab.add(job);
-		return jab.build().toString();
-	}
+//	@GET
+//	@Path("{id}")
+//	@RolesAllowed("guest")
+//	@Produces("application/json")
+//	public String getBestelling(@PathParam ("id") int id) {
+//		JsonArrayBuilder jab = Json.createArrayBuilder();
+//		
+//		List<Object[]> list = new ArrayList<Object[]>();
+//		list.addAll(dao.getBestelling(id));
+//		
+//		System.out.println("----------------------------------------------------------------------------------------------------------");
+//		System.out.println(list.size());
+//		System.out.println(list.get(0));
+//		
+//	Object o = list.get(0);
+//	Object[] pd = (Object[]) o;
+//	
+//	JsonObjectBuilder job = Json.createObjectBuilder();
+//	Number b_id = (Number) pd[0];
+//	String aflvradres = "" +pd[1]; 
+//	String acc = "" + pd[2];
+//	String adres = ""+ pd[3];
+//	String bestrgl = "" +pd[4];
+//
+//	job.add("Bestelling_id", b_id.intValue());
+//	job.add("afleverAdres", aflvradres);
+//	job.add("Account", acc);
+//	job.add("Adres", adres);
+//	job.add("bestellingsRegel", bestrgl);
+//	jab.add(job);
+//		return jab.build().toString();
+//	}
 
 //	@POST
 //	@Path("{id}/{afleverAdres}/{account}/{adres}/{bestellingsRegel}")
@@ -123,32 +123,32 @@ public class bestelling {
 //		return jab.build().toString();
 //	}
 
-	@GET
-	@Path("/bycat/{id}")
-	@Produces("application/json")
-	public String getBestellingenVanKlant(int id) {
-		JsonArrayBuilder jab = Json.createArrayBuilder();
-		List<Object[]> Bestellingen;
-		Bestellingen = dao.getAllBestellingenVanKlant(id);
-		
-		JsonObjectBuilder job = Json.createObjectBuilder();
-		for (Object[] pd : Bestellingen) {
-			
-			Number b_id = (Number) pd[0];
-			String aflvradres = "" +pd[1]; 
-			String acc = "" + pd[2];
-			String adres = ""+ pd[3];
-			String bestrgl = "" +pd[4];
-		
-			job.add("Bestelling_id", b_id.intValue());
-			job.add("afleverAdres", aflvradres);
-			job.add("Account", acc);
-			job.add("Adres", adres);
-			job.add("bestellingsRegel", bestrgl);
-			jab.add(job);
-		}
-
-		return jab.build().toString();
-	}
+//	@GET
+//	@Path("/catby/{id}")
+//	@Produces("application/json")
+//	public String getBestellingenVanKlant(@PathParam ("id") int id) {
+//		JsonArrayBuilder jab = Json.createArrayBuilder();
+//		List<Object[]> Bestellingen;
+//		Bestellingen = dao.getAllBestellingenVanKlant(id);
+//		
+//		JsonObjectBuilder job = Json.createObjectBuilder();
+//		for (Object[] pd : Bestellingen) {
+//			
+//			Number b_id = (Number) pd[0];
+//			String aflvradres = "" +pd[1]; 
+//			String acc = "" + pd[2];
+//			String adres = ""+ pd[3];
+//			String bestrgl = "" +pd[4];
+//		
+//			job.add("Bestelling_id", b_id.intValue());
+//			job.add("afleverAdres", aflvradres);
+//			job.add("Account", acc);
+//			job.add("Adres", adres);
+//			job.add("bestellingsRegel", bestrgl);
+//			jab.add(job);
+//		}
+//
+//		return jab.build().toString();
+//	}
 
 }
