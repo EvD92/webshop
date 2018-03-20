@@ -31,6 +31,15 @@ public class Klant {
 	@Column(name = "WOONADRES")
 	private String woonAdres;
 	
+	@Column(name="EMAIL")
+	private String email;
+	
+	@Column(name="PASSWORD")
+	private String password;
+	
+	@Column(name="ROLE")
+	private String role;
+	
 	@OneToOne(fetch = FetchType.EAGER, mappedBy = "klant")
 	private Account account;
 	
