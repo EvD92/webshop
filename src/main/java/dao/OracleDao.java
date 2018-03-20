@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.Collection;
 import java.util.List;
 import javax.xml.soap.SOAPException;
 
@@ -40,6 +41,8 @@ public interface OracleDao {
 	//public Categorie deleteCategorie(Categorie catg);
 
 	public int createBestelling(Bestelling bst, int prijs) throws SOAPException, Exception;
+
+	public List<Object[]> getAanbieding(int id);
 	
 	//createX
 	//public Bestelling createBestelling(Bestelling best);

@@ -289,6 +289,29 @@ public class OracleDaoHibernate implements OracleDao {
 
 		
 	}
+
+
+
+
+	@Override
+	public List<Object[]> getAanbieding(int id) {
+		factory = getSessionFactory();
+		Session session = factory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        System.out.println(id + " zoekt op deze ID in db");
+        Query query = session.createSQLQuery(
+        		"SELECT * FROM AANBIEDING WHERE aanbieding_id = :sid");
+        		query.setParameter("sid", id);
+        		List<Object[]> l = query.list();
+        		System.out.println("1 categorie: " + l.size());
+
+        tx.commit();
+        System.out.println("COMMITTTEDEDEDE AF");
+        session.close();
+        System.out.println(query);
+		return l;
+	}
 	
 
 //	@Override
