@@ -43,6 +43,8 @@ public interface OracleDao {
 	public int createBestelling(Bestelling bst, int prijs) throws SOAPException, Exception;
 
 	public List<Object[]> getAanbieding(int id);
+
+	public List<Object[]> getKlant(String email);
 	
 	//createX
 	//public Bestelling createBestelling(Bestelling best);

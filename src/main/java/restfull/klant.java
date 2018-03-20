@@ -39,8 +39,36 @@ public class klant {
 	// getBestellingsByCategory(int id);
 	
 	@GET
-	public String getKlant() {
-		return "";
+	@Path("{email}")
+	public String getKlant(@PathParam("email") String email) {
+		//JsonArrayBuilder jab = Json.createArrayBuilder();
+				System.out.println(email+" de meegegeven email");
+				
+				List<Object[]> list = new ArrayList<Object[]>();
+				list.addAll(dao.getKlant(email));
+				
+				System.out.println("----------------------------------------------------------------------------------------------------------");
+				System.out.println(list.size());
+				System.out.println(list.get(0));
+				
+			Object o = list.get(0);
+			Object[] c = (Object[]) o;
+			
+			JsonObjectBuilder job = Json.createObjectBuilder();
+			Number ids = (Number) c[0];
+			String naam = "" +c[2]; 
+			String woonadres = "" + c[1];
+			//Number afb = (Number) c[2];
+		
+			job.add("Klant_id", ids.intValue());
+			job.add("Naam", naam);
+			job.add("Woonadres", woonadres);
+			//job.add("Afbeelding", afb.intValue());
+			//jab.add(job);
+
+				
+				
+				return job.build().toString();
 	}
 //	@GET
 //	@RolesAllowed("guest")
