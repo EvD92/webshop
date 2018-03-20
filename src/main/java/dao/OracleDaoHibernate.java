@@ -266,20 +266,37 @@ public class OracleDaoHibernate implements OracleDao {
 		Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
-        System.out.println(pd.getNaam());
         Query query = session.createSQLQuery(
-        		"insert into Product values(:sid, :snaam, :somschrijving, :sprijs, :scategorie)");
+        		"insert into PRODUCT (PRODUCT_ID, NAAM, OMSCHRIJVING, PRIJS) values(:sid, :snaam, :somschrijving, :sprijs)");
         		query.setParameter("sid", pd.getId());
+        		System.out.println(pd.getId());
         		query.setParameter("snaam", pd.getNaam());
+        		System.out.println(pd.getNaam());
         		query.setParameter("somschrijving", pd.getOmschrijving());
         		query.setParameter("sprijs", pd.getPrijs());
+        		//System.out.println(query.toString());
+        		 System.out.println("execute numero uno"); 
         		query.executeUpdate();
-        		
-        Query queryCat = session.createSQLQuery("insert into CAT_PROD values(:scategorie, :sid)");
-        		query.setParameter("scategorie", 1);
-        		query.setParameter(":sid", pd.getId());
-        		query.executeUpdate();
+        	      
+
+        		System.out.println("eind query 1");
+//        
+//        System.out.println(pd.getNaam());
+//        Query queryCat = session.createSQLQuery("insert into CAT_PROD (CATEGORIE_ID, PRODUCT_ID) values(:scategorie, :ssid)");
+//		queryCat.setParameter("scategorie", 1);
+//		queryCat.setParameter("ssid", pd.getId());
+//		System.out.println("before execute..");	
+//		System.out.println(queryCat.toString());
+//
+//		System.out.println("execute numero dos");
+//		queryCat.executeUpdate();
+		
         
+
+
+        
+        
+        //System.out.println("eind query 2");
         tx.commit();
         System.out.println("COMMITTTEDEDEDE AF");
         session.close();

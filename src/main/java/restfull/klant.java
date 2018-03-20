@@ -37,7 +37,11 @@ public class klant {
 	// getAllBestellings();
 	// getBestelling(int id);
 	// getBestellingsByCategory(int id);
-
+	
+	@GET
+	public String getKlant() {
+		return "";
+	}
 //	@GET
 //	@RolesAllowed("guest")
 //	@Produces("application/json")

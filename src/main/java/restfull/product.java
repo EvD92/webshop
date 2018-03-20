@@ -11,6 +11,7 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -20,6 +21,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
@@ -84,9 +86,12 @@ public class product {
 //
 //	// Crud
 	@POST
-	@Path("/create/{id}/{naam}/{prijs}/{omschrijving}")
+	//@GET
+	@Path("/create")
+	//@Path("/create/{id}/{prijs}/{omschrijving}/{naam}")
 	@RolesAllowed("guest")
 	@Produces("application/json")
+	//@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public String createProduct(@FormParam("id") int p_id,
 			@FormParam("naam") String naam, @FormParam("prijs") int prijs, @FormParam("omschrijving") String oms) {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
@@ -110,6 +115,7 @@ public class product {
 		pd.setCategorie(dit); // Koen? cat id?
 		pd.setNaam(naam);
 		pd.setOmschrijving(oms);
+		pd.setPrijs(prijs);
 
 		dao.createProduct(pd);
 
