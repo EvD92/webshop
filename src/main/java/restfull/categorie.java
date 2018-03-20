@@ -62,26 +62,26 @@ public class categorie {
 	  }
 	
 //	Crud
-	@POST 													//Werkt naar DB
-	@Produces("application/json")
-	public String createCategorie(@PathParam("c_id") int c_id, @PathParam("naam") String naam, @PathParam("omschrijving") String oms) {
-		JsonArrayBuilder jab = Json.createArrayBuilder();
-		Categorie cat = new Categorie();
-		cat.setId(c_id); // Koen? cat id?
-		cat.setNaam(naam);
-		cat.setOmschrijving(oms);
-
-		dao.createCategorie(cat);
-
-		// return JSON nog nodig?
-		JsonObjectBuilder job = Json.createObjectBuilder();
-		job.add("categorie_id", cat.getId());
-		job.add("naam", cat.getNaam());
-		job.add("oms", cat.getOmschrijving());
-		jab.add(job);
-
-		return jab.build().toString();
-	}
+//	@POST 													//Werkt naar DB
+//	@Produces("application/json")
+//	public String createCategorie(@PathParam("c_id") int c_id, @PathParam("naam") String naam, @PathParam("omschrijving") String oms) {
+//		JsonArrayBuilder jab = Json.createArrayBuilder();
+//		Categorie cat = new Categorie();
+//		cat.setId(c_id); // Koen? cat id?
+//		cat.setNaam(naam);
+//		cat.setOmschrijving(oms);
+//
+//		dao.createCategorie(cat);
+//
+//		// return JSON nog nodig?
+//		JsonObjectBuilder job = Json.createObjectBuilder();
+//		job.add("categorie_id", cat.getId());
+//		job.add("naam", cat.getNaam());
+//		job.add("oms", cat.getOmschrijving());
+//		jab.add(job);
+//
+//		return jab.build().toString();
+//	}
 //	
 //	//cRud
 	@GET
@@ -89,7 +89,7 @@ public class categorie {
 	@RolesAllowed("guest")
 	@Produces("application/json")
 	public String getCategorie(@PathParam ("id") int id) {					//werkt weer
-		JsonArrayBuilder jab = Json.createArrayBuilder();
+		//JsonArrayBuilder jab = Json.createArrayBuilder();
 		System.out.println(id+" de meegegeven ID");
 		
 		List<Object[]> list = new ArrayList<Object[]>();
@@ -116,52 +116,52 @@ public class categorie {
 	}
 	
 	//crUd
-	@PUT
-	@Path("{id}")
-	@RolesAllowed("guest")
-	@Produces("application/json")
-	public String updateCategorie(@PathParam("c_id") int c_id, @PathParam("naam") String naam, @PathParam("omschrijving") String oms) {
-		JsonObjectBuilder job = Json.createObjectBuilder();
-		List<Object[]> categorien = dao.getAllCategorien();
-		for (Object[] cat : categorien) {
-			Number numb = (Number) cat[0];
-			if (numb.intValue() == c_id) {
-				Categorie categorie = null;
-				//categorie.setId(c_id);
-				categorie.setNaam(naam);
-				categorie.setOmschrijving(oms);
-				dao.updateCategorie(categorie);
-				
-				job.add("categorie_id", c_id);
-				job.add("naam", naam);
-				job.add("omschrijving", oms);
-				break;
-
-			}
-			// throw new WebApplicationException("Customer not found!");
-		}
-		//System.out.println(job.build().toString() + " build");
-		return job.build().toString();
-	}
-	
+//	@PUT
+//	@Path("{id}")
+//	@RolesAllowed("guest")
+//	@Produces("application/json")
+//	public String updateCategorie(@PathParam("c_id") int c_id, @PathParam("naam") String naam, @PathParam("omschrijving") String oms) {
+//		JsonObjectBuilder job = Json.createObjectBuilder();
+//		List<Object[]> categorien = dao.getAllCategorien();
+//		for (Object[] cat : categorien) {
+//			Number numb = (Number) cat[0];
+//			if (numb.intValue() == c_id) {
+//				Categorie categorie = null;
+//				//categorie.setId(c_id);
+//				categorie.setNaam(naam);
+//				categorie.setOmschrijving(oms);
+//				dao.updateCategorie(categorie);
+//				
+//				job.add("categorie_id", c_id);
+//				job.add("naam", naam);
+//				job.add("omschrijving", oms);
+//				break;
+//
+//			}
+//			// throw new WebApplicationException("Customer not found!");
+//		}
+//		//System.out.println(job.build().toString() + " build");
+//		return job.build().toString();
+//	}
+//	
 	//cruD
-	@DELETE
-	@Path("{code}")
-	public Response deleteCategorie(@PathParam("code") int code) {
-		System.out.println("deleted: " + code);
-		Number found = 0;
-		for (Object[] cat : dao.getAllCategorien()) {
-			Number numb = (Number) cat[0];
-			if (numb.intValue() == code) {
-				found = numb;
-				dao.deleteProduct(found.intValue());
-				break;
-			}
-		}
-
-		return Response.ok().build();
-	}
-	
-	
+//	@DELETE
+//	@Path("{code}")
+//	public Response deleteCategorie(@PathParam("code") int code) {
+//		System.out.println("deleted: " + code);
+//		Number found = 0;
+//		for (Object[] cat : dao.getAllCategorien()) {
+//			Number numb = (Number) cat[0];
+//			if (numb.intValue() == code) {
+//				found = numb;
+//				dao.deleteProduct(found.intValue());
+//				break;
+//			}
+//		}
+//
+//		return Response.ok().build();
+//	}
+//	
+//	
 	
 }

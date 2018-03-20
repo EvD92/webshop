@@ -35,11 +35,13 @@ public class aanbieding {
 			String s = "" + ab[1];
 			String ss= "" + ab[2];
 			String sss= "" + ab[3];
-			
+			String ssss = "" + ab[4];
+ 			
 			job.add("id", numb.intValue() );
-			job.add("naam", s);
-			job.add("omschrijving", ss);
-			job.add("product", sss);
+			job.add("van_datum", s);
+			job.add("tot_datum", ss);
+			job.add("product_id", sss);
+			job.add("aanbiedingsprijs", ssss);
 			
 //			job.add("id", ab.getId());
 //			job.add("naam", ab.getTotDatum());
