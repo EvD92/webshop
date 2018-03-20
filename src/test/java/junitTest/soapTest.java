@@ -44,7 +44,7 @@ public class soapTest {
 	        SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
-	        
+            System.out.println("---SOAP Connection Opened---\n");
 	        SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(soapAction), soapEndpointUrl);
 	        soapConnection.close();
 	        System.out.println("---SOAP Connection closed---\n");
@@ -65,10 +65,8 @@ public class soapTest {
             }
 
             // Now you have the XML as a String:
-            System.out.println("SWTOSTRING\n"+sw.toString());
             String sws = sw.toString();
             String c = sws.substring(392, 398);
-            System.out.println(c);
             a =c;
             
           job.add("response", c);
@@ -157,8 +155,6 @@ public class soapTest {
 	    }
        
        if(a.length()!=6){
-    	   System.out.println(a);
-    	   System.out.println(a.length());
     	   fail("SOAP did not return valid number");
        } else{
     	   System.out.println(("SOAP did return valid number check1"));
