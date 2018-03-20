@@ -2,6 +2,7 @@ package restfull;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -83,16 +84,29 @@ public class product {
 //
 //	// Crud
 	@POST
-	@Path("create/{p_id}/{c_id}/{naam}/{prijs}/{omschrijving}")
+	@Path("/create/{id}/{naam}/{prijs}/{omschrijving}")
 	@RolesAllowed("guest")
 	@Produces("application/json")
-	public String createProduct(@FormParam("p_id") int p_id, @FormParam("c_id") int c_id,
+	public String createProduct(@FormParam("id") int p_id,
 			@FormParam("naam") String naam, @FormParam("prijs") int prijs, @FormParam("omschrijving") String oms) {
 		JsonArrayBuilder jab = Json.createArrayBuilder();
 		Product pd = new Product();
-
+		Categorie cg = new Categorie();
+		Object[] o = dao.getCategorie(1).get(0);
+		Number id = (Number) o[0];
+		String Naam = ""+o[1];
+		String omschrijving = ""+ o[2];		
+		
+		cg.setId(id.intValue());
+		cg.setNaam(Naam);
+		cg.setOmschrijving(omschrijving);
+		
+		//cg.setId(o[0]);
+		
 		pd.setId(p_id);
-		Set<Categorie> dit = pd.getCategorie();
+		
+		Set<Categorie> dit = new HashSet<Categorie>(); 
+		dit.add(cg);
 		pd.setCategorie(dit); // Koen? cat id?
 		pd.setNaam(naam);
 		pd.setOmschrijving(oms);
@@ -102,7 +116,7 @@ public class product {
 		// return JSON nog nodig?
 		JsonObjectBuilder job = Json.createObjectBuilder();
 		job.add("product_id", pd.getId());
-		job.add("categorie_id", (JsonValue) pd.getCategorie());
+		job.add("categorie_id", 1);
 		job.add("naam", pd.getNaam());
 		job.add("oms", pd.getOmschrijving());
 		//jab.add(job);

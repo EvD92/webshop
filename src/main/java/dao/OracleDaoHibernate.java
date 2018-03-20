@@ -270,10 +270,14 @@ public class OracleDaoHibernate implements OracleDao {
         Query query = session.createSQLQuery(
         		"insert into Product values(:sid, :snaam, :somschrijving, :sprijs, :scategorie)");
         		query.setParameter("sid", pd.getId());
-        		query.setParameter("sprijs", pd.getPrijs());
-        		query.setParameter("scategorie", pd.getCategorie());
         		query.setParameter("snaam", pd.getNaam());
         		query.setParameter("somschrijving", pd.getOmschrijving());
+        		query.setParameter("sprijs", pd.getPrijs());
+        		query.executeUpdate();
+        		
+        Query queryCat = session.createSQLQuery("insert into CAT_PROD values(:scategorie, :sid)");
+        		query.setParameter("scategorie", 1);
+        		query.setParameter(":sid", pd.getId());
         		query.executeUpdate();
         
         tx.commit();
